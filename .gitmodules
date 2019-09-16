@@ -1,0 +1,3 @@
+[submodule "vendor/cmrc"]
+	path = vendor/cmrc
+	url = git@github.com:vector-of-bool/cmrc.git
