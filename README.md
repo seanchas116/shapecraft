@@ -1,6 +1,6 @@
 # Lattice
 
-Lattice is a 3D modeling tool which enables you to make 3D shapes in the same way as 2D drawing tool.
+Lattice is a 3D modeling tool which enables you to make 3D shapes as easily as 2D drawing tool.
 
 ## MVP Features
 
