@@ -12,8 +12,6 @@ namespace draw {
 
 class Operations final {
   public:
-    Operations() = default;
-
     Clear clear;
     Copy copy;
     DrawCircle drawCircle;
