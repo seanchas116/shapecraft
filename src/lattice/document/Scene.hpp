@@ -1,5 +1,5 @@
 #pragma once
-#include "node/Node.hpp"
+#include "Node.hpp"
 
 namespace lattice {
 

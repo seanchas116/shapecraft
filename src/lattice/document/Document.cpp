@@ -1,4 +1,5 @@
 #include "Document.hpp"
+#include "history/History.hpp"
 
 namespace lattice {
 

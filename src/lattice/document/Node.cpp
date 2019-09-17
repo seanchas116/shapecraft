@@ -1,7 +1,7 @@
 #include "Node.hpp"
-#include "../history/Change.hpp"
-#include "../history/History.hpp"
-#include "../history/PropertyChange.hpp"
+#include "history/Change.hpp"
+#include "history/History.hpp"
+#include "history/PropertyChange.hpp"
 #include "lattice/util/JSON.hpp"
 #include <QMimeData>
 #include <QRectF>
