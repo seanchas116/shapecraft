@@ -105,7 +105,12 @@ void Node::setChildNodes(const std::vector<SP<Node>> &nodes) {
     }
 }
 
-bool Node::canInsertChildNode() const {
+bool Node::canHaveChildren() const {
+    return false;
+}
+
+bool Node::canInsertNode(const SP<Node> &node) const {
+    Q_UNUSED(node)
     return false;
 }
 
@@ -227,7 +232,7 @@ void Node::addChange(const SP<Change> &change) {
 }
 
 void Node::insertNodeBeforeInternal(const SP<Node> &node, const Opt<SP<const Node>> &reference) {
-    if (!canInsertChildNode()) {
+    if (!canHaveChildren()) {
         throw std::runtime_error("cannot insert node");
     }
     if (node->parentNode()) {
