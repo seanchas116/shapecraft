@@ -30,7 +30,7 @@ cmrc_add_resource_library(${PROJECT_NAME}Resources ${SHADERS})
 
 file(GLOB_RECURSE SOURCES "src/lattice/*.cpp" "src/lattice/*.hpp")
 file(GLOB_RECURSE TEST_SOURCES "src/lattice/*.test.cpp")
-#list(REMOVE_ITEM SOURCES ${TEST_SOURCES})
+list(REMOVE_ITEM SOURCES ${TEST_SOURCES})
 include_directories(src)
 
 add_library(${PROJECT_NAME}Common STATIC ${SOURCES} ${SHADERS})
