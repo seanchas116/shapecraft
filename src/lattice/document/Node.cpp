@@ -161,9 +161,9 @@ std::vector<SP<Node>> Node::ancestors() const {
     return ancestors;
 }
 
-void Node::forEachDescendant(const std::function<void(const SP<Node> &)> &callback) {
-    callback(shared_from_this());
+void Node::forEachDescendant(const std::function<void(const SP<Node> &)> &callback) const {
     for (auto &child : _childNodes) {
+        callback(child);
         child->forEachDescendant(callback);
     }
 }

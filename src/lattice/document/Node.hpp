@@ -38,7 +38,7 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
     std::vector<int> indexPath() const;
 
     std::vector<SP<Node>> ancestors() const;
-    void forEachDescendant(const std::function<void(const SP<Node> &)> &callback);
+    void forEachDescendant(const std::function<void(const SP<Node> &)> &callback) const;
 
     virtual SP<Node> newInstance(const SP<History> &history) const = 0;
     SP<Node> clone(const SP<History> &history) const;
