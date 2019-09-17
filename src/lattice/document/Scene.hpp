@@ -1,5 +1,6 @@
 #pragma once
 #include "Node.hpp"
+#include <unordered_set>
 
 namespace lattice {
 
@@ -12,6 +13,16 @@ class Scene final : public Node {
     bool canInsertNode(const SP<Node> &node) const override;
     SP<Node> newInstance(const SP<History> &history) const override;
     QString type() const override;
+
+    auto &&selectedNodes() const { return _selectedNodes; }
+    std::vector<SP<Node>> normalizedSelectedNodes() const;
+    void setSelectedNodes(const std::unordered_set<SP<Node>> &nodes);
+
+  signals:
+    void selectedNodesChanged(const std::unordered_set<SP<Node>> &nodes);
+
+  private:
+    std::unordered_set<SP<Node>> _selectedNodes;
 };
 
 } // namespace lattice

@@ -23,4 +23,31 @@ QString Scene::type() const {
     return "scene";
 }
 
+std::vector<SP<Node>> Scene::normalizedSelectedNodes() const {
+    // * sort selected nodes
+    // * do not select descendants of selected nodes
+
+    std::vector<SP<Node>> nodes;
+    forEachDescendant([&](const SP<Node> &node) {
+        if (_selectedNodes.find(node) == _selectedNodes.end()) {
+            return;
+        }
+        for (auto &&ancestor : node->ancestors()) {
+            if (_selectedNodes.find(ancestor) != _selectedNodes.end()) {
+                return;
+            }
+        }
+        nodes.push_back(node);
+    });
+    return nodes;
+}
+
+void Scene::setSelectedNodes(const std::unordered_set<SP<Node>> &nodes) {
+    if (_selectedNodes == nodes) {
+        return;
+    }
+    _selectedNodes = nodes;
+    emit selectedNodesChanged(nodes);
+}
+
 } // namespace lattice
