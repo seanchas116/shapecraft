@@ -3,7 +3,7 @@
 
 namespace lattice {
 
-class Scene : public Node {
+class Scene final : public Node {
     Q_OBJECT
   public:
     Scene(const SP<History> &history);
