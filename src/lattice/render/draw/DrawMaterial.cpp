@@ -1,8 +1,8 @@
 #include "DrawMaterial.hpp"
 #include "Constants.hpp"
 #include "lattice/Resource.hpp"
-#include "lattice/gl/Texture.hpp"
-#include "lattice/gl/VAO.hpp"
+#include "lattice/render/gl/Texture.hpp"
+#include "lattice/render/gl/VAO.hpp"
 #include "lattice/util/Camera.hpp"
 
 namespace lattice {

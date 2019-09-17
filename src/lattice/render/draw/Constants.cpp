@@ -3,7 +3,7 @@
 namespace lattice {
 namespace draw {
 
-const std::string shaderDir = "src/lattice/draw/";
+const std::string shaderDir = "src/lattice/render/draw/";
 
 }
 } // namespace lattice
