@@ -50,4 +50,13 @@ void Scene::setSelectedNodes(const std::unordered_set<SP<Node>> &nodes) {
     emit selectedNodesChanged(nodes);
 }
 
+void Scene::selectNode(const SP<Node> &node, bool append) {
+    std::unordered_set<SP<Node>> nodes;
+    if (append) {
+        nodes = _selectedNodes;
+    }
+    nodes.insert(node);
+    setSelectedNodes(nodes);
+}
+
 } // namespace lattice

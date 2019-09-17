@@ -18,6 +18,8 @@ class Scene final : public Node {
     std::vector<SP<Node>> normalizedSelectedNodes() const;
     void setSelectedNodes(const std::unordered_set<SP<Node>> &nodes);
 
+    void selectNode(const SP<Node> &node, bool append);
+
   signals:
     void selectedNodesChanged(const std::unordered_set<SP<Node>> &nodes);
 
