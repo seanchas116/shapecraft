@@ -28,8 +28,8 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
 
     const std::vector<SP<Node>> &childNodes() const { return _childNodes; }
     void setChildNodes(const std::vector<SP<Node>> &nodes);
-    virtual bool canHaveChildren() const;
-    virtual bool canInsertNode(const SP<Node> &node) const;
+    virtual bool canHaveChildren() const = 0;
+    virtual bool canInsertNode(const SP<Node> &node) const = 0;
     void appendChildNode(const SP<Node> &node);
     void insertNodeBefore(const SP<Node> &node, const Opt<SP<const Node>> &reference);
     void removeChildNode(const SP<Node> &node);

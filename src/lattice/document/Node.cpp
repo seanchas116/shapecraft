@@ -105,15 +105,6 @@ void Node::setChildNodes(const std::vector<SP<Node>> &nodes) {
     }
 }
 
-bool Node::canHaveChildren() const {
-    return false;
-}
-
-bool Node::canInsertNode(const SP<Node> &node) const {
-    Q_UNUSED(node)
-    return false;
-}
-
 void Node::appendChildNode(const SP<Node> &node) {
     insertNodeBefore(node, {});
 }
