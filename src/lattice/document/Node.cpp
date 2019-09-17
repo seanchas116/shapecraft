@@ -223,7 +223,7 @@ void Node::addChange(const SP<Change> &change) {
 }
 
 void Node::insertNodeBeforeInternal(const SP<Node> &node, const Opt<SP<const Node>> &reference) {
-    if (!canHaveChildren()) {
+    if (!canHaveChildren() || !canInsertNode(node)) {
         throw std::runtime_error("cannot insert node");
     }
     if (node->parentNode()) {
