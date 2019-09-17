@@ -50,5 +50,5 @@ void Texture::unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-}
-} // namespace Lattice
+} // namespace gl
+} // namespace lattice

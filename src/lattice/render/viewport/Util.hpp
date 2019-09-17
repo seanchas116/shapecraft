@@ -4,7 +4,7 @@
 namespace lattice {
 namespace Viewport {
 
-glm::dvec2 mapQtToGL(const QWidget* widget, const QPoint& p);
+glm::dvec2 mapQtToGL(const QWidget *widget, const QPoint &p);
 
-} // namespace Render
-} // namespace Lattice
+} // namespace Viewport
+} // namespace lattice
