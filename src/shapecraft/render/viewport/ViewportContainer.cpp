@@ -52,6 +52,10 @@ void ViewportContainer::paintGL() {
     auto viewports = findChildren<Viewport *>();
 
     for (auto viewport : viewports) {
+        connect(viewport, &Viewport::updateRequested, this, [this] { update(); });
+    }
+
+    for (auto viewport : viewports) {
         if (!viewport->_renderable) {
             continue;
         }
