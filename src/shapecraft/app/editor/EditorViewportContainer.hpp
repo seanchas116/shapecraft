@@ -5,6 +5,7 @@
 namespace shapecraft {
 
 class WindowState;
+class KeyObserver;
 
 class EditorViewportContainer : public viewport::ViewportContainer {
     Q_OBJECT
@@ -13,6 +14,7 @@ class EditorViewportContainer : public viewport::ViewportContainer {
 
   private:
     SP<WindowState> _state;
+    SP<KeyObserver> _keyObserver;
 };
 
 } // namespace shapecraft
