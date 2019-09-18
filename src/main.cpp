@@ -1,10 +1,12 @@
+#include "shapecraft/view/MainWindow.hpp"
 #include <QApplication>
-#include <QMainWindow>
 
 int main(int argc, char *argv[]) {
+    using namespace shapecraft;
+
     QApplication app(argc, argv);
 
-    auto window = new QMainWindow();
+    auto window = new MainWindow();
     window->show();
     return app.exec();
 }
