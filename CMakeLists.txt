@@ -33,7 +33,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/_cmrc/include)
 
 set(LIBRARIES Qt5::Widgets ${OpenCASCADE_FoundationClasses_LIBRARIES} ${OpenCASCADE_ModelingData_LIBRARIES} ${OpenCASCADE_ModelingAlgorithms_LIBRARIES})
-file(GLOB_RECURSE SHADERS "src/*.fsh" "src/*.vsh")
+file(GLOB_RECURSE SHADERS "src/*.frag" "src/*.geom" "src/*.vert")
 cmrc_add_resource_library(${PROJECT_NAME}Resources ${SHADERS})
 
 file(GLOB_RECURSE SOURCES "src/shapecraft/*.cpp" "src/shapecraft/*.hpp")
