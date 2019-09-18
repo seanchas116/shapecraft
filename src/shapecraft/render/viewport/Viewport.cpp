@@ -8,7 +8,7 @@
 #include <QResizeEvent>
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 Viewport::Viewport(QWidget *parent) : QWidget(parent), _camera(Camera::perspective(glm::dmat4(1), glm::dvec2(1))) {
     setMouseTracking(true);

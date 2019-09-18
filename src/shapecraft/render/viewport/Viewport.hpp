@@ -6,7 +6,7 @@
 #include <QOpenGLWidget>
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 class Renderable;
 class RenderableObject;

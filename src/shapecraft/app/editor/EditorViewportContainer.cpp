@@ -4,8 +4,8 @@
 
 namespace shapecraft {
 
-EditorViewportContainer::EditorViewportContainer(QWidget *parent) : Viewport::ViewportContainer(parent) {
-    auto viewport = new Viewport::Viewport();
+EditorViewportContainer::EditorViewportContainer(QWidget *parent) : viewport::ViewportContainer(parent) {
+    auto viewport = new viewport::Viewport();
     auto layout = new QVBoxLayout();
     layout->setMargin(0);
     layout->addWidget(viewport);

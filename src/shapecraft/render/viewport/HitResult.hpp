@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 class Renderable;
 

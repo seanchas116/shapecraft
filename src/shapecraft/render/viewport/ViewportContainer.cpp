@@ -11,7 +11,7 @@
 #include <QTransform>
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 ViewportContainer::ViewportContainer(QWidget *parent) : QOpenGLWidget(parent) {
 }

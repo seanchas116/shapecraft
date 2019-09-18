@@ -4,7 +4,7 @@
 #include <QOpenGLWidget>
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 class Viewport;
 
@@ -31,5 +31,5 @@ class ViewportContainer : public QOpenGLWidget, protected QOpenGLExtraFunctions 
     Opt<SP<draw::Operations>> _operations;
 };
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

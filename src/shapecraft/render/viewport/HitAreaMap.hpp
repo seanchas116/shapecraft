@@ -19,7 +19,7 @@ namespace draw {
 class Operations;
 }
 
-namespace Viewport {
+namespace viewport {
 
 class Renderable;
 struct DrawEvent;
@@ -40,5 +40,5 @@ class HitAreaMap final : protected gl::ContextRecallable {
     std::vector<SP<Renderable>> _lastRenderables;
 };
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

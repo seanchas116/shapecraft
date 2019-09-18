@@ -4,7 +4,7 @@
 
 namespace shapecraft {
 
-class EditorViewportContainer : public Viewport::ViewportContainer {
+class EditorViewportContainer : public viewport::ViewportContainer {
     Q_OBJECT
   public:
     explicit EditorViewportContainer(QWidget *parent = nullptr);

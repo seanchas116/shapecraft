@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 glm::dvec2 mapQtToGL(const QWidget *widget, const QPoint &p);
 

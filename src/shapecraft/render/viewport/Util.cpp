@@ -1,7 +1,7 @@
 #include "Util.hpp"
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 glm::dvec2 mapQtToGL(const QWidget *widget, const QPoint &p) {
     return glm::dvec2(p.x(), widget->height() - p.y());

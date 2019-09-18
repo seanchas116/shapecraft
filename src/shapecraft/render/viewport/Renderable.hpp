@@ -15,7 +15,7 @@ namespace draw {
 class Operations;
 }
 
-namespace Viewport {
+namespace viewport {
 
 class Viewport;
 

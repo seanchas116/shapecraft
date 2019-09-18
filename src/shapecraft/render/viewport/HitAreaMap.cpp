@@ -10,7 +10,7 @@
 using namespace glm;
 
 namespace shapecraft {
-namespace Viewport {
+namespace viewport {
 
 HitAreaMap::HitAreaMap() : _framebuffer(std::make_shared<gl::Framebuffer>(glm::ivec2(0, 0))) {
 }
@@ -53,5 +53,5 @@ void HitAreaMap::draw(const SP<Renderable> &renderable, const DrawEvent &drawEve
     renderable->getDescendants(_lastRenderables);
 }
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft
