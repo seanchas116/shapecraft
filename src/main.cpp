@@ -1,4 +1,4 @@
-#include "shapecraft/view/MainWindow.hpp"
+#include "shapecraft/app/view/MainWindow.hpp"
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
