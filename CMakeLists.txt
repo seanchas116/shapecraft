@@ -36,8 +36,8 @@ set(LIBRARIES Qt5::Widgets ${OpenCASCADE_FoundationClasses_LIBRARIES} ${OpenCASC
 file(GLOB_RECURSE SHADERS "src/*.fsh" "src/*.vsh")
 cmrc_add_resource_library(${PROJECT_NAME}Resources ${SHADERS})
 
-file(GLOB_RECURSE SOURCES "src/lattice/*.cpp" "src/lattice/*.hpp")
-file(GLOB_RECURSE TEST_SOURCES "src/lattice/*.test.cpp")
+file(GLOB_RECURSE SOURCES "src/shapecraft/*.cpp" "src/shapecraft/*.hpp")
+file(GLOB_RECURSE TEST_SOURCES "src/shapecraft/*.test.cpp")
 list(REMOVE_ITEM SOURCES ${TEST_SOURCES})
 include_directories(src)
 
