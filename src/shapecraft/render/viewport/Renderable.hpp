@@ -84,5 +84,5 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     bool _isVisible = true;
 };
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

@@ -139,5 +139,5 @@ Opt<HitResult> Viewport::hitTest(glm::dvec2 pos, const Camera &camera) {
     return _hitAreaMap->get()->pick(pos);
 }
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

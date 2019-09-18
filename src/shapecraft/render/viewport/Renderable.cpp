@@ -141,5 +141,5 @@ Opt<SP<Renderable>> Renderable::fromIDColor(glm::vec4 color) {
     return idColor.ptr->shared_from_this();
 }
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

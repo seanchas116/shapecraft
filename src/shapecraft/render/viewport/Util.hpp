@@ -6,5 +6,5 @@ namespace viewport {
 
 glm::dvec2 mapQtToGL(const QWidget *widget, const QPoint &p);
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

@@ -51,5 +51,5 @@ class Viewport : public QWidget {
     Camera _camera;
 };
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft
