@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <nlohmann/json.hpp>
 
 class QString;
@@ -17,6 +18,30 @@ void from_json(const nlohmann::json &json, T &a, std::index_sequence<I...>) {
 }
 
 } // namespace shapecraft::impl
+
+namespace glm {
+
+template <length_t L, typename T, qualifier Q>
+void to_json(nlohmann::json &json, vec<L, T, Q> v) {
+    shapecraft::impl::to_json(json, v, std::make_index_sequence<L>{});
+}
+
+template <length_t L, typename T, qualifier Q>
+void from_json(const nlohmann::json &json, vec<L, T, Q> &v) {
+    shapecraft::impl::from_json(json, v, std::make_index_sequence<L>{});
+}
+
+template <typename T>
+void to_json(nlohmann::json &json, tquat<T> v) {
+    json = {v.x, v.y, v.z, v.w};
+}
+
+template <typename T>
+void from_json(const nlohmann::json &json, tquat<T> &v) {
+    v = {json[0], json[1], json[2], json[3]};
+}
+
+} // namespace glm
 
 void to_json(nlohmann::json &json, const QString &string);
 void from_json(const nlohmann::json &json, QString &string);
