@@ -16,13 +16,6 @@ namespace viewport {
 ViewportContainer::ViewportContainer(QWidget *parent) : QOpenGLWidget(parent) {
 }
 
-void ViewportContainer::setViewports(const std::vector<Viewport *> &viewports) {
-    _viewports = viewports;
-    for (auto v : viewports) {
-        connect(v, &Viewport::updateRequested, this, [this] { update(); });
-    }
-}
-
 void ViewportContainer::initializeGL() {
     initializeOpenGLFunctions();
 
@@ -56,7 +49,9 @@ void ViewportContainer::paintGL() {
 
     auto operations = *_operations;
 
-    for (auto viewport : _viewports) {
+    auto viewports = findChildren<Viewport *>();
+
+    for (auto viewport : viewports) {
         if (!viewport->_renderable) {
             continue;
         }
@@ -91,7 +86,7 @@ void ViewportContainer::paintGL() {
     QPainter painter(&device);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    for (auto viewport : _viewports) {
+    for (auto viewport : viewports) {
         if (!viewport->_renderable) {
             continue;
         }
@@ -107,5 +102,5 @@ void ViewportContainer::paintGL() {
     }
 }
 
-} // namespace Viewport
+} // namespace viewport
 } // namespace shapecraft

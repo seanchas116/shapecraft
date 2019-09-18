@@ -15,8 +15,6 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
     layout->addWidget(viewport);
     setLayout(layout);
 
-    setViewports({viewport});
-
     connect(this, &viewport::ViewportContainer::initialized, this, [=] {
         auto background = std::make_shared<Background>(_state);
         viewport->setRenderable(background);

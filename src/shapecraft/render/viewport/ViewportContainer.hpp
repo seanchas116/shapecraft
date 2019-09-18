@@ -13,9 +13,6 @@ class ViewportContainer : public QOpenGLWidget, protected QOpenGLExtraFunctions 
   public:
     ViewportContainer(QWidget *parent = nullptr);
 
-    auto &viewports() const { return _viewports; }
-    void setViewports(const std::vector<Viewport *> &viewports);
-
   signals:
     void resized();
     void initialized();
@@ -27,7 +24,6 @@ class ViewportContainer : public QOpenGLWidget, protected QOpenGLExtraFunctions 
     void paintGL() override;
 
   private:
-    std::vector<Viewport *> _viewports;
     Opt<SP<draw::Operations>> _operations;
 };
 
