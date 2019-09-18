@@ -4,10 +4,15 @@
 
 namespace shapecraft {
 
+class WindowState;
+
 class EditorViewportContainer : public viewport::ViewportContainer {
     Q_OBJECT
   public:
-    explicit EditorViewportContainer(QWidget *parent = nullptr);
+    explicit EditorViewportContainer(const SP<WindowState> &state, QWidget *parent = nullptr);
+
+  private:
+    SP<WindowState> _state;
 };
 
 } // namespace shapecraft
