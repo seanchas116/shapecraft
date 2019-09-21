@@ -1,4 +1,6 @@
 #include "GridFloor.hpp"
+#include "CameraState.hpp"
+#include "EditorViewport.hpp"
 #include "shapecraft/render/draw/Vertex.hpp"
 #include "shapecraft/render/gl/VAO.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
@@ -61,7 +63,6 @@ GridFloor::GridFloor() : _vbo(std::make_shared<gl::VertexBuffer<draw::PointLineV
 void GridFloor::draw(const viewport::DrawEvent &event) {
     int normalAxis = 1;
 
-    /*
     auto viewport = static_cast<EditorViewport *>(event.viewport);
     auto cameraState = viewport->cameraState();
 
@@ -80,7 +81,7 @@ void GridFloor::draw(const viewport::DrawEvent &event) {
         default:
             break;
         }
-    }*/
+    }
 
     static const std::array<glm::mat4, 3> swizzleTransforms{
         glm::mat4(1),                                              // xyz to xyz
