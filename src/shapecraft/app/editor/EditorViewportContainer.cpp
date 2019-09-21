@@ -2,6 +2,10 @@
 #include "Background.hpp"
 #include "EditorViewport.hpp"
 #include "GridFloor.hpp"
+#include "NodeRenderable.hpp"
+#include "shapecraft/app/state/WindowState.hpp"
+#include "shapecraft/document/Document.hpp"
+#include "shapecraft/document/TestShapeNode.hpp"
 #include "shapecraft/util/KeyObserver.hpp"
 #include <QVBoxLayout>
 
@@ -23,7 +27,8 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
         auto root = std::make_shared<viewport::Renderable>();
         auto background = std::make_shared<Background>(_state);
         auto gridFloor = std::make_shared<GridFloor>();
-        root->setChildRenderables({background, gridFloor});
+        auto nodeRenderable = std::make_shared<NodeRenderable>(std::make_shared<TestShapeNode>(state->document()->history()));
+        root->setChildRenderables({background, gridFloor, nodeRenderable});
         viewport->setRenderable(root);
     });
 }
