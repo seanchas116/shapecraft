@@ -20,6 +20,10 @@ NodeRenderable::NodeRenderable(const SP<Node> &node) {
     }
 }
 
+void NodeRenderable::draw(const viewport::DrawEvent &event) {
+    event.operations->drawLine.draw(_edgeMesh, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 0, 1));
+}
+
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
     BRepMesh_IncrementalMesh meshing(shape, 0.01, false, 0.5);
     meshing.Perform();

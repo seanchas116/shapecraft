@@ -14,6 +14,8 @@ class NodeRenderable final : public viewport::Renderable {
   public:
     NodeRenderable(const SP<Node> &node);
 
+    void draw(const viewport::DrawEvent &event) override;
+
   private:
     void setShape(const TopoDS_Shape &shape);
 
