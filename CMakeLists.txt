@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0.0)
 
 project(Shapecraft)
 
+set(TBB_LIBRARY_DIR "" CACHE STRING "Path to tbb.lib (windows)")
+
 include(vendor/cmrc/CMakeRC.cmake)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -28,6 +30,7 @@ find_package(Boost REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(catch2 REQUIRED)
 link_directories(${OpenCASCADE_LIBRARY_DIR})
+link_directories(${TBB_LIBRARY_DIR})
 include_directories(${OpenCASCADE_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/_cmrc/include)
