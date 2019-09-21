@@ -21,7 +21,10 @@ NodeRenderable::NodeRenderable(const SP<Node> &node) {
 }
 
 void NodeRenderable::draw(const viewport::DrawEvent &event) {
-    event.operations->drawLine.draw(_edgeMesh, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 0, 1));
+    draw::Material material;
+    material.baseColor = glm::vec3(1);
+    event.operations->drawMaterial.draw(_facesVAO, glm::mat4(1), event.camera, material);
+    event.operations->drawLine.draw(_edgesVAO, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 0, 1));
 }
 
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
@@ -82,7 +85,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
         auto ibo = std::make_shared<gl::IndexBuffer>();
         ibo->setTriangles(triangleIndexes);
 
-        _mesh = std::make_shared<gl::VAO>(vbo, ibo);
+        _facesVAO = std::make_shared<gl::VAO>(vbo, ibo);
     }
 
     {
@@ -110,7 +113,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
         auto ibo = std::make_shared<gl::IndexBuffer>();
         ibo->setLines(lines);
 
-        _edgeMesh = std::make_shared<gl::VAO>(vbo, ibo);
+        _edgesVAO = std::make_shared<gl::VAO>(vbo, ibo);
     }
 }
 
