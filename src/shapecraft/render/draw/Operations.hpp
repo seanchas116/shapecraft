@@ -10,9 +10,13 @@
 namespace shapecraft {
 namespace draw {
 
-class Operations final {
+class Operations final : protected QOpenGLExtraFunctions {
   public:
-    Clear clear;
+    Operations();
+
+    void clear(glm::vec4 color, float depth);
+    void clearDepth(float depth);
+
     Copy copy;
     DrawCircle drawCircle;
     DrawLine drawLine;

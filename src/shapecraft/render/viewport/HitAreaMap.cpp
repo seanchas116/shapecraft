@@ -45,7 +45,7 @@ void HitAreaMap::draw(const SP<Renderable> &renderable, const DrawEvent &drawEve
 
     {
         gl::Binder binder(*_framebuffer);
-        drawEvent.operations->clear.clear(glm::vec4(0), 1);
+        drawEvent.operations->clear(glm::vec4(0), 1);
         renderable->drawHitAreaRecursive(drawEvent);
     }
 
