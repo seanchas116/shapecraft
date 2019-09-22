@@ -11,6 +11,7 @@
 #include <TopLoc_Location.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Face.hxx>
+#include <shapecraft/util/Debug.hpp>
 
 namespace shapecraft {
 
@@ -25,6 +26,23 @@ void NodeRenderable::draw(const viewport::DrawEvent &event) {
     material.baseColor = glm::vec3(1);
     event.operations->drawMaterial.draw(_facesVAO, glm::mat4(1), event.camera, material);
     event.operations->drawLine.draw(_edgesVAO, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 0, 1));
+}
+
+void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
+    event.operations->drawUnicolor.draw(_facesVAO, glm::mat4(1), event.camera, toIDColor());
+}
+
+void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
+    Q_UNUSED(event)
+    qDebug() << "pressed";
+}
+
+void NodeRenderable::mouseMoveEvent(const viewport::MouseEvent &event) {
+    Q_UNUSED(event)
+}
+
+void NodeRenderable::mouseReleaseEvent(const viewport::MouseEvent &event) {
+    Q_UNUSED(event)
 }
 
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
