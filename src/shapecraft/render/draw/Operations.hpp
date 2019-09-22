@@ -6,12 +6,15 @@
 #include "./DrawLine.hpp"
 #include "./DrawMaterial.hpp"
 #include "./DrawUnicolor.hpp"
+#include <QOpenGLExtraFunctions>
 
 namespace shapecraft {
 namespace draw {
 
-class Operations final {
+class Operations final : protected QOpenGLExtraFunctions {
   public:
+    Operations();
+
     Clear clear;
     Copy copy;
     DrawCircle drawCircle;
