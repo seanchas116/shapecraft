@@ -6,7 +6,7 @@
 
 namespace shapecraft {
 
-KeyObserver::KeyObserver() {
+KeyObserver::KeyObserver(QObject *parent) : QObject(parent) {
     qApp->installEventFilter(this);
 }
 

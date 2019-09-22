@@ -7,12 +7,11 @@
 
 namespace shapecraft {
 
-EditorViewport::EditorViewport(const SP<WindowState> &appState, const SP<KeyObserver> &keyObserver, QWidget *parent)
+EditorViewport::EditorViewport(const SP<WindowState> &appState, QWidget *parent)
     : Viewport::Viewport(parent),
       _appState(appState),
       _cameraState(std::make_shared<CameraState>()),
       _cameraController(_cameraState, this) {
-    connect(keyObserver.get(), &KeyObserver::pressedKeysChanged, &_cameraController, &CameraController::setPressedKeys);
     connect(_cameraState.get(), &CameraState::cameraChanged, this, &Viewport::setCamera);
     setCamera(_cameraState->camera());
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shapecraft/Common.hpp"
+#include "shapecraft/util/KeyObserver.hpp"
 #include "shapecraft/util/Location.hpp"
 #include <QObject>
 #include <QPoint>
@@ -20,8 +21,6 @@ class CameraController final : public QObject {
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
-    void setPressedKeys(const std::unordered_set<int> &keys);
-
   private:
     enum Mode {
         None,
@@ -33,6 +32,7 @@ class CameraController final : public QObject {
     bool mouseMove(QMouseEvent *event);
     bool mouseRelease(QMouseEvent *event);
     bool wheel(QWheelEvent *event);
+    void setPressedKeys(const std::unordered_set<int> &keys);
 
     SP<CameraState> _cameraState;
     QWidget *_widget;

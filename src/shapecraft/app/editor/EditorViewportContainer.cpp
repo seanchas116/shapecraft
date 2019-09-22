@@ -13,10 +13,9 @@ namespace shapecraft {
 
 EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, QWidget *parent)
     : viewport::ViewportContainer(parent),
-      _state(state),
-      _keyObserver(std::make_shared<KeyObserver>()) {
+      _state(state) {
 
-    auto viewport = new EditorViewport(state, _keyObserver);
+    auto viewport = new EditorViewport(state);
 
     auto layout = new QVBoxLayout();
     layout->setMargin(0);

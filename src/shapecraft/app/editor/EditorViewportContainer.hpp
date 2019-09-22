@@ -14,7 +14,6 @@ class EditorViewportContainer : public viewport::ViewportContainer {
 
   private:
     SP<WindowState> _state;
-    SP<KeyObserver> _keyObserver;
 };
 
 } // namespace shapecraft

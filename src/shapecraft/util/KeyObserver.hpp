@@ -9,7 +9,7 @@ namespace shapecraft {
 class KeyObserver final : public QObject {
     Q_OBJECT
   public:
-    KeyObserver();
+    KeyObserver(QObject *parent = nullptr);
     ~KeyObserver() override;
 
     bool eventFilter(QObject *watched, QEvent *event) override;

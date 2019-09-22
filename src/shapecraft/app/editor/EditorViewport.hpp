@@ -16,7 +16,7 @@ class EditorViewport final : public viewport::Viewport {
     using super = Viewport;
 
   public:
-    explicit EditorViewport(const SP<WindowState> &appState, const SP<KeyObserver> &keyObserver, QWidget *parent = nullptr);
+    explicit EditorViewport(const SP<WindowState> &appState, QWidget *parent = nullptr);
 
     auto &cameraState() const { return _cameraState; }
 
