@@ -1,16 +1,12 @@
 #pragma once
 
 #include "../gl/Shader.hpp"
-#include "./Clear.hpp"
-#include "./Copy.hpp"
-#include "./DrawCircle.hpp"
-#include "./DrawLine.hpp"
-#include "./DrawMaterial.hpp"
-#include "./DrawUnicolor.hpp"
 #include "Material.hpp"
 #include <QOpenGLExtraFunctions>
 
 namespace shapecraft {
+
+class Camera;
 
 namespace gl {
 class Texture;
