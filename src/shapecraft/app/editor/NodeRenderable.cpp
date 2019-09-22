@@ -1,5 +1,7 @@
 #include "NodeRenderable.hpp"
+#include "shapecraft/document/Scene.hpp"
 #include "shapecraft/document/ShapeNode.hpp"
+#include "shapecraft/document/history/History.hpp"
 #include "shapecraft/render/draw/Vertex.hpp"
 #include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
@@ -7,6 +9,7 @@
 #include <BRep_Tool.hxx>
 #include <GeomLProp_SLProps.hxx>
 #include <Poly.hxx>
+#include <QMouseEvent>
 #include <TopExp_Explorer.hxx>
 #include <TopLoc_Location.hxx>
 #include <TopoDS.hxx>
@@ -33,12 +36,64 @@ void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
 }
 
 void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
-    Q_UNUSED(event)
     qDebug() << "pressed";
+
+    auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
+    if (!shapeNode) {
+        return;
+    }
+
+    switch (event.originalMouseEvent->button()) {
+    case Qt::RightButton: {
+        //        QMenu contextMenu;
+        //        contextMenu.addAction(tr("Delete"), _appState.get(), &State::AppState::deleteObjects);
+        //        contextMenu.exec(event.originalMouseEvent->globalPos());
+        return;
+    }
+    case Qt::LeftButton: {
+        glm::dvec3 worldPos = event.worldPos();
+        auto [viewportDragPos, isInViewport] = event.camera.mapWorldToViewport(worldPos);
+        if (!isInViewport) {
+            return;
+        }
+
+        _dragged = true;
+        _dragInitLocation = shapeNode->location();
+        _dragInitWorldPos = worldPos;
+        _dragInitViewportPos = event.viewportPos;
+        _dragStarted = false;
+
+        //_scene->selectNode(_object, event.originalMouseEvent->modifiers() & Qt::ShiftModifier);
+        return;
+    }
+    default:
+        return;
+    }
 }
 
 void NodeRenderable::mouseMoveEvent(const viewport::MouseEvent &event) {
-    Q_UNUSED(event)
+    if (!_dragged) {
+        return;
+    }
+
+    auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
+    if (!shapeNode) {
+        return;
+    }
+
+    auto newWorldPos = event.worldPos();
+    auto newLocation = _dragInitLocation;
+    newLocation.position += newWorldPos - _dragInitWorldPos;
+
+    if (!_dragStarted) {
+        const int moveThreshold = 4; // TODO: make configurable
+        if (glm::distance(_dragInitViewportPos, glm::dvec2(event.viewportPos.xy)) < moveThreshold) {
+            return;
+        }
+        _node->history()->beginChange(tr("Move Object"));
+        _dragStarted = true;
+    }
+    shapeNode->setLocation(newLocation);
 }
 
 void NodeRenderable::mouseReleaseEvent(const viewport::MouseEvent &event) {
