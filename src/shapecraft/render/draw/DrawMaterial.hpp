@@ -8,7 +8,7 @@ namespace shapecraft {
 class Camera;
 
 namespace gl {
-class VAO;
+class VertexArray;
 class Texture;
 } // namespace gl
 
@@ -18,7 +18,7 @@ class DrawMaterial final : protected QOpenGLExtraFunctions {
   public:
     DrawMaterial();
 
-    void draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Camera &camera, const Material &material);
+    void draw(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, const Material &material);
 
     SP<gl::Texture> getTexture(const QImage &image);
 

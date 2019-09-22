@@ -5,7 +5,7 @@ namespace shapecraft {
 class Camera;
 
 namespace gl {
-class VAO;
+class VertexArray;
 }
 
 namespace draw {
@@ -16,9 +16,9 @@ class DrawCircle final {
 
     DrawCircle();
 
-    void draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Camera &camera,
+    void draw(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera,
               double width, glm::vec4 color, bool useVertexColor = false, double zOffset = defaultZOffset);
-    void draw2D(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize,
+    void draw2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize,
                 double width, glm::vec4 color, bool useVertexColor = false);
 
   private:

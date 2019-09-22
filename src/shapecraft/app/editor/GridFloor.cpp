@@ -2,7 +2,7 @@
 #include "CameraState.hpp"
 #include "EditorViewport.hpp"
 #include "shapecraft/render/draw/Vertex.hpp"
-#include "shapecraft/render/gl/VAO.hpp"
+#include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
 
 using namespace glm;
@@ -11,11 +11,11 @@ namespace shapecraft {
 
 GridFloor::GridFloor() : _vbo(std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>()),
                          _indexBuffer(std::make_shared<gl::IndexBuffer>()),
-                         _vao(std::make_shared<gl::VAO>(_vbo, _indexBuffer)),
+                         _vao(std::make_shared<gl::VertexArray>(_vbo, _indexBuffer)),
                          _yAxisIndexBuffer(std::make_shared<gl::IndexBuffer>()),
                          _zAxisIndexBuffer(std::make_shared<gl::IndexBuffer>()),
-                         _yAxisVAO(std::make_shared<gl::VAO>(_vbo, _yAxisIndexBuffer)),
-                         _zAxisVAO(std::make_shared<gl::VAO>(_vbo, _zAxisIndexBuffer)) {
+                         _yAxisVAO(std::make_shared<gl::VertexArray>(_vbo, _yAxisIndexBuffer)),
+                         _zAxisVAO(std::make_shared<gl::VertexArray>(_vbo, _zAxisIndexBuffer)) {
     // build grid
     constexpr int count = 200;
     constexpr double unit = 1;

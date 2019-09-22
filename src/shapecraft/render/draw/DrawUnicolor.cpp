@@ -1,7 +1,7 @@
 #include "DrawUnicolor.hpp"
 #include "Constants.hpp"
 #include "shapecraft/Resource.hpp"
-#include "shapecraft/render/gl/VAO.hpp"
+#include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/util/Camera.hpp"
 
 namespace shapecraft {
@@ -12,7 +12,7 @@ DrawUnicolor::DrawUnicolor() : _shader(resource::read(shaderDir + "DrawUnicolor.
                                        resource::read(shaderDir + "DrawUnicolor.frag")) {
 }
 
-void DrawUnicolor::draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Camera &camera, glm::vec4 color, bool useVertexColor) {
+void DrawUnicolor::draw(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, glm::vec4 color, bool useVertexColor) {
     _shader.bind();
     _shader.setUniform("color", color);
     _shader.setUniform("useVertexColor", useVertexColor);

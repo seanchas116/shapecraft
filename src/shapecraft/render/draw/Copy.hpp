@@ -5,7 +5,7 @@ namespace shapecraft {
 
 namespace gl {
 class Texture;
-class VAO;
+class VertexArray;
 } // namespace gl
 
 namespace draw {
@@ -18,7 +18,7 @@ class Copy : public QOpenGLExtraFunctions {
 
   private:
     gl::Shader _shader;
-    SP<gl::VAO> _vao;
+    SP<gl::VertexArray> _vao;
 };
 
 } // namespace draw

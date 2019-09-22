@@ -1,4 +1,4 @@
-#include "VAO.hpp"
+#include "VertexArray.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexBuffer.hpp"
 #include <array>
@@ -7,7 +7,7 @@
 namespace shapecraft {
 namespace gl {
 
-VAO::VAO(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, Primitive primitive) : _buffers(buffers),
+VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, Primitive primitive) : _buffers(buffers),
                                                                                                                                                  _indexBuffer(indexBuffer),
                                                                                                                                                  _primitive(primitive) {
     initializeOpenGLFunctions();
@@ -54,26 +54,26 @@ VAO::VAO(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers,
 
 struct EmptyVertex {};
 
-VAO::VAO() : VAO(std::make_shared<VertexBuffer<EmptyVertex>>(), Primitive::Triangle) {
+VertexArray::VertexArray() : VertexArray(std::make_shared<VertexBuffer<EmptyVertex>>(), Primitive::Triangle) {
 }
 
-VAO::VAO(const SP<AnyVertexBuffer> &buffer, const SP<IndexBuffer> &indexBuffer) : VAO({{buffer, BufferType::PerVertex}}, indexBuffer) {
+VertexArray::VertexArray(const SP<AnyVertexBuffer> &buffer, const SP<IndexBuffer> &indexBuffer) : VertexArray({{buffer, BufferType::PerVertex}}, indexBuffer) {
 }
 
-VAO::VAO(const SP<AnyVertexBuffer> &buffer, Primitive primitive) : VAO({{buffer, BufferType::PerVertex}}, primitive) {
+VertexArray::VertexArray(const SP<AnyVertexBuffer> &buffer, Primitive primitive) : VertexArray({{buffer, BufferType::PerVertex}}, primitive) {
 }
 
-VAO::VAO(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const SP<IndexBuffer> &indexBuffer) : VAO(buffers, indexBuffer, Primitive::Triangle) {
+VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const SP<IndexBuffer> &indexBuffer) : VertexArray(buffers, indexBuffer, Primitive::Triangle) {
 }
 
-VAO::VAO(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, Primitive primitive) : VAO(buffers, std::nullopt, primitive) {
+VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, Primitive primitive) : VertexArray(buffers, std::nullopt, primitive) {
 }
 
-VAO::~VAO() {
+VertexArray::~VertexArray() {
     glDeleteVertexArrays(1, &_vertexArray);
 }
 
-void VAO::draw() {
+void VertexArray::draw() {
     glBindVertexArray(_vertexArray);
 
     if (_indexBuffer) {

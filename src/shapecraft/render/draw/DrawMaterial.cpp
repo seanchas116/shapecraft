@@ -2,7 +2,7 @@
 #include "Constants.hpp"
 #include "shapecraft/Resource.hpp"
 #include "shapecraft/render/gl/Texture.hpp"
-#include "shapecraft/render/gl/VAO.hpp"
+#include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/util/Camera.hpp"
 
 namespace shapecraft {
@@ -14,7 +14,7 @@ DrawMaterial::DrawMaterial() : _shader(resource::read(shaderDir + "DrawMaterial.
     initializeOpenGLFunctions();
 }
 
-void DrawMaterial::draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Camera &camera, const Material &material) {
+void DrawMaterial::draw(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, const Material &material) {
     _shader.bind();
     _shader.setUniform("diffuse", material.baseColor);
     _shader.setUniform("ambient", glm::vec3(0));

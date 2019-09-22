@@ -6,7 +6,7 @@
 namespace shapecraft {
 class Node;
 namespace gl {
-class VAO;
+class VertexArray;
 }
 
 class NodeRenderable final : public viewport::Renderable {
@@ -20,8 +20,8 @@ class NodeRenderable final : public viewport::Renderable {
     void setShape(const TopoDS_Shape &shape);
 
   private:
-    std::shared_ptr<gl::VAO> _facesVAO;
-    std::shared_ptr<gl::VAO> _edgesVAO;
+    std::shared_ptr<gl::VertexArray> _facesVAO;
+    std::shared_ptr<gl::VertexArray> _edgesVAO;
 };
 
 } // namespace shapecraft

@@ -2,7 +2,7 @@
 #include "Constants.hpp"
 #include "shapecraft/Resource.hpp"
 #include "shapecraft/render/gl/Texture.hpp"
-#include "shapecraft/render/gl/VAO.hpp"
+#include "shapecraft/render/gl/VertexArray.hpp"
 
 namespace shapecraft {
 namespace draw {
@@ -13,7 +13,7 @@ struct CopyVAOAttribute {
     glm::vec2 texCoord;
 };
 
-SP<gl::VAO> createCopyVAO() {
+SP<gl::VertexArray> createCopyVAO() {
     std::vector<CopyVAOAttribute> attributes = {
         {glm::vec2(0, 0)},
         {glm::vec2(1, 0)},
@@ -22,7 +22,7 @@ SP<gl::VAO> createCopyVAO() {
     };
 
     auto vbo = std::make_shared<gl::VertexBuffer<CopyVAOAttribute>>(attributes);
-    return std::make_shared<gl::VAO>(vbo, gl::Primitive::TriangleFan);
+    return std::make_shared<gl::VertexArray>(vbo, gl::Primitive::TriangleFan);
 }
 
 } // namespace

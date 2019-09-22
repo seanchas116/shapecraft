@@ -6,7 +6,7 @@ namespace shapecraft {
 class Camera;
 
 namespace gl {
-class VAO;
+class VertexArray;
 }
 
 namespace draw {
@@ -17,7 +17,7 @@ class DrawLine final {
 
     DrawLine();
 
-    void draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Camera &camera,
+    void draw(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera,
               double width, glm::vec4 color, bool useVertexColor = false, double zOffset = defaultZOffset);
 
   private:

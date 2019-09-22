@@ -1,7 +1,7 @@
 #include "NodeRenderable.hpp"
 #include "shapecraft/document/ShapeNode.hpp"
 #include "shapecraft/render/draw/Vertex.hpp"
-#include "shapecraft/render/gl/VAO.hpp"
+#include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <BRep_Tool.hxx>
@@ -85,7 +85,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
         auto ibo = std::make_shared<gl::IndexBuffer>();
         ibo->setTriangles(triangleIndexes);
 
-        _facesVAO = std::make_shared<gl::VAO>(vbo, ibo);
+        _facesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
     }
 
     {
@@ -113,7 +113,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
         auto ibo = std::make_shared<gl::IndexBuffer>();
         ibo->setLines(lines);
 
-        _edgesVAO = std::make_shared<gl::VAO>(vbo, ibo);
+        _edgesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
     }
 }
 

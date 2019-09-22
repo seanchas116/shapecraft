@@ -1,7 +1,7 @@
 #include "DrawCircle.hpp"
 #include "Constants.hpp"
 #include "shapecraft/Resource.hpp"
-#include "shapecraft/render/gl/VAO.hpp"
+#include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/util/Camera.hpp"
 #include <glm/gtx/transform.hpp>
 
@@ -15,7 +15,7 @@ DrawCircle::DrawCircle() : _shader(resource::read(shaderDir + "DrawCircle.vert")
                                    resource::read(shaderDir + "DrawCircle.frag")) {
 }
 
-void DrawCircle::draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
+void DrawCircle::draw(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
     _shader.bind();
     _shader.setUniform("MVP", camera.worldToViewportMatrix() * matrix);
     _shader.setUniform("viewportSize", camera.viewportSize());
@@ -26,7 +26,7 @@ void DrawCircle::draw(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, const Ca
     vao->draw();
 }
 
-void DrawCircle::draw2D(const SP<gl::VAO> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize, double width, glm::vec4 color, bool useVertexColor) {
+void DrawCircle::draw2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize, double width, glm::vec4 color, bool useVertexColor) {
     _shader.bind();
     dmat4 MVP = translate(dvec3(-1.0)) * scale(dvec3(2.0 / dvec2(viewportSize), 2.0)) * matrix;
     _shader.setUniform("MVP", MVP);

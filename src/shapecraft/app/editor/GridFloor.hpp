@@ -23,11 +23,11 @@ class GridFloor final : public viewport::Renderable {
   private:
     SP<gl::VertexBuffer<draw::PointLineVertex>> _vbo;
     SP<gl::IndexBuffer> _indexBuffer;
-    SP<gl::VAO> _vao;
+    SP<gl::VertexArray> _vao;
     SP<gl::IndexBuffer> _yAxisIndexBuffer;
     SP<gl::IndexBuffer> _zAxisIndexBuffer;
-    SP<gl::VAO> _yAxisVAO;
-    SP<gl::VAO> _zAxisVAO;
+    SP<gl::VertexArray> _yAxisVAO;
+    SP<gl::VertexArray> _zAxisVAO;
 };
 
 } // namespace shapecraft
