@@ -16,6 +16,7 @@ WindowState::WindowState()
     document()->appendChildNode(scene);
     document()->setCurrentScene(scene);
     auto node = std::make_shared<TestShapeNode>(document()->history());
+    node->setName(tr("Test"));
     scene->appendChildNode(node);
 }
 
