@@ -16,14 +16,6 @@ CameraController::CameraController(const SP<CameraState> &cameraState, QWidget *
 
     auto keyObserver = new KeyObserver(this);
     connect(keyObserver, &KeyObserver::pressedKeysChanged, this, &CameraController::setPressedKeys);
-
-    /*
-    _camera->setLocation(location());
-    connect(_camera.get(), &OldCamera::locationChanged, this, [this](const Location& location) {
-        _position = location.position;
-        _eulerAngles = glm::eulerAngles(location.rotation);
-    });
-    */
 }
 
 bool CameraController::eventFilter(QObject *watched, QEvent *event) {
