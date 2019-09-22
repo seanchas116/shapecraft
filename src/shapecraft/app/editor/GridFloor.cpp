@@ -9,13 +9,7 @@ using namespace glm;
 
 namespace shapecraft {
 
-GridFloor::GridFloor() : _vbo(std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>()),
-                         _indexBuffer(std::make_shared<gl::IndexBuffer>()),
-                         _vao(std::make_shared<gl::VertexArray>(_vbo, _indexBuffer)),
-                         _yAxisIndexBuffer(std::make_shared<gl::IndexBuffer>()),
-                         _zAxisIndexBuffer(std::make_shared<gl::IndexBuffer>()),
-                         _yAxisVAO(std::make_shared<gl::VertexArray>(_vbo, _yAxisIndexBuffer)),
-                         _zAxisVAO(std::make_shared<gl::VertexArray>(_vbo, _zAxisIndexBuffer)) {
+GridFloor::GridFloor() {
     // build grid
     constexpr int count = 200;
     constexpr double unit = 1;
@@ -54,10 +48,14 @@ GridFloor::GridFloor() : _vbo(std::make_shared<gl::VertexBuffer<draw::PointLineV
         }
     }
 
-    _vbo->setVertices(vertices);
-    _indexBuffer->setLineStrips(lineStrips);
-    _yAxisIndexBuffer->setLineStrips({yLineStrip});
-    _zAxisIndexBuffer->setLineStrips({zLineStrip});
+    auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
+    auto ibo = std::make_shared<gl::IndexBuffer>(lineStrips);
+    auto yAxisIBO = std::make_shared<gl::IndexBuffer>(std::vector{{yLineStrip}});
+    auto zAxisIBO = std::make_shared<gl::IndexBuffer>(std::vector{{zLineStrip}});
+
+    _vao = std::make_shared<gl::VertexArray>(vbo, ibo);
+    _yAxisVAO = std::make_shared<gl::VertexArray>(vbo, yAxisIBO);
+    _zAxisVAO = std::make_shared<gl::VertexArray>(vbo, zAxisIBO);
 }
 
 void GridFloor::draw(const viewport::DrawEvent &event) {

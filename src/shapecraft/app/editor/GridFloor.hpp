@@ -21,11 +21,7 @@ class GridFloor final : public viewport::Renderable {
     void draw(const viewport::DrawEvent &event) override;
 
   private:
-    SP<gl::VertexBuffer<draw::PointLineVertex>> _vbo;
-    SP<gl::IndexBuffer> _indexBuffer;
     SP<gl::VertexArray> _vao;
-    SP<gl::IndexBuffer> _yAxisIndexBuffer;
-    SP<gl::IndexBuffer> _zAxisIndexBuffer;
     SP<gl::VertexArray> _yAxisVAO;
     SP<gl::VertexArray> _zAxisVAO;
 };
