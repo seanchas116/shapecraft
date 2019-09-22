@@ -74,7 +74,7 @@ void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
         _dragInitViewportPos = event.viewportPos;
         _dragStarted = false;
 
-        //_scene->selectNode(_object, event.originalMouseEvent->modifiers() & Qt::ShiftModifier);
+        _scene->selectNode(_node, event.originalMouseEvent->modifiers() & Qt::ShiftModifier);
         return;
     }
     default:
