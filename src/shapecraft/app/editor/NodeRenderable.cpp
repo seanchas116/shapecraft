@@ -49,8 +49,6 @@ void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
 }
 
 void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
-    qDebug() << "pressed";
-
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
