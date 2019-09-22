@@ -1,7 +1,6 @@
 #pragma once
 
 #include "shapecraft/Common.hpp"
-#include "shapecraft/util/KeyObserver.hpp"
 #include "shapecraft/util/Location.hpp"
 #include <QObject>
 #include <QPoint>
