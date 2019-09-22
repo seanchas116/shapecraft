@@ -3,6 +3,7 @@
 #include "../gl/Shader.hpp"
 #include "Material.hpp"
 #include <QOpenGLExtraFunctions>
+#include <unordered_map>
 
 namespace shapecraft {
 
