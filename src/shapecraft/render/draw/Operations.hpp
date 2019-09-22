@@ -15,7 +15,9 @@ class Operations final : protected QOpenGLExtraFunctions {
   public:
     Operations();
 
-    Clear clear;
+    void clear(glm::vec4 color, float depth);
+    void clearDepth(float depth);
+
     Copy copy;
     DrawCircle drawCircle;
     DrawLine drawLine;
