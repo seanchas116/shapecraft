@@ -5,6 +5,7 @@
 
 namespace shapecraft {
 class Node;
+class Scene;
 namespace gl {
 class VertexArray;
 }
@@ -12,7 +13,7 @@ class VertexArray;
 class NodeRenderable final : public viewport::Renderable {
     Q_OBJECT
   public:
-    NodeRenderable(const SP<Node> &node);
+    NodeRenderable(const SP<Scene> &scene, const SP<Node> &node);
 
     void draw(const viewport::DrawEvent &event) override;
     void drawHitArea(const viewport::DrawEvent &event) override;
@@ -25,6 +26,8 @@ class NodeRenderable final : public viewport::Renderable {
     void setShape(const TopoDS_Shape &shape);
 
   private:
+    SP<Scene> _scene;
+    SP<Node> _node;
     SP<gl::VertexArray> _facesVAO;
     SP<gl::VertexArray> _edgesVAO;
 };
