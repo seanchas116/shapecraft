@@ -9,7 +9,8 @@ namespace shapecraft {
 class KeyObserver final : public QObject {
     Q_OBJECT
   public:
-    KeyObserver(QObject *parent = nullptr);
+    static KeyObserver *shared();
+
     ~KeyObserver() override;
 
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -22,6 +23,8 @@ class KeyObserver final : public QObject {
     void pressedKeysChanged(const std::unordered_set<int> &keys);
 
   private:
+    KeyObserver();
+
     std::unordered_set<int> _pressedKeys;
 };
 

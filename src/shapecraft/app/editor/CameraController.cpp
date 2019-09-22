@@ -14,8 +14,7 @@ namespace shapecraft {
 CameraController::CameraController(const SP<CameraState> &cameraState, QWidget *widget) : _cameraState(cameraState), _widget(widget) {
     widget->installEventFilter(this);
 
-    auto keyObserver = new KeyObserver(this);
-    connect(keyObserver, &KeyObserver::pressedKeysChanged, this, &CameraController::setPressedKeys);
+    connect(KeyObserver::shared(), &KeyObserver::pressedKeysChanged, this, &CameraController::setPressedKeys);
 }
 
 bool CameraController::eventFilter(QObject *watched, QEvent *event) {

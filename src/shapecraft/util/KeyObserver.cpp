@@ -6,8 +6,9 @@
 
 namespace shapecraft {
 
-KeyObserver::KeyObserver(QObject *parent) : QObject(parent) {
-    qApp->installEventFilter(this);
+KeyObserver *KeyObserver::shared() {
+    static auto instance = new KeyObserver();
+    return instance;
 }
 
 KeyObserver::~KeyObserver() {
@@ -39,6 +40,10 @@ void KeyObserver::keyPress(QKeyEvent *event) {
 void KeyObserver::keyRelease(QKeyEvent *event) {
     _pressedKeys.erase(event->key());
     emit pressedKeysChanged(_pressedKeys);
+}
+
+KeyObserver::KeyObserver() {
+    qApp->installEventFilter(this);
 }
 
 } // namespace shapecraft
