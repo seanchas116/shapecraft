@@ -25,32 +25,6 @@ EditorViewport::EditorViewport(const SP<WindowState> &appState, const SP<KeyObse
     setLayout(layout);
 }
 
-void EditorViewport::mousePressEvent(QMouseEvent *event) {
-    if (_cameraController.mousePress(event)) {
-        return;
-    }
-    super::mousePressEvent(event);
-}
-
-void EditorViewport::mouseMoveEvent(QMouseEvent *event) {
-    if (_cameraController.mouseMove(event)) {
-        return;
-    }
-    super::mouseMoveEvent(event);
-}
-
-void EditorViewport::mouseReleaseEvent(QMouseEvent *event) {
-    if (_cameraController.mouseRelease(event)) {
-        return;
-    }
-    super::mouseReleaseEvent(event);
-}
-
-void EditorViewport::wheelEvent(QWheelEvent *event) {
-    _cameraController.wheel(event);
-    super::wheelEvent(event);
-}
-
 void EditorViewport::resizeEvent(QResizeEvent *event) {
     super::resizeEvent(event);
     _cameraState->setViewportSize(glm::vec2(event->size().width(), event->size().height()));

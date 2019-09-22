@@ -21,12 +21,6 @@ class EditorViewport final : public viewport::Viewport {
     auto &cameraState() const { return _cameraState; }
 
   protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-
-    void wheelEvent(QWheelEvent *event) override;
-
     void resizeEvent(QResizeEvent *event) override;
 
   private:

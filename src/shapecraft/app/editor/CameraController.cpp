@@ -2,6 +2,7 @@
 #include "CameraState.hpp"
 #include <QApplication>
 #include <QMouseEvent>
+#include <QWidget>
 #include <QtDebug>
 #include <glm/gtx/euler_angles.hpp>
 
@@ -10,6 +11,7 @@ using namespace glm;
 namespace shapecraft {
 
 CameraController::CameraController(const SP<CameraState> &cameraState, QWidget *widget) : _cameraState(cameraState), _widget(widget) {
+    widget->installEventFilter(this);
     /*
     _camera->setLocation(location());
     connect(_camera.get(), &OldCamera::locationChanged, this, [this](const Location& location) {
@@ -17,6 +19,23 @@ CameraController::CameraController(const SP<CameraState> &cameraState, QWidget *
         _eulerAngles = glm::eulerAngles(location.rotation);
     });
     */
+}
+
+bool CameraController::eventFilter(QObject *watched, QEvent *event) {
+    Q_UNUSED(watched)
+
+    switch (event->type()) {
+    case QEvent::MouseButtonPress:
+        return mousePress(static_cast<QMouseEvent *>(event));
+    case QEvent::MouseMove:
+        return mouseMove(static_cast<QMouseEvent *>(event));
+    case QEvent::MouseButtonRelease:
+        return mouseRelease(static_cast<QMouseEvent *>(event));
+    case QEvent::Wheel:
+        return wheel(static_cast<QWheelEvent *>(event));
+    default:
+        return false;
+    }
 }
 
 bool CameraController::mousePress(QMouseEvent *event) {

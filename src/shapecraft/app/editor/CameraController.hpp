@@ -17,10 +17,8 @@ class CameraController final : public QObject {
     Q_OBJECT
   public:
     CameraController(const SP<CameraState> &camera, QWidget *widget);
-    bool mousePress(QMouseEvent *event);
-    bool mouseMove(QMouseEvent *event);
-    bool mouseRelease(QMouseEvent *event);
-    bool wheel(QWheelEvent *event);
+
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
     void setPressedKeys(const std::unordered_set<int> &keys);
 
@@ -30,6 +28,11 @@ class CameraController final : public QObject {
         Move,
         Rotate,
     };
+
+    bool mousePress(QMouseEvent *event);
+    bool mouseMove(QMouseEvent *event);
+    bool mouseRelease(QMouseEvent *event);
+    bool wheel(QWheelEvent *event);
 
     SP<CameraState> _cameraState;
     QWidget *_widget;
