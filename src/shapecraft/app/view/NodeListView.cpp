@@ -35,6 +35,24 @@ NodeListView::NodeListView(const SP<WindowState> &state, QWidget *parent)
 void NodeListView::handleCurrentPageChanged(const SP<Scene> &scene) {
     auto model = new NodeItemModel(scene);
     auto selectionModel = new QItemSelectionModel(model); // TODO: connect selection
+
+    connect(scene.get(), &Scene::selectedNodesChanged, selectionModel, [scene = scene.get(), selectionModel, model]() {
+        QItemSelection selection;
+        for (auto node : scene->selectedNodes()) {
+            auto index = model->indexForNode(node);
+            selection.select(index, index);
+        }
+        selectionModel->select(selection, QItemSelectionModel::ClearAndSelect);
+    });
+
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, scene.get(), [scene = scene.get(), selectionModel, model] {
+        std::unordered_set<SP<Node>> nodes;
+        for (auto index : selectionModel->selectedIndexes()) {
+            nodes.insert(model->nodeForIndex(index));
+        }
+        scene->setSelectedNodes(std::move(nodes));
+    });
+
     _treeView->setModel(model);
     _treeView->setSelectionModel(selectionModel);
 }

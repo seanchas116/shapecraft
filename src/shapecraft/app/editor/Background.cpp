@@ -1,4 +1,7 @@
 #include "Background.hpp"
+#include "shapecraft/app/state/WindowState.hpp"
+#include "shapecraft/document/Document.hpp"
+#include "shapecraft/document/Scene.hpp"
 #include <QtDebug>
 
 namespace shapecraft {
@@ -22,7 +25,7 @@ void Background::drawHitArea(const viewport::DrawEvent &event) {
 
 void Background::mousePressEvent(const viewport::MouseEvent &event) {
     Q_UNUSED(event)
-    //_appState->deselectAll();
+    _appState->document()->currentScene()->setSelectedNodes({});
 }
 
 } // namespace shapecraft
