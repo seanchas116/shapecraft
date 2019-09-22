@@ -1,5 +1,4 @@
 #include "HitAreaMap.hpp"
-#include "../gl/Binder.hpp"
 #include "../gl/Framebuffer.hpp"
 #include "../gl/Texture.hpp"
 #include "Renderable.hpp"
@@ -43,11 +42,10 @@ Opt<HitResult> HitAreaMap::pick(vec2 physicalPos) {
 void HitAreaMap::draw(const SP<Renderable> &renderable, const DrawEvent &drawEvent) {
     resize(drawEvent.camera.viewportSize());
 
-    {
-        gl::Binder binder(*_framebuffer);
-        drawEvent.operations->clear.clear(glm::vec4(0), 1);
-        renderable->drawHitAreaRecursive(drawEvent);
-    }
+    _framebuffer->bind();
+    drawEvent.operations->clear.clear(glm::vec4(0), 1);
+    renderable->drawHitAreaRecursive(drawEvent);
+    _framebuffer->unbind();
 
     _lastRenderables.clear();
     renderable->getDescendants(_lastRenderables);
