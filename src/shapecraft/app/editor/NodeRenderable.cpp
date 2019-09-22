@@ -21,18 +21,31 @@ namespace shapecraft {
 NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _scene(scene), _node(node) {
     if (auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node); shapeNode) {
         setShape(shapeNode->shape());
+        connect(shapeNode.get(), &ShapeNode::locationChanged, this, &NodeRenderable::updated);
     }
 }
 
 void NodeRenderable::draw(const viewport::DrawEvent &event) {
+    auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
+    if (!shapeNode) {
+        return;
+    }
+    auto matrix = shapeNode->location().matrixToWorld();
+
     draw::Material material;
     material.baseColor = glm::vec3(1);
-    event.operations->drawMaterial.draw(_facesVAO, glm::mat4(1), event.camera, material);
-    event.operations->drawLine.draw(_edgesVAO, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 0, 1));
+    event.operations->drawMaterial.draw(_facesVAO, matrix, event.camera, material);
+    event.operations->drawLine.draw(_edgesVAO, matrix, event.camera, 1, glm::vec4(0, 0, 0, 1));
 }
 
 void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
-    event.operations->drawUnicolor.draw(_facesVAO, glm::mat4(1), event.camera, toIDColor());
+    auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
+    if (!shapeNode) {
+        return;
+    }
+    auto matrix = shapeNode->location().matrixToWorld();
+
+    event.operations->drawUnicolor.draw(_facesVAO, matrix, event.camera, toIDColor());
 }
 
 void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
@@ -98,6 +111,7 @@ void NodeRenderable::mouseMoveEvent(const viewport::MouseEvent &event) {
 
 void NodeRenderable::mouseReleaseEvent(const viewport::MouseEvent &event) {
     Q_UNUSED(event)
+    _dragged = false;
 }
 
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
