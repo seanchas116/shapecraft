@@ -42,7 +42,7 @@ class Operations final : protected QOpenGLExtraFunctions {
 
     void drawMaterial(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, const Material &material);
 
-    DrawUnicolor drawUnicolor;
+    void drawUnicolor(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, glm::vec4 color, bool useVertexColor = false);
 
   private:
     SP<gl::Texture> textureForImage(const QImage &image);
@@ -51,6 +51,7 @@ class Operations final : protected QOpenGLExtraFunctions {
     gl::Shader _drawCircleShader;
     gl::Shader _drawLineShader;
     gl::Shader _drawMaterialShader;
+    gl::Shader _drawUnicolorShader;
 
     SP<gl::VertexArray> _copyVAO;
 

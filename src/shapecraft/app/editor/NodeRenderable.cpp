@@ -45,7 +45,7 @@ void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
     }
     auto matrix = shapeNode->location().matrixToWorld();
 
-    event.operations->drawUnicolor.draw(_facesVAO, matrix, event.camera, toIDColor());
+    event.operations->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
 }
 
 void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {

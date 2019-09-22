@@ -42,6 +42,8 @@ Operations::Operations()
                       resource::read(shaderDir + "DrawLine.frag")),
       _drawMaterialShader(resource::read(shaderDir + "DrawMaterial.vert"), {},
                           resource::read(shaderDir + "DrawMaterial.frag")),
+      _drawUnicolorShader(resource::read(shaderDir + "DrawUnicolor.vert"), {},
+                          resource::read(shaderDir + "DrawUnicolor.frag")),
       _copyVAO(createCopyVAO()) {
     initializeOpenGLFunctions();
 }
@@ -124,6 +126,14 @@ void Operations::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matri
         _drawMaterialShader.setUniform("hasDiffuseTexture", false);
     }
 
+    vao->draw();
+}
+
+void Operations::drawUnicolor(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, vec4 color, bool useVertexColor) {
+    _drawUnicolorShader.bind();
+    _drawUnicolorShader.setUniform("color", color);
+    _drawUnicolorShader.setUniform("useVertexColor", useVertexColor);
+    _drawUnicolorShader.setUniform("MVP", camera.worldToViewportMatrix() * matrix);
     vao->draw();
 }
 
