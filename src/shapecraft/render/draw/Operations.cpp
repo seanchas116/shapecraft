@@ -40,6 +40,8 @@ Operations::Operations()
       _drawLineShader(resource::read(shaderDir + "DrawLine.vert"),
                       resource::read(shaderDir + "DrawLine.geom"),
                       resource::read(shaderDir + "DrawLine.frag")),
+      _drawMaterialShader(resource::read(shaderDir + "DrawMaterial.vert"), {},
+                          resource::read(shaderDir + "DrawMaterial.frag")),
       _copyVAO(createCopyVAO()) {
     initializeOpenGLFunctions();
 }
@@ -103,6 +105,40 @@ void Operations::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matr
     _drawLineShader.setUniform("useVertexColor", useVertexColor);
     _drawLineShader.setUniform("zOffset", zOffset);
     vao->draw();
+}
+
+void Operations::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, const Material &material) {
+    _drawMaterialShader.bind();
+    _drawMaterialShader.setUniform("diffuse", material.baseColor);
+    _drawMaterialShader.setUniform("ambient", glm::vec3(0));
+    _drawMaterialShader.setUniform("MV", camera.worldToCameraMatrix() * matrix);
+    _drawMaterialShader.setUniform("MVP", camera.worldToViewportMatrix() * matrix);
+
+    if (!material.baseColorImage.isNull()) {
+        auto texture = textureForImage(material.baseColorImage);
+        glActiveTexture(GL_TEXTURE0);
+        texture->bind();
+        _drawMaterialShader.setUniform("diffuseTexture", 0.0);
+        _drawMaterialShader.setUniform("hasDiffuseTexture", true);
+    } else {
+        _drawMaterialShader.setUniform("hasDiffuseTexture", false);
+    }
+
+    vao->draw();
+}
+
+SP<gl::Texture> Operations::textureForImage(const QImage &image) {
+    if (auto it = _imageTextureCaches.find(image.cacheKey()); it != _imageTextureCaches.end()) {
+        return it->second;
+    }
+
+    auto rgbaTexture = image.convertToFormat(QImage::Format_RGBA8888_Premultiplied);
+    rgbaTexture = rgbaTexture.mirrored();
+    glm::ivec2 size(rgbaTexture.width(), rgbaTexture.height());
+
+    auto texture = std::make_shared<gl::Texture>(size, gl::Texture::Format::RGBA8, rgbaTexture.bits());
+    _imageTextureCaches.insert({image.cacheKey(), texture});
+    return texture;
 }
 
 } // namespace draw

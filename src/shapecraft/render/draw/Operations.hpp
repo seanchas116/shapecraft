@@ -7,6 +7,7 @@
 #include "./DrawLine.hpp"
 #include "./DrawMaterial.hpp"
 #include "./DrawUnicolor.hpp"
+#include "Material.hpp"
 #include <QOpenGLExtraFunctions>
 
 namespace shapecraft {
@@ -39,15 +40,21 @@ class Operations final : protected QOpenGLExtraFunctions {
     void drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera,
                   double width, glm::vec4 color, bool useVertexColor = false, double zOffset = defaultLineZOffset);
 
-    DrawMaterial drawMaterial;
+    void drawMaterial(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, const Material &material);
+
     DrawUnicolor drawUnicolor;
 
   private:
+    SP<gl::Texture> textureForImage(const QImage &image);
+
     gl::Shader _copyShader;
     gl::Shader _drawCircleShader;
     gl::Shader _drawLineShader;
+    gl::Shader _drawMaterialShader;
 
     SP<gl::VertexArray> _copyVAO;
+
+    std::unordered_map<qint64, SP<gl::Texture>> _imageTextureCaches;
 };
 
 } // namespace draw
