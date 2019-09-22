@@ -25,8 +25,8 @@ class NodeRenderable final : public viewport::Renderable {
     void setShape(const TopoDS_Shape &shape);
 
   private:
-    std::shared_ptr<gl::VertexArray> _facesVAO;
-    std::shared_ptr<gl::VertexArray> _edgesVAO;
+    SP<gl::VertexArray> _facesVAO;
+    SP<gl::VertexArray> _edgesVAO;
 };
 
 } // namespace shapecraft
