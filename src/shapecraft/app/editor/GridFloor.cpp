@@ -88,7 +88,7 @@ void GridFloor::draw(const viewport::DrawEvent &event) {
     };
     auto transform = swizzleTransforms[normalAxis];
 
-    event.operations->drawLine.draw(_vao, transform, event.camera, 0.5, vec4(0.5, 0.5, 0.5, 1));
+    event.operations->drawLine(_vao, transform, event.camera, 0.5, vec4(0.5, 0.5, 0.5, 1));
 
     int axis0 = (1 + normalAxis) % 3;
     int axis1 = (2 + normalAxis) % 3;
@@ -97,8 +97,8 @@ void GridFloor::draw(const viewport::DrawEvent &event) {
     vec4 color1(0.5f);
     color1[axis1] = 0.8f;
 
-    event.operations->drawLine.draw(_yAxisVAO, transform, event.camera, 1, color0);
-    event.operations->drawLine.draw(_zAxisVAO, transform, event.camera, 1, color1);
+    event.operations->drawLine(_yAxisVAO, transform, event.camera, 1, color0);
+    event.operations->drawLine(_zAxisVAO, transform, event.camera, 1, color1);
 }
 
 } // namespace shapecraft

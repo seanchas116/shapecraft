@@ -34,13 +34,18 @@ class Operations final : protected QOpenGLExtraFunctions {
     void drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize,
                       double width, glm::vec4 color, bool useVertexColor = false);
 
-    DrawLine drawLine;
+    inline static constexpr double defaultLineZOffset = -0.00001;
+
+    void drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera,
+                  double width, glm::vec4 color, bool useVertexColor = false, double zOffset = defaultLineZOffset);
+
     DrawMaterial drawMaterial;
     DrawUnicolor drawUnicolor;
 
   private:
     gl::Shader _copyShader;
     gl::Shader _drawCircleShader;
+    gl::Shader _drawLineShader;
 
     SP<gl::VertexArray> _copyVAO;
 };

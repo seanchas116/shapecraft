@@ -37,6 +37,9 @@ Operations::Operations()
       _drawCircleShader(resource::read(shaderDir + "DrawCircle.vert"),
                         resource::read(shaderDir + "DrawCircle.geom"),
                         resource::read(shaderDir + "DrawCircle.frag")),
+      _drawLineShader(resource::read(shaderDir + "DrawLine.vert"),
+                      resource::read(shaderDir + "DrawLine.geom"),
+                      resource::read(shaderDir + "DrawLine.frag")),
       _copyVAO(createCopyVAO()) {
     initializeOpenGLFunctions();
 }
@@ -86,6 +89,19 @@ void Operations::drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &
     _drawCircleShader.setUniform("color", color);
     _drawCircleShader.setUniform("useVertexColor", useVertexColor);
     _drawCircleShader.setUniform("zOffset", 0.0);
+    vao->draw();
+}
+
+void Operations::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
+    _drawLineShader.bind();
+    _drawLineShader.setUniform("MV", camera.worldToCameraMatrix() * matrix);
+    _drawLineShader.setUniform("P", camera.cameraToViewportMatrix());
+    _drawLineShader.setUniform("viewportSize", camera.viewportSize());
+    _drawLineShader.setUniform("zNear", camera.projection() == Camera::Projection::Perspective ? camera.zNear() : -10000.0); // TODO: specify depth in better way
+    _drawLineShader.setUniform("width", width);
+    _drawLineShader.setUniform("color", color);
+    _drawLineShader.setUniform("useVertexColor", useVertexColor);
+    _drawLineShader.setUniform("zOffset", zOffset);
     vao->draw();
 }
 
