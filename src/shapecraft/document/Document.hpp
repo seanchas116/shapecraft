@@ -1,7 +1,10 @@
 #pragma once
 #include "Node.hpp"
+#include "shapecraft/util/Property.hpp"
 
 namespace shapecraft {
+
+class Scene;
 
 class Document final : public Node {
     Q_OBJECT
@@ -12,6 +15,9 @@ class Document final : public Node {
     bool canInsertNode(const SP<Node> &node) const override;
     SP<Node> newInstance(const SP<History> &history) const override;
     QString type() const override;
+
+  private:
+    SHAPECRAFT_PROPERTY_REFERENCE(SP<Scene>, currentScene, setCurrentScene, {})
 };
 
 } // namespace shapecraft
