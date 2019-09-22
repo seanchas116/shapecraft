@@ -1,5 +1,4 @@
 #include "Operations.hpp"
-#include "Constants.hpp"
 #include "shapecraft/Resource.hpp"
 #include "shapecraft/render/gl/Texture.hpp"
 #include "shapecraft/render/gl/VertexArray.hpp"
@@ -28,6 +27,8 @@ SP<gl::VertexArray> createCopyVAO() {
     auto vbo = std::make_shared<gl::VertexBuffer<CopyVAOAttribute>>(attributes);
     return std::make_shared<gl::VertexArray>(vbo, gl::Primitive::TriangleFan);
 }
+
+const std::string shaderDir = "src/shapecraft/render/draw/";
 
 } // namespace
 
