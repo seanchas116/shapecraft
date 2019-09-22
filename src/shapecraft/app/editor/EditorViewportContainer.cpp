@@ -27,7 +27,7 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
         auto background = std::make_shared<Background>(_state);
         auto gridFloor = std::make_shared<GridFloor>();
 
-        auto scene = std::dynamic_pointer_cast<Scene>(_state->document()->childNodes()[0]);
+        auto scene = _state->document()->scenes()[0];
         auto node = scene->childNodes()[0];
 
         auto nodeRenderable = std::make_shared<NodeRenderable>(scene, node);

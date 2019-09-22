@@ -7,6 +7,14 @@ namespace shapecraft {
 Document::Document() : Node(std::make_shared<History>()) {
 }
 
+std::vector<SP<Scene>> Document::scenes() const {
+    std::vector<SP<Scene>> scenes;
+    for (auto &&child : childNodes()) {
+        scenes.push_back(std::dynamic_pointer_cast<Scene>(child));
+    }
+    return scenes;
+}
+
 bool Document::canHaveChildren() const {
     return true;
 }

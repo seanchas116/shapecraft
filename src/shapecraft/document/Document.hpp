@@ -11,6 +11,8 @@ class Document final : public Node {
   public:
     Document();
 
+    std::vector<SP<Scene>> scenes() const; // TODO: Use range adaptor?
+
     bool canHaveChildren() const override;
     bool canInsertNode(const SP<Node> &node) const override;
     SP<Node> newInstance(const SP<History> &history) const override;
