@@ -27,13 +27,21 @@ class Operations final : protected QOpenGLExtraFunctions {
 
     void copy(const SP<gl::Texture> &texture, const SP<gl::Texture> &depthTexture, float opacity = 1);
 
-    DrawCircle drawCircle;
+    inline static constexpr double defaultCircleZOffset = -0.00002;
+
+    void drawCircle(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera,
+                    double width, glm::vec4 color, bool useVertexColor = false, double zOffset = defaultCircleZOffset);
+    void drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize,
+                      double width, glm::vec4 color, bool useVertexColor = false);
+
     DrawLine drawLine;
     DrawMaterial drawMaterial;
     DrawUnicolor drawUnicolor;
 
   private:
     gl::Shader _copyShader;
+    gl::Shader _drawCircleShader;
+
     SP<gl::VertexArray> _copyVAO;
 };
 
