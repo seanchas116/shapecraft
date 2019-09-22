@@ -80,11 +80,8 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
             }
         }
 
-        auto vbo = std::make_shared<gl::VertexBuffer<draw::Vertex>>();
-        vbo->setVertices(vertices);
-        auto ibo = std::make_shared<gl::IndexBuffer>();
-        ibo->setTriangles(triangleIndexes);
-
+        auto vbo = std::make_shared<gl::VertexBuffer<draw::Vertex>>(vertices);
+        auto ibo = std::make_shared<gl::IndexBuffer>(triangleIndexes);
         _facesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
     }
 
@@ -108,11 +105,8 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
             }
         }
 
-        auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>();
-        vbo->setVertices(edgeVertices);
-        auto ibo = std::make_shared<gl::IndexBuffer>();
-        ibo->setLines(lines);
-
+        auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(edgeVertices);
+        auto ibo = std::make_shared<gl::IndexBuffer>(lines);
         _edgesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
     }
 }

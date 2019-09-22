@@ -20,6 +20,10 @@ class IndexBuffer : protected QOpenGLExtraFunctions {
     using Line = std::array<uint32_t, 2>;
 
     IndexBuffer();
+    IndexBuffer(const std::vector<Triangle> &triangles) : IndexBuffer() { setTriangles(triangles); }
+    IndexBuffer(const std::vector<Line> &lines) : IndexBuffer() { setLines(lines); }
+    IndexBuffer(const std::vector<LineStrip> &strips) : IndexBuffer() { setLineStrips(strips); }
+
     virtual ~IndexBuffer();
 
     void bind();
