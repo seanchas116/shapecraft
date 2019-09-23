@@ -1,4 +1,5 @@
 #pragma once
+#include "Debug.hpp"
 #include "Ray.hpp"
 #include <glm/glm.hpp>
 
@@ -32,5 +33,13 @@ class Box final {
     glm::tvec3<T> minPosition{0};
     glm::tvec3<T> maxPosition{0};
 };
+
+template <typename T>
+QDebug operator<<(QDebug debug, const Box<T> &box) {
+    QDebugStateSaver saver(debug);
+    debug.nospace();
+    debug << "Box(" << box.minPosition << ", " << box.maxPosition << ")";
+    return debug;
+}
 
 } // namespace shapecraft
