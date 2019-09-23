@@ -50,10 +50,8 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     bool isVisible() const { return _isVisible; }
     void setVisible(bool visible);
 
-    void setParentRenderable(const Opt<SP<Renderable>> &parent);
-    Opt<SP<Renderable>> parentRenderable() const;
-
     auto &childRenderables() const { return _childRenderables; }
+    void setChildRenderables(const std::vector<SP<Renderable>> &children);
 
     void preDrawRecursive(const DrawEvent &event);
     void drawRecursive(const DrawEvent &event);
@@ -82,7 +80,6 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     void updated();
 
   private:
-    WP<Renderable> _parentRenderable;
     std::vector<SP<Renderable>> _childRenderables;
     bool _isVisible = true;
 };

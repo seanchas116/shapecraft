@@ -25,16 +25,13 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
     connect(this, &viewport::ViewportContainer::initialized, this, [=] {
         auto root = std::make_shared<viewport::Renderable>();
         auto background = std::make_shared<Background>(_state);
-        background->setParentRenderable(root);
         auto gridFloor = std::make_shared<GridFloor>();
-        gridFloor->setParentRenderable(root);
 
         auto scene = _state->document()->scenes()[0];
         auto node = scene->childNodes()[0];
 
         auto nodeRenderable = std::make_shared<NodeRenderable>(scene, node);
-        nodeRenderable->setParentRenderable(root);
-
+        root->setChildRenderables({background, gridFloor, nodeRenderable});
         viewport->setRenderable(root);
     });
 }
