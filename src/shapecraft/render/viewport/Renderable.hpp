@@ -1,7 +1,7 @@
 #pragma once
 
 #include "shapecraft/Common.hpp"
-#include "shapecraft/render/draw/Operations.hpp"
+#include "shapecraft/render/draw/DrawMethods.hpp"
 #include "shapecraft/util/Camera.hpp"
 #include <QObject>
 #include <glm/glm.hpp>
@@ -12,7 +12,7 @@ class QContextMenuEvent;
 namespace shapecraft {
 
 namespace draw {
-class Operations;
+class DrawMethods;
 }
 
 namespace viewport {
@@ -22,7 +22,7 @@ class Viewport;
 struct DrawEvent {
     Viewport *viewport;
     Camera camera;
-    SP<draw::Operations> operations;
+    SP<draw::DrawMethods> drawMethods;
 };
 
 struct Draw2DEvent {

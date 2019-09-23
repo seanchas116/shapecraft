@@ -16,7 +16,7 @@ class Framebuffer;
 }
 
 namespace draw {
-class Operations;
+class DrawMethods;
 }
 
 namespace viewport {

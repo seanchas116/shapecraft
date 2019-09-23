@@ -35,8 +35,8 @@ void NodeRenderable::draw(const viewport::DrawEvent &event) {
 
     draw::Material material;
     material.baseColor = glm::vec3(1);
-    event.operations->drawMaterial(_facesVAO, matrix, event.camera, material);
-    event.operations->drawLine(_edgesVAO, matrix, event.camera, 1, glm::vec4(0, 0, 0, 1));
+    event.drawMethods->drawMaterial(_facesVAO, matrix, event.camera, material);
+    event.drawMethods->drawLine(_edgesVAO, matrix, event.camera, 1, glm::vec4(0, 0, 0, 1));
 }
 
 void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
@@ -46,7 +46,7 @@ void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
     }
     auto matrix = shapeNode->location().matrixToWorld();
 
-    event.operations->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
+    event.drawMethods->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
 }
 
 void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {

@@ -1,6 +1,6 @@
 #pragma once
 #include "shapecraft/Common.hpp"
-#include "shapecraft/render/draw/Operations.hpp"
+#include "shapecraft/render/draw/DrawMethods.hpp"
 #include <QOpenGLWidget>
 
 namespace shapecraft {
@@ -24,7 +24,7 @@ class ViewportContainer : public QOpenGLWidget, protected QOpenGLExtraFunctions 
     void paintGL() override;
 
   private:
-    Opt<SP<draw::Operations>> _operations;
+    Opt<SP<draw::DrawMethods>> _drawMethods;
 };
 
 } // namespace viewport

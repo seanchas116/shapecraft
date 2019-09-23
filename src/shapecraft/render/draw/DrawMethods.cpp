@@ -1,4 +1,4 @@
-#include "Operations.hpp"
+#include "DrawMethods.hpp"
 #include "shapecraft/Resource.hpp"
 #include "shapecraft/render/gl/Texture.hpp"
 #include "shapecraft/render/gl/VertexArray.hpp"
@@ -32,7 +32,7 @@ const std::string shaderDir = "src/shapecraft/render/draw/";
 
 } // namespace
 
-Operations::Operations()
+DrawMethods::DrawMethods()
     : _copyShader(resource::read(shaderDir + "Copy.vert"), {},
                   resource::read(shaderDir + "Copy.frag")),
       _drawCircleShader(resource::read(shaderDir + "DrawCircle.vert"),
@@ -49,18 +49,18 @@ Operations::Operations()
     initializeOpenGLFunctions();
 }
 
-void Operations::clear(glm::vec4 color, float depth) {
+void DrawMethods::clear(glm::vec4 color, float depth) {
     glClearColor(color.r, color.g, color.b, color.a);
     glClearDepthf(depth);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Operations::clearDepth(float depth) {
+void DrawMethods::clearDepth(float depth) {
     glClearDepthf(depth);
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Operations::copy(const SP<gl::Texture> &texture, const SP<gl::Texture> &depthTexture, float opacity) {
+void DrawMethods::copy(const SP<gl::Texture> &texture, const SP<gl::Texture> &depthTexture, float opacity) {
     _copyShader.bind();
 
     glActiveTexture(GL_TEXTURE0);
@@ -74,7 +74,7 @@ void Operations::copy(const SP<gl::Texture> &texture, const SP<gl::Texture> &dep
     _copyVAO->draw();
 }
 
-void Operations::drawCircle(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
+void DrawMethods::drawCircle(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
     _drawCircleShader.bind();
     _drawCircleShader.setUniform("MVP", camera.worldToViewportMatrix() * matrix);
     _drawCircleShader.setUniform("viewportSize", camera.viewportSize());
@@ -85,7 +85,7 @@ void Operations::drawCircle(const SP<gl::VertexArray> &vao, const glm::dmat4 &ma
     vao->draw();
 }
 
-void Operations::drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize, double width, glm::vec4 color, bool useVertexColor) {
+void DrawMethods::drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize, double width, glm::vec4 color, bool useVertexColor) {
     _drawCircleShader.bind();
     dmat4 MVP = translate(dvec3(-1.0)) * scale(dvec3(2.0 / dvec2(viewportSize), 2.0)) * matrix;
     _drawCircleShader.setUniform("MVP", MVP);
@@ -97,7 +97,7 @@ void Operations::drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &
     vao->draw();
 }
 
-void Operations::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
+void DrawMethods::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
     _drawLineShader.bind();
     _drawLineShader.setUniform("MV", camera.worldToCameraMatrix() * matrix);
     _drawLineShader.setUniform("P", camera.cameraToViewportMatrix());
@@ -110,7 +110,7 @@ void Operations::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matr
     vao->draw();
 }
 
-void Operations::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, const Material &material) {
+void DrawMethods::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, const Material &material) {
     _drawMaterialShader.bind();
     _drawMaterialShader.setUniform("diffuse", material.baseColor);
     _drawMaterialShader.setUniform("ambient", glm::vec3(0));
@@ -130,7 +130,7 @@ void Operations::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matri
     vao->draw();
 }
 
-void Operations::drawUnicolor(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, vec4 color, bool useVertexColor) {
+void DrawMethods::drawUnicolor(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, vec4 color, bool useVertexColor) {
     _drawUnicolorShader.bind();
     _drawUnicolorShader.setUniform("color", color);
     _drawUnicolorShader.setUniform("useVertexColor", useVertexColor);
@@ -138,7 +138,7 @@ void Operations::drawUnicolor(const SP<gl::VertexArray> &vao, const dmat4 &matri
     vao->draw();
 }
 
-SP<gl::Texture> Operations::textureForImage(const QImage &image) {
+SP<gl::Texture> DrawMethods::textureForImage(const QImage &image) {
     if (auto it = _imageTextureCaches.find(image.cacheKey()); it != _imageTextureCaches.end()) {
         return it->second;
     }

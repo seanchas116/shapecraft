@@ -15,12 +15,12 @@ void Background::draw(const viewport::DrawEvent &event) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    event.operations->clear(glm::vec4(0.8, 0.8, 0.8, 1), 1);
+    event.drawMethods->clear(glm::vec4(0.8, 0.8, 0.8, 1), 1);
 }
 
 void Background::drawHitArea(const viewport::DrawEvent &event) {
     auto color = toIDColor();
-    event.operations->clear(color, 1);
+    event.drawMethods->clear(color, 1);
 }
 
 void Background::mousePressEvent(const viewport::MouseEvent &event) {

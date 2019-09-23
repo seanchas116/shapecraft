@@ -43,7 +43,7 @@ void HitAreaMap::draw(const SP<Renderable> &renderable, const DrawEvent &drawEve
     resize(drawEvent.camera.viewportSize());
 
     _framebuffer->bind();
-    drawEvent.operations->clear(glm::vec4(0), 1);
+    drawEvent.drawMethods->clear(glm::vec4(0), 1);
     renderable->drawHitAreaRecursive(drawEvent);
     _framebuffer->unbind();
 

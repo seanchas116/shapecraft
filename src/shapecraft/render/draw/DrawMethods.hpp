@@ -16,9 +16,9 @@ class VertexArray;
 
 namespace draw {
 
-class Operations final : protected QOpenGLExtraFunctions {
+class DrawMethods final : protected QOpenGLExtraFunctions {
   public:
-    Operations();
+    DrawMethods();
 
     void clear(glm::vec4 color, float depth);
     void clearDepth(float depth);

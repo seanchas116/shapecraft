@@ -34,7 +34,7 @@ void ViewportContainer::initializeGL() {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
-    _operations = std::make_shared<draw::Operations>();
+    _drawMethods = std::make_shared<draw::DrawMethods>();
     emit initialized();
 }
 
@@ -47,7 +47,7 @@ void ViewportContainer::resizeGL(int w, int h) {
 void ViewportContainer::paintGL() {
     emit aboutToBePainted();
 
-    auto operations = *_operations;
+    auto operations = *_drawMethods;
 
     auto viewports = findChildren<Viewport *>();
 

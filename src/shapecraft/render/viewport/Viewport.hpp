@@ -1,7 +1,7 @@
 #pragma once
 #include "HitResult.hpp"
 #include "shapecraft/Common.hpp"
-#include "shapecraft/render/draw/Operations.hpp"
+#include "shapecraft/render/draw/DrawMethods.hpp"
 #include "shapecraft/util/Camera.hpp"
 #include <QOpenGLWidget>
 
