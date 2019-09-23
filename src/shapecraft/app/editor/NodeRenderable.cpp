@@ -5,6 +5,7 @@
 #include "shapecraft/render/draw/Vertex.hpp"
 #include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
+#include "shapecraft/util/Debug.hpp"
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <BRep_Tool.hxx>
 #include <GeomLProp_SLProps.hxx>
@@ -14,12 +15,12 @@
 #include <TopLoc_Location.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Face.hxx>
-#include <shapecraft/util/Debug.hpp>
 
 namespace shapecraft {
 
 NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _scene(scene), _node(node) {
     if (auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node); shapeNode) {
+        qDebug() << shapeNode->boundingBox();
         setShape(shapeNode->shape());
         connect(shapeNode.get(), &ShapeNode::locationChanged, this, &NodeRenderable::updated);
     }
