@@ -11,6 +11,9 @@ class Box final {
     Box() = default;
     Box(glm::tvec3<T> min, glm::tvec3<T> max) : minPosition(min), maxPosition(max) {}
 
+    glm::tvec3<T> minPosition{0};
+    glm::tvec3<T> maxPosition{0};
+
     bool intersects(const Ray<T> &ray) const {
         // https://gamedev.stackexchange.com/a/18459
         using namespace glm;
@@ -30,8 +33,9 @@ class Box final {
         return 0 <= tmax && tmin <= tmax;
     }
 
-    glm::tvec3<T> minPosition{0};
-    glm::tvec3<T> maxPosition{0};
+    bool operator==(const Box &other) const {
+        return minPosition == other.minPosition && maxPosition == other.maxPosition;
+    }
 };
 
 template <typename T>
