@@ -39,7 +39,7 @@ Opt<HitResult> HitAreaMap::pick(vec2 physicalPos) {
     return {{*renderable, depth}};
 }
 
-void HitAreaMap::draw(const SP<Renderable> &renderable, const DrawEvent &drawEvent) {
+void HitAreaMap::draw(const SP<Renderable> &renderable, const Renderable::DrawEvent &drawEvent) {
     resize(drawEvent.camera.viewportSize());
 
     _framebuffer->bind();

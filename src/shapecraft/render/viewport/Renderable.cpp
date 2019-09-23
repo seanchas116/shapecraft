@@ -3,7 +3,7 @@
 namespace shapecraft {
 namespace viewport {
 
-glm::dvec3 MouseEvent::worldPos() const {
+glm::dvec3 Renderable::MouseEvent::worldPos() const {
     return camera.mapViewportToWorld(viewportPos);
 }
 

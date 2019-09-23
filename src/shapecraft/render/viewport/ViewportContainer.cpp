@@ -60,7 +60,7 @@ void ViewportContainer::paintGL() {
             continue;
         }
 
-        DrawEvent drawEvent{viewport, viewport->camera(), operations};
+        Renderable::DrawEvent drawEvent{viewport, viewport->camera(), operations};
 
         (*viewport->_renderable)->preDrawRecursive(drawEvent);
 
@@ -100,7 +100,7 @@ void ViewportContainer::paintGL() {
         painter.setTransform(transform);
         painter.setClipRect(0, 0, viewport->width(), viewport->height());
 
-        Draw2DEvent event{viewport, viewport->size(), &painter};
+        Renderable::Draw2DEvent event{viewport, viewport->size(), &painter};
         (*viewport->_renderable)->draw2DRecursive(event);
         painter.restore();
     }

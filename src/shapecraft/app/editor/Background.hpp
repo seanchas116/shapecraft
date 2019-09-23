@@ -9,9 +9,9 @@ class Background : public viewport::Renderable, protected QOpenGLExtraFunctions 
     Q_OBJECT
   public:
     Background(const SP<WindowState> &appState);
-    void draw(const viewport::DrawEvent &event) override;
-    void drawHitArea(const viewport::DrawEvent &event) override;
-    void mousePressEvent(const viewport::MouseEvent &event) override;
+    void draw(const DrawEvent &event) override;
+    void drawHitArea(const DrawEvent &event) override;
+    void mousePressEvent(const MouseEvent &event) override;
 
   private:
     SP<WindowState> _appState;

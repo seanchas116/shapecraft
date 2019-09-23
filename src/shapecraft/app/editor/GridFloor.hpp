@@ -18,7 +18,7 @@ class GridFloor final : public viewport::Renderable {
   public:
     GridFloor();
 
-    void draw(const viewport::DrawEvent &event) override;
+    void draw(const DrawEvent &event) override;
 
   private:
     SP<gl::VertexArray> _vao;

@@ -26,7 +26,7 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
     }
 }
 
-void NodeRenderable::draw(const viewport::DrawEvent &event) {
+void NodeRenderable::draw(const DrawEvent &event) {
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
@@ -39,7 +39,7 @@ void NodeRenderable::draw(const viewport::DrawEvent &event) {
     event.drawMethods->drawLine(_edgesVAO, matrix, event.camera, 1, glm::vec4(0, 0, 0, 1));
 }
 
-void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
+void NodeRenderable::drawHitArea(const DrawEvent &event) {
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
@@ -49,7 +49,7 @@ void NodeRenderable::drawHitArea(const viewport::DrawEvent &event) {
     event.drawMethods->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
 }
 
-void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
+void NodeRenderable::mousePressEvent(const MouseEvent &event) {
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
@@ -83,7 +83,7 @@ void NodeRenderable::mousePressEvent(const viewport::MouseEvent &event) {
     }
 }
 
-void NodeRenderable::mouseMoveEvent(const viewport::MouseEvent &event) {
+void NodeRenderable::mouseMoveEvent(const MouseEvent &event) {
     if (!_dragged) {
         return;
     }
@@ -108,7 +108,7 @@ void NodeRenderable::mouseMoveEvent(const viewport::MouseEvent &event) {
     shapeNode->setLocation(newLocation);
 }
 
-void NodeRenderable::mouseReleaseEvent(const viewport::MouseEvent &event) {
+void NodeRenderable::mouseReleaseEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     _dragged = false;
 }

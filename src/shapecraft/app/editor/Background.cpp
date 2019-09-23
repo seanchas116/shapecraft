@@ -10,7 +10,7 @@ Background::Background(const SP<WindowState> &appState) : _appState(appState) {
     initializeOpenGLFunctions();
 }
 
-void Background::draw(const viewport::DrawEvent &event) {
+void Background::draw(const DrawEvent &event) {
     // TODO: manage depth test in better way
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -18,12 +18,12 @@ void Background::draw(const viewport::DrawEvent &event) {
     event.drawMethods->clear(glm::vec4(0.8, 0.8, 0.8, 1), 1);
 }
 
-void Background::drawHitArea(const viewport::DrawEvent &event) {
+void Background::drawHitArea(const DrawEvent &event) {
     auto color = toIDColor();
     event.drawMethods->clear(color, 1);
 }
 
-void Background::mousePressEvent(const viewport::MouseEvent &event) {
+void Background::mousePressEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     _appState->document()->currentScene()->setSelectedNodes({});
 }

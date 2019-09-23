@@ -19,31 +19,31 @@ namespace viewport {
 
 class Viewport;
 
-struct DrawEvent {
-    Viewport *viewport;
-    Camera camera;
-    SP<draw::DrawMethods> drawMethods;
-};
-
-struct Draw2DEvent {
-    Viewport *viewport;
-    QSize viewportSize;
-    QPainter *painter;
-};
-
-struct MouseEvent {
-    Viewport *viewport;
-    Camera camera;
-    glm::dvec3 viewportPos;
-    QMouseEvent *originalMouseEvent;
-    QContextMenuEvent *originalContextMenuEvent;
-
-    glm::dvec3 worldPos() const;
-};
-
 class Renderable : public QObject, public std::enable_shared_from_this<Renderable> {
     Q_OBJECT
   public:
+    struct DrawEvent {
+        Viewport *viewport;
+        Camera camera;
+        SP<draw::DrawMethods> drawMethods;
+    };
+
+    struct Draw2DEvent {
+        Viewport *viewport;
+        QSize viewportSize;
+        QPainter *painter;
+    };
+
+    struct MouseEvent {
+        Viewport *viewport;
+        Camera camera;
+        glm::dvec3 viewportPos;
+        QMouseEvent *originalMouseEvent;
+        QContextMenuEvent *originalContextMenuEvent;
+
+        glm::dvec3 worldPos() const;
+    };
+
     Renderable() {}
     virtual ~Renderable();
 

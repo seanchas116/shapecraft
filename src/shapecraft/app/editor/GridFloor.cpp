@@ -58,7 +58,7 @@ GridFloor::GridFloor() {
     _zAxisVAO = std::make_shared<gl::VertexArray>(vbo, zAxisIBO);
 }
 
-void GridFloor::draw(const viewport::DrawEvent &event) {
+void GridFloor::draw(const DrawEvent &event) {
     int normalAxis = 1;
 
     auto viewport = static_cast<EditorViewport *>(event.viewport);

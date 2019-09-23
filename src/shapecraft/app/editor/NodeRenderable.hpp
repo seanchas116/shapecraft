@@ -16,12 +16,12 @@ class NodeRenderable final : public viewport::Renderable {
   public:
     NodeRenderable(const SP<Scene> &scene, const SP<Node> &node);
 
-    void draw(const viewport::DrawEvent &event) override;
-    void drawHitArea(const viewport::DrawEvent &event) override;
+    void draw(const DrawEvent &event) override;
+    void drawHitArea(const DrawEvent &event) override;
 
-    void mousePressEvent(const viewport::MouseEvent &event) override;
-    void mouseMoveEvent(const viewport::MouseEvent &event) override;
-    void mouseReleaseEvent(const viewport::MouseEvent &event) override;
+    void mousePressEvent(const MouseEvent &event) override;
+    void mouseMoveEvent(const MouseEvent &event) override;
+    void mouseReleaseEvent(const MouseEvent &event) override;
 
   private:
     void setShape(const TopoDS_Shape &shape);

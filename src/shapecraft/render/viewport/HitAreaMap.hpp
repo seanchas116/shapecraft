@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HitResult.hpp"
+#include "Renderable.hpp"
 #include "shapecraft/Common.hpp"
 #include "shapecraft/render/gl/ContextRecallable.hpp"
 #include <QOpenGLExtraFunctions>
@@ -21,16 +22,13 @@ class DrawMethods;
 
 namespace viewport {
 
-class Renderable;
-struct DrawEvent;
-
 class HitAreaMap final : protected gl::ContextRecallable {
     Q_DISABLE_COPY(HitAreaMap)
   public:
     HitAreaMap();
 
     Opt<HitResult> pick(glm::vec2 physicalPos);
-    void draw(const SP<Renderable> &renderable, const DrawEvent &drawEvent);
+    void draw(const SP<Renderable> &renderable, const Renderable::DrawEvent &drawEvent);
 
   private:
     void resize(glm::ivec2 size);
