@@ -19,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     auto viewportContainer = new EditorViewportContainer(state);
     splitter->addWidget(viewportContainer);
 
+    splitter->setStretchFactor(0, 0);
+    splitter->setStretchFactor(1, 1);
+
     setCentralWidget(splitter);
 }
 
