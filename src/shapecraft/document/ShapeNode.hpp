@@ -1,7 +1,8 @@
 #pragma once
 #include "Node.hpp"
+#include "shapecraft/util/Box.hpp"
+#include "shapecraft/util/Location.hpp"
 #include <TopoDS_Shape.hxx>
-#include <shapecraft/util/Location.hpp>
 
 namespace shapecraft {
 
@@ -17,6 +18,7 @@ class ShapeNode : public Node {
     bool canInsertNode(const SP<Node> &node) const override;
     QString type() const override;
 
+    virtual Box<double> boundingBox() const = 0;
     virtual TopoDS_Shape shape() const = 0;
 
   signals:
