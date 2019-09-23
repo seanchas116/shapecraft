@@ -3,9 +3,11 @@
 #include "EditorViewport.hpp"
 #include "GridFloor.hpp"
 #include "NodeRenderable.hpp"
+#include "ResizeBox.hpp"
 #include "shapecraft/app/state/WindowState.hpp"
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/Scene.hpp"
+#include "shapecraft/document/ShapeNode.hpp"
 #include "shapecraft/util/KeyObserver.hpp"
 #include <QVBoxLayout>
 
@@ -29,9 +31,14 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
 
         auto scene = _state->document()->scenes()[0];
         auto node = scene->childNodes()[0];
+        auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node);
 
         auto nodeRenderable = std::make_shared<NodeRenderable>(scene, node);
-        root->setChildRenderables({background, gridFloor, nodeRenderable});
+
+        auto resizeBox = std::make_shared<ResizeBox>();
+        resizeBox->setBox(shapeNode->boundingBox());
+
+        root->setChildRenderables({background, gridFloor, nodeRenderable, resizeBox});
         viewport->setRenderable(root);
     });
 }

@@ -20,7 +20,6 @@ namespace shapecraft {
 
 NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _scene(scene), _node(node) {
     if (auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node); shapeNode) {
-        qDebug() << shapeNode->boundingBox();
         setShape(shapeNode->shape());
         connect(shapeNode.get(), &ShapeNode::locationChanged, this, &NodeRenderable::updated);
     }
