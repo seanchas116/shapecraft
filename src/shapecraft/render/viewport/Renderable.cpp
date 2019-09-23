@@ -18,15 +18,33 @@ void Renderable::setVisible(bool visible) {
     emit updated();
 }
 
-void Renderable::setChildRenderables(const std::vector<SP<Renderable>> &children) {
-    for (auto &child : _childRenderables) {
-        disconnect(child.get(), &Renderable::updated, this, &Renderable::updated);
+void Renderable::setParentRenderable(const Opt<SP<Renderable>> &parent) {
+    auto oldParent = _parentRenderable.lock();
+    if (oldParent) {
+        auto it = std::find(oldParent->childRenderables().begin(), oldParent->childRenderables().end(), shared_from_this());
+        if (it != oldParent->_childRenderables.end()) {
+            oldParent->_childRenderables.erase(it);
+        }
+        disconnect(this, &Renderable::updated, oldParent.get(), &Renderable::updated);
     }
-    _childRenderables = children;
-    for (auto &child : _childRenderables) {
-        connect(child.get(), &Renderable::updated, this, &Renderable::updated);
+
+    if (parent) {
+        _parentRenderable = *parent;
+        (*parent)->_childRenderables.push_back(shared_from_this());
+        connect(this, &Renderable::updated, parent->get(), &Renderable::updated);
+    } else {
+        _parentRenderable.reset();
     }
+
     emit updated();
+}
+
+Opt<SP<Renderable>> Renderable::parentRenderable() const {
+    auto oldParent = _parentRenderable.lock();
+    if (!oldParent) {
+        return std::nullopt;
+    }
+    return oldParent;
 }
 
 void Renderable::preDrawRecursive(const DrawEvent &event) {
