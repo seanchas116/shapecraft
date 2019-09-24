@@ -21,6 +21,9 @@ int main(int argc, char *argv[]) {
     glFormat.setOption(QSurfaceFormat::DebugContext);
 #endif
 
+    // Disable vsync to improve response and do workaround for https://bugreports.qt.io/browse/QTBUG-46634?focusedCommentId=284506&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-284506
+    glFormat.setSwapInterval(0);
+
     QSurfaceFormat::setDefaultFormat(glFormat);
 
     auto window = new MainWindow();
