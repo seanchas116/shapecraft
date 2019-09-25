@@ -39,15 +39,15 @@ include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/_cmrc/include)
 
 set(LIBRARIES Qt5::Widgets ${OpenCASCADE_FoundationClasses_LIBRARIES} ${OpenCASCADE_ModelingData_LIBRARIES} ${OpenCASCADE_ModelingAlgorithms_LIBRARIES})
-file(GLOB_RECURSE SHADERS "src/*.frag" "src/*.geom" "src/*.vert")
-cmrc_add_resource_library(${PROJECT_NAME}Resources ${SHADERS})
+file(GLOB_RECURSE RESOURCES "src/*.frag" "src/*.geom" "src/*.vert" "src/shapecraft/app/view/resource/*")
+cmrc_add_resource_library(${PROJECT_NAME}Resources ${RESOURCES})
 
 file(GLOB_RECURSE SOURCES "src/shapecraft/*.cpp" "src/shapecraft/*.hpp")
 file(GLOB_RECURSE TEST_SOURCES "src/shapecraft/*.test.cpp")
 list(REMOVE_ITEM SOURCES ${TEST_SOURCES})
 include_directories(src)
 
-add_library(${PROJECT_NAME}Common STATIC ${SOURCES} ${SHADERS})
+add_library(${PROJECT_NAME}Common STATIC ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME}Common ${LIBRARIES} ${PROJECT_NAME}Resources)
 
 if(WIN32)
