@@ -94,9 +94,12 @@ QMimeData *NodeItemModel::mimeData(const QModelIndexList &indexes) const {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
     stream << _uuid;
+
+    int rootIndexPathCount = _rootNode->indexPath().size();
+
     for (const auto &index : indexes) {
         auto node = nodeForIndex(index);
-        stream << QVector<int>::fromStdVector(node->indexPath());
+        stream << QVector<int>::fromStdVector(node->indexPath()).mid(rootIndexPathCount);
     }
     mimeData->setData(_indexMimeType, data);
 
