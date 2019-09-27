@@ -19,7 +19,7 @@ class Document final : public Node {
     QString type() const override;
 
   private:
-    SHAPECRAFT_PROPERTY_REFERENCE(SP<Scene>, currentScene, setCurrentScene, {})
+    SHAPECRAFT_PROPERTY(SP<Scene>, currentScene, setCurrentScene, {})
 };
 
 } // namespace shapecraft
