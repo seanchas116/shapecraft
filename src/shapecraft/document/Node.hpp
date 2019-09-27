@@ -1,4 +1,5 @@
 #pragma once
+#include "history/PropertyChange.hpp"
 #include "shapecraft/Common.hpp"
 #include <QObject>
 #include <QPointF>
@@ -10,6 +11,24 @@
 
 class QMimeData;
 
+#define SHAPECRAFT_UNDOABLE_PROPERTY(TYPE, NAME, SETNAME, DEFAULTVALUE)                                            \
+  private:                                                                                                         \
+    Q_PROPERTY(TYPE NAME READ NAME WRITE SETNAME NOTIFY NAME##Changed)                                             \
+    TYPE _##NAME = DEFAULTVALUE;                                                                                   \
+                                                                                                                   \
+  public:                                                                                                          \
+    const TYPE &NAME() const { return _##NAME; }                                                                   \
+    void SETNAME(const TYPE &value) {                                                                              \
+        if (_##NAME == value) {                                                                                    \
+            return;                                                                                                \
+        }                                                                                                          \
+        addChange(std::make_shared<PropertyChange<TYPE>>(_##NAME, value, [self = sharedFrom(this)](auto &&value) { \
+            self->_##NAME = value;                                                                                 \
+            emit self->nameChanged(value);                                                                         \
+        }));                                                                                                       \
+    }                                                                                                              \
+    Q_SIGNAL void NAME##Changed(const TYPE &value);
+
 namespace shapecraft {
 
 class Change;
@@ -20,8 +39,7 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
   public:
     Node(const SP<History> &history);
 
-    QString name() const { return _name; }
-    void setName(const QString &name);
+    SHAPECRAFT_UNDOABLE_PROPERTY(QString, name, setName, "")
 
     Opt<SP<Node>> parentNode() const;
     Opt<SP<Node>> nextNode() const;
@@ -61,7 +79,6 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
     void childNodesAboutToBeRemoved(int first, int last);
     void childNodesRemoved(int first, int last, const std::vector<SP<Node>> &nodes);
 
-    void nameChanged(const QString &name);
     void appearanceChanged();
 
   protected:
@@ -81,8 +98,6 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
     SP<History> _history;
     WP<Node> _parentNode;
     std::vector<SP<Node>> _childNodes;
-
-    QString _name;
 
     static std::unordered_map<QString, SP<Node>> _prototypes;
 };

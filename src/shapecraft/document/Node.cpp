@@ -60,16 +60,6 @@ SP<Change> Node::ChildRemoveChange::invert() const {
 Node::Node(const SP<History> &history) : _history(history) {
 }
 
-void Node::setName(const QString &name) {
-    if (_name == name) {
-        return;
-    }
-    addChange(std::make_shared<PropertyChange<QString>>(_name, name, [self = sharedFrom(this)](auto &&name) {
-        self->_name = name;
-        emit self->nameChanged(name);
-    }));
-}
-
 Opt<SP<Node>> Node::parentNode() const {
     auto p = _parentNode.lock();
     if (!p) {
