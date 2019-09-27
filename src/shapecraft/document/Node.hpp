@@ -24,7 +24,7 @@ class QMimeData;
         }                                                                                                          \
         addChange(std::make_shared<PropertyChange<TYPE>>(_##NAME, value, [self = sharedFrom(this)](auto &&value) { \
             self->_##NAME = value;                                                                                 \
-            emit self->nameChanged(value);                                                                         \
+            emit self->NAME##Changed(value);                                                                       \
         }));                                                                                                       \
     }                                                                                                              \
     Q_SIGNAL void NAME##Changed(const TYPE &value);

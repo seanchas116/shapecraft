@@ -6,16 +6,6 @@ namespace shapecraft {
 ShapeNode::ShapeNode(const SP<History> &history) : Node(history) {
 }
 
-void ShapeNode::setLocation(const Location &location) {
-    if (_location == location) {
-        return;
-    }
-    addChange(std::make_shared<PropertyChange<Location>>(_location, location, [self = sharedFrom(this)](auto &&location) {
-        self->_location = location;
-        emit self->locationChanged(location);
-    }));
-}
-
 bool ShapeNode::canHaveChildren() const {
     return true;
 }

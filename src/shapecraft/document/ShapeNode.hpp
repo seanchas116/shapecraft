@@ -11,8 +11,7 @@ class ShapeNode : public Node {
   public:
     ShapeNode(const SP<History> &history);
 
-    void setLocation(const Location &location);
-    auto &&location() const { return _location; }
+    SHAPECRAFT_UNDOABLE_PROPERTY(Location, location, setLocation, {})
 
     bool canHaveChildren() const override;
     bool canInsertNode(const SP<Node> &node) const override;
@@ -20,12 +19,6 @@ class ShapeNode : public Node {
 
     virtual Box<double> boundingBox() const = 0;
     virtual TopoDS_Shape shape() const = 0;
-
-  signals:
-    void locationChanged(const Location &location);
-
-  private:
-    Location _location;
 };
 
 } // namespace shapecraft
