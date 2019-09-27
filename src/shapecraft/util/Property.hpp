@@ -15,4 +15,6 @@
     Q_SIGNAL void NAME##Changed(const TYPE &value);                    \
                                                                        \
   private:                                                             \
-    TYPE _##NAME = DEFAULTVALUE;
+    TYPE _##NAME = DEFAULTVALUE;                                       \
+                                                                       \
+  public:
