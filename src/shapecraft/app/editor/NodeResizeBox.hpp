@@ -12,10 +12,11 @@ class NodeResizeBox : public ResizeBox {
     NodeResizeBox(const SP<Scene> &scene);
 
   private:
+    void onSelectedNodesChanged();
     void updateBox();
-    std::vector<SP<ShapeNode>> selectedShapeNodes() const;
 
     SP<Scene> _scene;
+    std::vector<SP<ShapeNode>> _nodes;
 };
 
 } // namespace shapecraft

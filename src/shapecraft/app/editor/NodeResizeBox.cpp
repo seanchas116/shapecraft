@@ -5,25 +5,13 @@
 namespace shapecraft {
 
 NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
-    updateBox();
-    connect(_scene.get(), &Scene::selectedNodesChanged, this, &NodeResizeBox::updateBox);
+    connect(_scene.get(), &Scene::selectedNodesChanged, this, &NodeResizeBox::onSelectedNodesChanged);
+    onSelectedNodesChanged();
 }
 
-void NodeResizeBox::updateBox() {
-    auto shapeNodes = selectedShapeNodes();
+void NodeResizeBox::onSelectedNodesChanged() {
+    disconnect(nullptr, &ShapeNode::boundingBoxChanged, this, &NodeResizeBox::updateBox);
 
-    setVisible(!shapeNodes.empty());
-
-    if (!shapeNodes.empty()) {
-        auto box = shapeNodes[0]->boundingBox();
-        for (size_t i = 1; i < shapeNodes.size(); ++i) {
-            box |= shapeNodes[i]->boundingBox();
-        }
-        setBox(box);
-    }
-}
-
-std::vector<SP<ShapeNode>> NodeResizeBox::selectedShapeNodes() const {
     auto nodes = _scene->selectedNodes();
     std::vector<SP<ShapeNode>> shapeNodes;
 
@@ -32,7 +20,25 @@ std::vector<SP<ShapeNode>> NodeResizeBox::selectedShapeNodes() const {
             shapeNodes.push_back(shapeNode);
         }
     }
-    return shapeNodes;
+
+    _nodes = shapeNodes;
+    setVisible(!shapeNodes.empty());
+
+    for (auto &&node : shapeNodes) {
+        connect(node.get(), &ShapeNode::boundingBoxChanged, this, &NodeResizeBox::updateBox);
+    }
+    updateBox();
+}
+
+void NodeResizeBox::updateBox() {
+    if (_nodes.empty()) {
+        return;
+    }
+    auto box = _nodes[0]->boundingBox();
+    for (size_t i = 1; i < _nodes.size(); ++i) {
+        box |= _nodes[i]->boundingBox();
+    }
+    setBox(box);
 }
 
 } // namespace shapecraft
