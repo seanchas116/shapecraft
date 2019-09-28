@@ -10,14 +10,7 @@ NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
 }
 
 void NodeResizeBox::updateBox() {
-    auto nodes = _scene->selectedNodes();
-    std::vector<SP<ShapeNode>> shapeNodes;
-
-    for (auto &&node : nodes) {
-        if (auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node)) {
-            shapeNodes.push_back(shapeNode);
-        }
-    }
+    auto shapeNodes = selectedShapeNodes();
 
     setVisible(!shapeNodes.empty());
 
@@ -28,6 +21,18 @@ void NodeResizeBox::updateBox() {
         }
         setBox(box);
     }
+}
+
+std::vector<SP<ShapeNode>> NodeResizeBox::selectedShapeNodes() const {
+    auto nodes = _scene->selectedNodes();
+    std::vector<SP<ShapeNode>> shapeNodes;
+
+    for (auto &&node : nodes) {
+        if (auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node)) {
+            shapeNodes.push_back(shapeNode);
+        }
+    }
+    return shapeNodes;
 }
 
 } // namespace shapecraft

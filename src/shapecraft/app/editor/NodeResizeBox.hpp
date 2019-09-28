@@ -4,6 +4,7 @@
 namespace shapecraft {
 
 class Scene;
+class ShapeNode;
 
 class NodeResizeBox : public ResizeBox {
     Q_OBJECT
@@ -12,6 +13,7 @@ class NodeResizeBox : public ResizeBox {
 
   private:
     void updateBox();
+    std::vector<SP<ShapeNode>> selectedShapeNodes() const;
 
     SP<Scene> _scene;
 };
