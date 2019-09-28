@@ -18,6 +18,7 @@
 #include <Geom2d_TrimmedCurve.hxx>
 #include <Geom_CylindricalSurface.hxx>
 #include <Geom_Plane.hxx>
+#include <QTimer>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
@@ -153,21 +154,19 @@ TopoDS_Shape makeBottle(const Box<double> &box) {
 } // namespace
 
 TestShapeNode::TestShapeNode(const SP<History> &history) : ShapeNode(history) {
-    _shape = makeBottle(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
+    connect(this, &ShapeNode::boundingBoxChanged, this, [this](const Box<double> &boundingBox) {
+        if (boundingBox.size().x > 0 && boundingBox.size().y > 0 && boundingBox.size().z > 0) {
+            _shape = makeBottle(boundingBox);
+            emit shapeChanged(_shape);
+        }
+    });
+    QTimer::singleShot(0, this, [this] {
+        setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
+    });
 }
 
 SP<Node> TestShapeNode::newInstance(const SP<History> &history) const {
     return std::make_shared<TestShapeNode>(history);
-}
-
-Box<double> TestShapeNode::boundingBox() const {
-    Bnd_Box box;
-    BRepBndLib::Add(_shape, box);
-
-    glm::dvec3 minPos, maxPos;
-    box.Get(minPos.x, minPos.y, minPos.z, maxPos.x, maxPos.y, maxPos.z);
-
-    return Box<double>::fromSize(minPos, maxPos - minPos);
 }
 
 TopoDS_Shape TestShapeNode::shape() const {

@@ -12,13 +12,16 @@ class ShapeNode : public Node {
     ShapeNode(const SP<History> &history);
 
     SHAPECRAFT_UNDOABLE_PROPERTY(Location, location, setLocation, {})
+    SHAPECRAFT_UNDOABLE_PROPERTY(Box<double>, boundingBox, setBoundingBox, {})
 
     bool canHaveChildren() const override;
     bool canInsertNode(const SP<Node> &node) const override;
     QString type() const override;
 
-    virtual Box<double> boundingBox() const = 0;
     virtual TopoDS_Shape shape() const = 0;
+
+  signals:
+    void shapeChanged(const TopoDS_Shape &shape);
 };
 
 } // namespace shapecraft
