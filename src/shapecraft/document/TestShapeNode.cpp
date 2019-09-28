@@ -27,7 +27,7 @@
 namespace shapecraft {
 
 namespace {
-TopoDS_Shape MakeBottle(const Standard_Real myWidth, const Standard_Real myHeight,
+TopoDS_Shape makeBottle(const Standard_Real myWidth, const Standard_Real myHeight,
                         const Standard_Real myThickness) {
     // Profile : Define Support Points
     gp_Pnt aPnt1(-myWidth / 2., 0, 0);
@@ -140,10 +140,20 @@ TopoDS_Shape MakeBottle(const Standard_Real myWidth, const Standard_Real myHeigh
 
     return std::move(aRes);
 }
+
+TopoDS_Shape makeBottle(const Box<double> &box) {
+    auto shape = makeBottle(box.size().x, box.size().x, box.size().y);
+
+    gp_Trsf transform;
+    transform.SetTranslation(gp_Vec(box.size().x / 2, box.size().y / 2, 0));
+
+    return BRepBuilderAPI_Transform(shape, transform).Shape();
+}
+
 } // namespace
 
 TestShapeNode::TestShapeNode(const SP<History> &history) : ShapeNode(history) {
-    _shape = MakeBottle(10, 10, 1);
+    _shape = makeBottle(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
 }
 
 SP<Node> TestShapeNode::newInstance(const SP<History> &history) const {
