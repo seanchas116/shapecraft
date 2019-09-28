@@ -153,12 +153,11 @@ SP<Node> TestShapeNode::newInstance(const SP<History> &history) const {
 Box<double> TestShapeNode::boundingBox() const {
     Bnd_Box box;
     BRepBndLib::Add(_shape, box);
-    Box<double> result;
 
-    box.Get(result.minPosition.x, result.minPosition.y, result.minPosition.z,
-            result.maxPosition.x, result.maxPosition.y, result.maxPosition.z);
+    glm::dvec3 minPos, maxPos;
+    box.Get(minPos.x, minPos.y, minPos.z, maxPos.x, maxPos.y, maxPos.z);
 
-    return result;
+    return Box<double>::fromSize(minPos, maxPos - minPos);
 }
 
 TopoDS_Shape TestShapeNode::shape() const {

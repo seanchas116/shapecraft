@@ -26,15 +26,18 @@ void ResizeBox::draw(const DrawEvent &event) {
 }
 
 void ResizeBox::updateVertexArray() {
+    auto minPos = _box.minPosition();
+    auto maxPos = _box.maxPosition();
+
     std::vector<glm::vec3> positions = {
-        glm::vec3(_box.minPosition.x, _box.minPosition.y, _box.minPosition.z),
-        glm::vec3(_box.maxPosition.x, _box.minPosition.y, _box.minPosition.z),
-        glm::vec3(_box.minPosition.x, _box.maxPosition.y, _box.minPosition.z),
-        glm::vec3(_box.maxPosition.x, _box.maxPosition.y, _box.minPosition.z),
-        glm::vec3(_box.minPosition.x, _box.minPosition.y, _box.maxPosition.z),
-        glm::vec3(_box.maxPosition.x, _box.minPosition.y, _box.maxPosition.z),
-        glm::vec3(_box.minPosition.x, _box.maxPosition.y, _box.maxPosition.z),
-        glm::vec3(_box.maxPosition.x, _box.maxPosition.y, _box.maxPosition.z),
+        glm::vec3(minPos.x, minPos.y, minPos.z),
+        glm::vec3(maxPos.x, minPos.y, minPos.z),
+        glm::vec3(minPos.x, maxPos.y, minPos.z),
+        glm::vec3(maxPos.x, maxPos.y, minPos.z),
+        glm::vec3(minPos.x, minPos.y, maxPos.z),
+        glm::vec3(maxPos.x, minPos.y, maxPos.z),
+        glm::vec3(minPos.x, maxPos.y, maxPos.z),
+        glm::vec3(maxPos.x, maxPos.y, maxPos.z),
     };
 
     std::vector<std::array<uint32_t, 2>> lines = {
