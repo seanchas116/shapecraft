@@ -11,6 +11,8 @@ class NodeResizeBox : public ResizeBox {
     NodeResizeBox(const SP<Scene> &scene);
 
   private:
+    void updateBox();
+
     SP<Scene> _scene;
 };
 
