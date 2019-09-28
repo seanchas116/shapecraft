@@ -3,10 +3,15 @@
 
 namespace shapecraft {
 
+class Scene;
+
 class NodeResizeBox : public ResizeBox {
     Q_OBJECT
   public:
-    NodeResizeBox();
+    NodeResizeBox(const SP<Scene> &scene);
+
+  private:
+    SP<Scene> _scene;
 };
 
 } // namespace shapecraft

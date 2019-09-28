@@ -2,7 +2,7 @@
 
 namespace shapecraft {
 
-NodeResizeBox::NodeResizeBox() {
+NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
 }
 
 } // namespace shapecraft
