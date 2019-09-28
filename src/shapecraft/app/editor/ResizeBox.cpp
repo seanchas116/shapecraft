@@ -21,7 +21,6 @@ void ResizeBox::setBox(const Box<double> &box) {
 }
 
 void ResizeBox::draw(const DrawEvent &event) {
-    qDebug() << _box;
     event.drawMethods->drawLine(_vertexArray, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 1, 1));
 }
 

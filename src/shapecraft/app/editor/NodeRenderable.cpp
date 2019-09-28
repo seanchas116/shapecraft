@@ -54,8 +54,6 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
 }
 
 void NodeRenderable::draw(const DrawEvent &event) {
-    qDebug() << "draw";
-
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
@@ -69,8 +67,6 @@ void NodeRenderable::draw(const DrawEvent &event) {
 }
 
 void NodeRenderable::drawHitArea(const DrawEvent &event) {
-    qDebug() << "drawHitArea";
-
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
