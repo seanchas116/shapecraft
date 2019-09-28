@@ -60,7 +60,7 @@ void NodeRenderable::draw(const DrawEvent &event) {
     if (!shapeNode) {
         return;
     }
-    auto matrix = shapeNode->location().matrixToWorld();
+    auto matrix = shapeNode->location().matrixToWorld() * _shapeTransform;
 
     draw::Material material;
     material.baseColor = glm::vec3(1);
@@ -75,7 +75,7 @@ void NodeRenderable::drawHitArea(const DrawEvent &event) {
     if (!shapeNode) {
         return;
     }
-    auto matrix = shapeNode->location().matrixToWorld();
+    auto matrix = shapeNode->location().matrixToWorld() * _shapeTransform;
 
     event.drawMethods->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
 }
@@ -144,8 +144,17 @@ void NodeRenderable::mouseReleaseEvent(const MouseEvent &event) {
     _dragged = false;
 }
 
+static glm::mat4 toGLM(const gp_Trsf &t) {
+    return glm::mat4(t.Value(1, 1), t.Value(2, 1), t.Value(3, 1), 0,
+                     t.Value(1, 2), t.Value(2, 2), t.Value(3, 2), 0,
+                     t.Value(1, 3), t.Value(2, 3), t.Value(3, 3), 0,
+                     t.Value(1, 4), t.Value(2, 4), t.Value(3, 4), 1);
+}
+
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
     recallContext();
+
+    _shapeTransform = toGLM(shape.Location().Transformation());
 
     BRepMesh_IncrementalMesh meshing(shape, 0.01, false, 0.5);
     meshing.Perform();

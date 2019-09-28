@@ -31,6 +31,7 @@ class NodeRenderable final : public viewport::Renderable, gl::ContextRecallable 
     SP<Scene> _scene;
     SP<Node> _node;
 
+    glm::dmat4 _shapeTransform;
     SP<gl::VertexArray> _facesVAO;
     SP<gl::VertexArray> _edgesVAO;
 
