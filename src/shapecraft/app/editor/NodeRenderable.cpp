@@ -23,6 +23,30 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
         setShape(shapeNode->shape());
         connect(shapeNode.get(), &ShapeNode::locationChanged, this, &NodeRenderable::updated);
     }
+
+    auto nodePtr = node.get();
+
+    connect(nodePtr, &Node::childNodesInserted, this, [this, nodePtr](int first, int last) {
+        auto childRenderables = this->childRenderables();
+        for (int i = first; i <= last; ++i) {
+            auto &child = nodePtr->childNodes()[i];
+            auto childRenderable = std::make_shared<NodeRenderable>(_scene, child);
+            childRenderables.insert(childRenderables.begin() + i, childRenderable);
+        }
+        setChildRenderables(childRenderables);
+    });
+    connect(nodePtr, &Node::childNodesAboutToBeRemoved, this, [this](int first, int last) {
+        auto childRenderables = this->childRenderables();
+        childRenderables.erase(childRenderables.begin() + first, childRenderables.begin() + last + 1);
+        setChildRenderables(childRenderables);
+    });
+
+    std::vector<SP<Renderable>> childRenderables;
+    for (auto &&childNode : node->childNodes()) {
+        auto childRenderable = std::make_shared<NodeRenderable>(_scene, childNode);
+        childRenderables.push_back(childRenderable);
+    }
+    setChildRenderables(childRenderables);
 }
 
 void NodeRenderable::draw(const DrawEvent &event) {
