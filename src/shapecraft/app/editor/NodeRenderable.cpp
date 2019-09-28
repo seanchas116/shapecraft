@@ -27,6 +27,8 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
     auto nodePtr = node.get();
 
     connect(nodePtr, &Node::childNodesInserted, this, [this, nodePtr](int first, int last) {
+        recallContext();
+
         auto childRenderables = this->childRenderables();
         for (int i = first; i <= last; ++i) {
             auto &child = nodePtr->childNodes()[i];
@@ -36,6 +38,8 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
         setChildRenderables(childRenderables);
     });
     connect(nodePtr, &Node::childNodesAboutToBeRemoved, this, [this](int first, int last) {
+        recallContext();
+
         auto childRenderables = this->childRenderables();
         childRenderables.erase(childRenderables.begin() + first, childRenderables.begin() + last + 1);
         setChildRenderables(childRenderables);
@@ -50,6 +54,8 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
 }
 
 void NodeRenderable::draw(const DrawEvent &event) {
+    qDebug() << "draw";
+
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
@@ -63,6 +69,8 @@ void NodeRenderable::draw(const DrawEvent &event) {
 }
 
 void NodeRenderable::drawHitArea(const DrawEvent &event) {
+    qDebug() << "drawHitArea";
+
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
@@ -137,6 +145,8 @@ void NodeRenderable::mouseReleaseEvent(const MouseEvent &event) {
 }
 
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
+    recallContext();
+
     BRepMesh_IncrementalMesh meshing(shape, 0.01, false, 0.5);
     meshing.Perform();
 
