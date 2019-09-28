@@ -22,7 +22,6 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
     if (auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node)) {
         setShape(shapeNode->shape());
         connect(shapeNode.get(), &ShapeNode::shapeChanged, this, &NodeRenderable::setShape);
-        connect(shapeNode.get(), &ShapeNode::locationChanged, this, &NodeRenderable::updated);
     }
 
     auto nodePtr = node.get();
@@ -59,7 +58,7 @@ void NodeRenderable::draw(const DrawEvent &event) {
     if (!shapeNode) {
         return;
     }
-    auto matrix = shapeNode->location().matrixToWorld() * _shapeTransform;
+    auto matrix = _shapeTransform;
 
     draw::Material material;
     material.baseColor = glm::vec3(1);
@@ -72,7 +71,7 @@ void NodeRenderable::drawHitArea(const DrawEvent &event) {
     if (!shapeNode) {
         return;
     }
-    auto matrix = shapeNode->location().matrixToWorld() * _shapeTransform;
+    auto matrix = _shapeTransform;
 
     event.drawMethods->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
 }
@@ -98,7 +97,7 @@ void NodeRenderable::mousePressEvent(const MouseEvent &event) {
         }
 
         _dragged = true;
-        _dragInitLocation = shapeNode->location();
+        _dragInitBoundingBox = shapeNode->boundingBox();
         _dragInitWorldPos = worldPos;
         _dragInitViewportPos = event.viewportPos;
         _dragStarted = false;
@@ -122,8 +121,8 @@ void NodeRenderable::mouseMoveEvent(const MouseEvent &event) {
     }
 
     auto newWorldPos = event.worldPos();
-    auto newLocation = _dragInitLocation;
-    newLocation.position += newWorldPos - _dragInitWorldPos;
+    auto newBoundingBox = _dragInitBoundingBox;
+    newBoundingBox += newWorldPos - _dragInitWorldPos;
 
     if (!_dragStarted) {
         const int moveThreshold = 4; // TODO: make configurable
@@ -133,7 +132,7 @@ void NodeRenderable::mouseMoveEvent(const MouseEvent &event) {
         _node->history()->beginChange(tr("Move Object"));
         _dragStarted = true;
     }
-    shapeNode->setLocation(newLocation);
+    shapeNode->setBoundingBox(newBoundingBox);
 }
 
 void NodeRenderable::mouseReleaseEvent(const MouseEvent &event) {
@@ -234,6 +233,8 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
         auto ibo = std::make_shared<gl::IndexBuffer>(lines);
         _edgesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
     }
+
+    emit updated();
 }
 
 } // namespace shapecraft

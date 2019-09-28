@@ -55,6 +55,11 @@ class Box final : private boost::orable<Box<T>>, private boost::equality_compara
         return *this;
     }
 
+    Box &operator+=(const glm::tvec3<T> &offset) {
+        _position += offset;
+        return *this;
+    }
+
   private:
     Box(glm::tvec3<T> position, glm::tvec3<T> size) : _position(position), _size(size) {}
 

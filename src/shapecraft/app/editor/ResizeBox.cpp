@@ -25,6 +25,8 @@ void ResizeBox::draw(const DrawEvent &event) {
 }
 
 void ResizeBox::updateVertexArray() {
+    recallContext();
+
     auto minPos = _box.minPosition();
     auto maxPos = _box.maxPosition();
 
@@ -63,6 +65,8 @@ void ResizeBox::updateVertexArray() {
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
     auto ibo = std::make_shared<gl::IndexBuffer>(lines);
     _vertexArray = std::make_shared<gl::VertexArray>(vbo, ibo);
+
+    emit updated();
 }
 
 } // namespace shapecraft

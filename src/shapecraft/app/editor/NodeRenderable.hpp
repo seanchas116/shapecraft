@@ -1,6 +1,7 @@
 #pragma once
 #include "shapecraft/render/gl/ContextRecallable.hpp"
 #include "shapecraft/render/viewport/Renderable.hpp"
+#include "shapecraft/util/Box.hpp"
 #include "shapecraft/util/Location.hpp"
 #include <QObject>
 #include <TopoDS_Shape.hxx>
@@ -36,7 +37,7 @@ class NodeRenderable final : public viewport::Renderable, gl::ContextRecallable 
     SP<gl::VertexArray> _edgesVAO;
 
     bool _dragged = false;
-    Location _dragInitLocation;
+    Box<double> _dragInitBoundingBox;
     glm::dvec3 _dragInitWorldPos;
     glm::dvec2 _dragInitViewportPos;
     bool _dragStarted = false;

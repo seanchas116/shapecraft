@@ -146,7 +146,9 @@ TopoDS_Shape makeBottle(const Box<double> &box) {
     auto shape = makeBottle(box.size().x, box.size().x, box.size().y);
 
     gp_Trsf transform;
-    transform.SetTranslation(gp_Vec(box.size().x / 2, box.size().y / 2, 0));
+    transform.SetTranslation(gp_Vec(box.minPosition().x + box.size().x / 2,
+                                    box.minPosition().y + box.size().y / 2,
+                                    box.minPosition().z));
 
     return BRepBuilderAPI_Transform(shape, transform).Shape();
 }

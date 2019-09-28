@@ -11,7 +11,6 @@ class ShapeNode : public Node {
   public:
     ShapeNode(const SP<History> &history);
 
-    SHAPECRAFT_UNDOABLE_PROPERTY(Location, location, setLocation, {})
     SHAPECRAFT_UNDOABLE_PROPERTY(Box<double>, boundingBox, setBoundingBox, {})
 
     bool canHaveChildren() const override;
