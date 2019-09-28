@@ -1,8 +1,8 @@
 #pragma once
 #include "IndexBuffer.hpp"
+#include "OpenGLEntity.hpp"
 #include "VertexBuffer.hpp"
 #include "shapecraft/Common.hpp"
-#include <QOpenGLExtraFunctions>
 #include <array>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -16,8 +16,7 @@ enum class BufferType {
     PerInstance,
 };
 
-class VertexArray final : protected QOpenGLExtraFunctions {
-    Q_DISABLE_COPY(VertexArray)
+class VertexArray final : public OpenGLEntity {
   public:
     VertexArray();
     VertexArray(const SP<AnyVertexBuffer> &buffer, const SP<IndexBuffer> &indexBuffer);

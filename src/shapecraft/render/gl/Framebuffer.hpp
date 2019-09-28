@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OpenGLEntity.hpp"
 #include "shapecraft/Common.hpp"
 #include "shapecraft/util/PixelData.hpp"
 #include <QOpenGLExtraFunctions>
@@ -10,8 +11,7 @@ namespace gl {
 
 class Texture;
 
-class Framebuffer final : protected QOpenGLExtraFunctions {
-    Q_DISABLE_COPY(Framebuffer)
+class Framebuffer final : public OpenGLEntity {
   public:
     Framebuffer(glm::ivec2 size); // default framebuffer
     Framebuffer(glm::ivec2 size, const std::vector<SP<Texture>> &colorBuffers, const Opt<SP<Texture>> &depthStencilBuffer = {});

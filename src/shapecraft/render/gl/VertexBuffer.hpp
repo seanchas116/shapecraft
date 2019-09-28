@@ -1,7 +1,7 @@
 #pragma once
+#include "OpenGLEntity.hpp"
 #include "shapecraft/Common.hpp"
 #include "shapecraft/util/Aggregate.hpp"
-#include <QOpenGLExtraFunctions>
 #include <glm/glm.hpp>
 
 namespace shapecraft {
@@ -40,7 +40,7 @@ std::vector<AttributeInfo> getAttributeInfos(std::index_sequence<Is...>) {
 
 } // namespace detail
 
-class AnyVertexBuffer : protected QOpenGLExtraFunctions {
+class AnyVertexBuffer : public OpenGLEntity {
   public:
     AnyVertexBuffer();
     virtual ~AnyVertexBuffer();

@@ -7,7 +7,6 @@ namespace gl {
 
 Framebuffer::Framebuffer(glm::ivec2 size) : _isDefault(true),
                                             _size(size) {
-    initializeOpenGLFunctions();
     _name = QOpenGLContext::currentContext()->defaultFramebufferObject();
 }
 

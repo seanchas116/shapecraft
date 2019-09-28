@@ -5,8 +5,6 @@ namespace shapecraft {
 namespace gl {
 
 Shader::Shader(const std::string &vertexShader, const std::string &geometryShader, const std::string &fragmentShader) {
-    initializeOpenGLFunctions();
-
     GLuint program = glCreateProgram();
     glAttachShader(program, loadShader(GL_VERTEX_SHADER, vertexShader));
     if (!geometryShader.empty()) {

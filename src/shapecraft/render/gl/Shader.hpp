@@ -1,13 +1,12 @@
 #pragma once
+#include "OpenGLEntity.hpp"
 #include "shapecraft/Common.hpp"
-#include <QOpenGLExtraFunctions>
 #include <glm/glm.hpp>
 
 namespace shapecraft {
 namespace gl {
 
-class Shader final : protected QOpenGLExtraFunctions {
-    Q_DISABLE_COPY(Shader)
+class Shader final : public OpenGLEntity {
   public:
     Shader(const std::string &vertexShader, const std::string &geometryShader, const std::string &fragmentShader);
     ~Shader();

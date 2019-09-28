@@ -4,7 +4,6 @@ namespace shapecraft {
 namespace gl {
 
 IndexBuffer::IndexBuffer() {
-    initializeOpenGLFunctions();
     glGenBuffers(1, &_buffer);
 }
 

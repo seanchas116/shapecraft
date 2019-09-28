@@ -1,13 +1,12 @@
 #pragma once
 
-#include <QOpenGLExtraFunctions>
+#include "OpenGLEntity.hpp"
 #include <glm/vec2.hpp>
 
 namespace shapecraft {
 namespace gl {
 
-class Texture final : protected QOpenGLExtraFunctions {
-    Q_DISABLE_COPY(Texture)
+class Texture final : public OpenGLEntity {
   public:
     enum class Format {
         RGBA8,

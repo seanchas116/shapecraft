@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../gl/OpenGLEntity.hpp"
 #include "../gl/Shader.hpp"
 #include "Material.hpp"
 #include <QOpenGLExtraFunctions>
@@ -16,7 +17,7 @@ class VertexArray;
 
 namespace draw {
 
-class DrawMethods final : protected QOpenGLExtraFunctions {
+class DrawMethods final : public gl::OpenGLEntity {
   public:
     DrawMethods();
 

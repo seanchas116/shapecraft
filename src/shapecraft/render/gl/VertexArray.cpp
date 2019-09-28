@@ -8,10 +8,8 @@ namespace shapecraft {
 namespace gl {
 
 VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, Primitive primitive) : _buffers(buffers),
-                                                                                                                                                 _indexBuffer(indexBuffer),
-                                                                                                                                                 _primitive(primitive) {
-    initializeOpenGLFunctions();
-
+                                                                                                                                                                 _indexBuffer(indexBuffer),
+                                                                                                                                                                 _primitive(primitive) {
     glGenVertexArrays(1, &_vertexArray);
     glBindVertexArray(_vertexArray);
 

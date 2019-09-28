@@ -4,7 +4,6 @@ namespace shapecraft {
 namespace gl {
 
 AnyVertexBuffer::AnyVertexBuffer() {
-    initializeOpenGLFunctions();
     glGenBuffers(1, &_buffer);
 }
 

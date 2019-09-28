@@ -4,8 +4,6 @@ namespace shapecraft {
 namespace gl {
 
 Texture::Texture(glm::ivec2 size, Texture::Format format, const void *pixels) {
-    initializeOpenGLFunctions();
-
     GLint internalFormat;
     GLenum format_;
     GLenum type;

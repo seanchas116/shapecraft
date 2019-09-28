@@ -46,7 +46,6 @@ DrawMethods::DrawMethods()
       _drawUnicolorShader(resource::read(shaderDir + "DrawUnicolor.vert"), {},
                           resource::read(shaderDir + "DrawUnicolor.frag")),
       _copyVAO(createCopyVAO()) {
-    initializeOpenGLFunctions();
 }
 
 void DrawMethods::clear(glm::vec4 color, float depth) {
@@ -61,6 +60,10 @@ void DrawMethods::clearDepth(float depth) {
 }
 
 void DrawMethods::copy(const SP<gl::Texture> &texture, const SP<gl::Texture> &depthTexture, float opacity) {
+    Q_ASSERT(context() == QOpenGLContext::currentContext());
+    Q_ASSERT(context() == texture->context());
+    Q_ASSERT(context() == depthTexture->context());
+
     _copyShader.bind();
 
     glActiveTexture(GL_TEXTURE0);
@@ -75,6 +78,9 @@ void DrawMethods::copy(const SP<gl::Texture> &texture, const SP<gl::Texture> &de
 }
 
 void DrawMethods::drawCircle(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
+    Q_ASSERT(context() == QOpenGLContext::currentContext());
+    Q_ASSERT(context() == vao->context());
+
     _drawCircleShader.bind();
     _drawCircleShader.setUniform("MVP", camera.worldToViewportMatrix() * matrix);
     _drawCircleShader.setUniform("viewportSize", camera.viewportSize());
@@ -86,6 +92,9 @@ void DrawMethods::drawCircle(const SP<gl::VertexArray> &vao, const glm::dmat4 &m
 }
 
 void DrawMethods::drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, glm::ivec2 viewportSize, double width, glm::vec4 color, bool useVertexColor) {
+    Q_ASSERT(context() == QOpenGLContext::currentContext());
+    Q_ASSERT(context() == vao->context());
+
     _drawCircleShader.bind();
     dmat4 MVP = translate(dvec3(-1.0)) * scale(dvec3(2.0 / dvec2(viewportSize), 2.0)) * matrix;
     _drawCircleShader.setUniform("MVP", MVP);
@@ -98,6 +107,9 @@ void DrawMethods::drawCircle2D(const SP<gl::VertexArray> &vao, const glm::dmat4 
 }
 
 void DrawMethods::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &matrix, const Camera &camera, double width, glm::vec4 color, bool useVertexColor, double zOffset) {
+    Q_ASSERT(context() == QOpenGLContext::currentContext());
+    Q_ASSERT(context() == vao->context());
+
     _drawLineShader.bind();
     _drawLineShader.setUniform("MV", camera.worldToCameraMatrix() * matrix);
     _drawLineShader.setUniform("P", camera.cameraToViewportMatrix());
@@ -111,6 +123,9 @@ void DrawMethods::drawLine(const SP<gl::VertexArray> &vao, const glm::dmat4 &mat
 }
 
 void DrawMethods::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, const Material &material) {
+    Q_ASSERT(context() == QOpenGLContext::currentContext());
+    Q_ASSERT(context() == vao->context());
+
     _drawMaterialShader.bind();
     _drawMaterialShader.setUniform("diffuse", material.baseColor);
     _drawMaterialShader.setUniform("ambient", glm::vec3(0));
@@ -131,6 +146,9 @@ void DrawMethods::drawMaterial(const SP<gl::VertexArray> &vao, const dmat4 &matr
 }
 
 void DrawMethods::drawUnicolor(const SP<gl::VertexArray> &vao, const dmat4 &matrix, const Camera &camera, vec4 color, bool useVertexColor) {
+    Q_ASSERT(context() == QOpenGLContext::currentContext());
+    Q_ASSERT(context() == vao->context());
+
     _drawUnicolorShader.bind();
     _drawUnicolorShader.setUniform("color", color);
     _drawUnicolorShader.setUniform("useVertexColor", useVertexColor);

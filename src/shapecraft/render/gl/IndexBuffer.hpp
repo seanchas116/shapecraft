@@ -1,5 +1,5 @@
 #pragma once
-#include <QOpenGLExtraFunctions>
+#include "OpenGLEntity.hpp"
 #include <array>
 
 namespace shapecraft {
@@ -12,8 +12,7 @@ enum class Primitive {
     TriangleFan,
 };
 
-class IndexBuffer : protected QOpenGLExtraFunctions {
-    Q_DISABLE_COPY(IndexBuffer)
+class IndexBuffer : public OpenGLEntity {
   public:
     using Triangle = std::array<uint32_t, 3>;
     using LineStrip = std::vector<uint32_t>;
