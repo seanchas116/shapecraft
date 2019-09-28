@@ -3,7 +3,7 @@
 #include "EditorViewport.hpp"
 #include "GridFloor.hpp"
 #include "NodeRenderable.hpp"
-#include "ResizeBox.hpp"
+#include "NodeResizeBox.hpp"
 #include "shapecraft/app/state/WindowState.hpp"
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/Scene.hpp"
@@ -35,8 +35,7 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
 
         auto rootRenderable = std::make_shared<NodeRenderable>(scene, scene);
 
-        auto resizeBox = std::make_shared<ResizeBox>();
-        resizeBox->setBox(shapeNode->boundingBox());
+        auto resizeBox = std::make_shared<NodeResizeBox>(scene);
 
         root->setChildRenderables({background, gridFloor, rootRenderable, resizeBox});
         viewport->setRenderable(root);
