@@ -1,12 +1,13 @@
 #pragma once
 #include "Debug.hpp"
 #include "Ray.hpp"
+#include <boost/operators.hpp>
 #include <glm/glm.hpp>
 
 namespace shapecraft {
 
 template <typename T>
-class Box final {
+class Box final : private boost::orable<Box<T>>, private boost::equality_comparable<Box<T>> {
   public:
     Box() = default;
     Box(glm::tvec3<T> min, glm::tvec3<T> max) : minPosition(min), maxPosition(max) {}
@@ -35,6 +36,12 @@ class Box final {
 
     bool operator==(const Box &other) const {
         return minPosition == other.minPosition && maxPosition == other.maxPosition;
+    }
+
+    Box &operator|=(const Box &other) {
+        minPosition = glm::min(minPosition, other.minPosition);
+        maxPosition = glm::max(maxPosition, other.maxPosition);
+        return *this;
     }
 };
 
