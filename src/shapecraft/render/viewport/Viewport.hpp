@@ -8,9 +8,6 @@
 namespace shapecraft {
 namespace viewport {
 
-class Renderable;
-class RenderableObject;
-class RenderWidget;
 class HitAreaMap;
 
 class Viewport : public QWidget {
@@ -19,8 +16,6 @@ class Viewport : public QWidget {
 
   public:
     Viewport(QWidget *parent = nullptr);
-
-    void setRenderable(const Opt<SP<Renderable>> &renderable);
 
     auto &camera() const { return _camera; }
     void setCamera(const Camera &camera);
@@ -44,7 +39,6 @@ class Viewport : public QWidget {
 
     Opt<HitResult> hitTest(glm::dvec2 pos, const Camera &camera);
 
-    Opt<SP<Renderable>> _renderable;
     Opt<HitResult> _draggedHitResult;
     Opt<HitResult> _hoveredHitResult;
     Opt<SP<HitAreaMap>> _hitAreaMap;

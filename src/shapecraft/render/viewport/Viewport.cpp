@@ -14,13 +14,6 @@ Viewport::Viewport(QWidget *parent) : QWidget(parent), _camera(Camera::perspecti
     setMouseTracking(true);
 }
 
-void Viewport::setRenderable(const Opt<SP<Renderable>> &renderable) {
-    if (renderable) {
-        connect(renderable->get(), &Renderable::updated, this, &Viewport::updateRequested);
-    }
-    _renderable = renderable;
-}
-
 void Viewport::setCamera(const Camera &camera) {
     _camera = camera;
     emit updateRequested();

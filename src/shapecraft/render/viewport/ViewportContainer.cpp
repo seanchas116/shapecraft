@@ -16,6 +16,18 @@ namespace viewport {
 ViewportContainer::ViewportContainer(QWidget *parent) : QOpenGLWidget(parent) {
 }
 
+void ViewportContainer::setLayers(const std::vector<SP<Renderable>> &layers) {
+    for (auto &&layer : _layers) {
+        disconnect(layer.get(), &Renderable::updated, this, qOverload<>(&ViewportContainer::update));
+    }
+    for (auto &&layer : layers) {
+        connect(layer.get(), &Renderable::updated, this, qOverload<>(&ViewportContainer::update));
+    }
+
+    _layers = layers;
+    update();
+}
+
 void ViewportContainer::initializeGL() {
     initializeOpenGLFunctions();
 
@@ -59,13 +71,11 @@ void ViewportContainer::paintGL() {
     glDepthFunc(GL_LESS);
 
     for (auto viewport : viewports) {
-        if (!viewport->_renderable) {
-            continue;
-        }
-
         Renderable::DrawEvent drawEvent{viewport, viewport->camera(), operations};
 
-        (*viewport->_renderable)->preDrawRecursive(drawEvent);
+        for (auto &&layer : _layers) {
+            layer->preDrawRecursive(drawEvent);
+        }
 
         glm::dvec2 minPos = mapQtToGL(this, viewport->mapTo(this, viewport->rect().bottomLeft() + QPoint(0, 1))); // right and bottom is 1px inset in integer QRect
         glm::dvec2 maxPos = mapQtToGL(this, viewport->mapTo(this, viewport->rect().topRight() + QPoint(1, 0)));
@@ -78,12 +88,17 @@ void ViewportContainer::paintGL() {
         glViewport(minPosViewport.x, minPosViewport.y, sizeViewport.x, sizeViewport.y);
         glBindFramebuffer(GL_FRAMEBUFFER, QOpenGLContext::currentContext()->defaultFramebufferObject());
 
-        (*viewport->_renderable)->drawRecursive(drawEvent);
+        for (auto &&layer : _layers) {
+            operations->clearDepth(1);
+            layer->drawRecursive(drawEvent);
+        }
 
         glDisable(GL_SCISSOR_TEST);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        viewport->hitAreaMap()->draw(*viewport->_renderable, drawEvent);
+        for (auto &&layer : _layers) {
+            viewport->hitAreaMap()->draw(layer, drawEvent);
+        }
     }
 
     glDisable(GL_CULL_FACE);
@@ -94,9 +109,6 @@ void ViewportContainer::paintGL() {
     painter.setRenderHint(QPainter::Antialiasing);
 
     for (auto viewport : viewports) {
-        if (!viewport->_renderable) {
-            continue;
-        }
         painter.save();
         auto offset = viewport->mapTo(this, viewport->rect().topLeft());
         auto transform = QTransform(1, 0, 0, -1, 0, viewport->rect().height()) * QTransform::fromTranslate(offset.x(), offset.y()) * QTransform::fromScale(devicePixelRatioF(), devicePixelRatioF());
@@ -104,7 +116,11 @@ void ViewportContainer::paintGL() {
         painter.setClipRect(0, 0, viewport->width(), viewport->height());
 
         Renderable::Draw2DEvent event{viewport, viewport->size(), &painter};
-        (*viewport->_renderable)->draw2DRecursive(event);
+
+        for (auto &&layer : _layers) {
+            layer->draw2DRecursive(event);
+        }
+
         painter.restore();
     }
 }

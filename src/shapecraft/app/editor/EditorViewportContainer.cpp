@@ -38,7 +38,7 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
         auto resizeBox = std::make_shared<NodeResizeBox>(scene);
 
         root->setChildRenderables({background, gridFloor, rootRenderable, resizeBox});
-        viewport->setRenderable(root);
+        setLayers({root});
     });
 }
 
