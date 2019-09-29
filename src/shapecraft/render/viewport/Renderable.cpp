@@ -73,13 +73,6 @@ void Renderable::draw2DRecursive(const Draw2DEvent &event) {
     }
 }
 
-void Renderable::getDescendants(std::vector<SP<Renderable>> &descendants) {
-    descendants.push_back(shared_from_this());
-    for (auto &c : _childRenderables) {
-        c->getDescendants(descendants);
-    }
-}
-
 void Renderable::preDraw(const DrawEvent &event) {
     Q_UNUSED(event)
 }

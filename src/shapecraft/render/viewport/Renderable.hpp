@@ -61,8 +61,6 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     void drawHitAreaRecursive(const DrawEvent &event, std::vector<SP<Renderable>> &drawnRenderables);
     void draw2DRecursive(const Draw2DEvent &event);
 
-    void getDescendants(std::vector<SP<Renderable>> &descendants);
-
     virtual void preDraw(const DrawEvent &event);
     virtual void draw(const DrawEvent &event);
     virtual void drawHitArea(const DrawEvent &event, glm::vec4 hitColor);
