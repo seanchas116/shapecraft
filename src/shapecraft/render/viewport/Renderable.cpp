@@ -44,9 +44,9 @@ void Renderable::drawHitAreaRecursive(const DrawEvent &event, std::vector<SP<Ren
         return;
     }
 
-    auto index = drawnRenderables.size();
+    auto index = int32_t(drawnRenderables.size());
     drawnRenderables.push_back(shared_from_this());
-    drawHitArea(event, valueToColor(index));
+    drawHitArea(event, HitColor(index));
 
     for (auto &c : childRenderables()) {
         c->drawHitAreaRecursive(event, drawnRenderables);
@@ -67,7 +67,7 @@ void Renderable::draw(const DrawEvent &event) {
     Q_UNUSED(event)
 }
 
-void Renderable::drawHitArea(const DrawEvent &event, glm::vec4 hitColor) {
+void Renderable::drawHitArea(const DrawEvent &event, const HitColor &hitColor) {
     Q_UNUSED(event)
     Q_UNUSED(hitColor)
 }
@@ -103,23 +103,31 @@ void Renderable::hoverEnterEvent(const MouseEvent &event) {
 void Renderable::hoverLeaveEvent() {
 }
 
-glm::vec4 valueToColor(uint64_t value) {
-    union {
-        uint64_t value;
-        glm::u16vec4 color;
-    } idColor;
-    idColor.value = value;
+namespace {
 
-    return glm::vec4(idColor.color) / float(0xFFFF);
+union HitColorData {
+    struct {
+        uint32_t index;
+        uint32_t customValue;
+    };
+    uint64_t value;
+    glm::u16vec4 color;
+};
+
+} // namespace
+
+glm::vec4 HitColor::toColor() const {
+    HitColorData data;
+    data.index = index;
+    data.customValue = customValue;
+    return glm::vec4(data.color) / float(0xFFFF);
 }
 
-uint64_t colorToValue(glm::vec4 color) {
-    union {
-        uint64_t value;
-        glm::u16vec4 color;
-    } idColor;
-    idColor.color = glm::u16vec4(glm::round(color * float(0xFFFF)));
-    return idColor.value;
+HitColor HitColor::fromColor(glm::vec4 color) {
+    HitColorData data;
+    data.color = glm::u16vec4(glm::round(color * float(0xFFFF)));
+
+    return HitColor(data.index, data.customValue);
 }
 
 } // namespace viewport

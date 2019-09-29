@@ -19,8 +19,19 @@ namespace viewport {
 
 class Viewport;
 
-glm::vec4 valueToColor(uint64_t value);
-uint64_t colorToValue(glm::vec4 color);
+struct HitColor {
+    HitColor(uint32_t index = std::numeric_limits<uint32_t>::max(), uint32_t customValue = 0) : index(index), customValue(customValue) {}
+
+    HitColor withCustomValue(uint32_t customValue) {
+        return HitColor(index, customValue);
+    }
+
+    glm::vec4 toColor() const;
+    static HitColor fromColor(glm::vec4 color);
+
+    uint32_t index;
+    uint32_t customValue;
+};
 
 class Renderable : public QObject, public std::enable_shared_from_this<Renderable> {
     Q_OBJECT
@@ -61,7 +72,7 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     void draw2DRecursive(const Draw2DEvent &event);
 
     virtual void draw(const DrawEvent &event);
-    virtual void drawHitArea(const DrawEvent &event, glm::vec4 hitColor);
+    virtual void drawHitArea(const DrawEvent &event, const HitColor &hitColor);
     virtual void draw2D(const Draw2DEvent &event);
 
     virtual void mousePressEvent(const MouseEvent &event);

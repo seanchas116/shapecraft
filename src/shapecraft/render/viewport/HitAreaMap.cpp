@@ -30,7 +30,7 @@ Opt<HitResult> HitAreaMap::pick(vec2 physicalPos) {
     PixelData<vec4> pixels(glm::ivec2(1));
     _framebuffer->readPixels(physicalPos, pixels);
 
-    size_t index = colorToValue(pixels.data()[0]);
+    auto index = size_t(HitColor::fromColor(pixels.data()[0]).index);
     if (index >= _lastRenderables.size()) {
         return {};
     }
@@ -43,7 +43,7 @@ void HitAreaMap::draw(const SP<Renderable> &renderable, const Renderable::DrawEv
     resize(drawEvent.camera.viewportSize());
 
     _framebuffer->bind();
-    drawEvent.drawMethods->clear(valueToColor(std::numeric_limits<uint64_t>::max()), 1);
+    drawEvent.drawMethods->clear(HitColor().toColor(), 1);
 
     _lastRenderables.clear();
     renderable->drawHitAreaRecursive(drawEvent, _lastRenderables);

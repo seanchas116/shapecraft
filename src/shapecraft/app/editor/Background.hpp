@@ -10,7 +10,7 @@ class Background : public viewport::Renderable, protected QOpenGLExtraFunctions 
   public:
     Background(const SP<WindowState> &appState);
     void draw(const DrawEvent &event) override;
-    void drawHitArea(const DrawEvent &event, glm::vec4 hitColor) override;
+    void drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) override;
     void mousePressEvent(const MouseEvent &event) override;
 
   private:
