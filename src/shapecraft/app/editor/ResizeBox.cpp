@@ -27,12 +27,12 @@ void ResizeBox::draw(const DrawEvent &event) {
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, _isHovered ? 2 : 1, glm::vec4(0, 0, 1, 1));
 }
 
-void ResizeBox::drawHitArea(const viewport::Renderable::DrawEvent &event) {
+void ResizeBox::drawHitArea(const DrawEvent &event) {
     event.drawMethods->clearDepth(1);
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, toIDColor());
 }
 
-void ResizeBox::hoverEnterEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBox::hoverEnterEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     _isHovered = true;
     emit updated();
