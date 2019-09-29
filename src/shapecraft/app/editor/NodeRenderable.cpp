@@ -27,8 +27,6 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
     auto nodePtr = node.get();
 
     connect(nodePtr, &Node::childNodesInserted, this, [this, nodePtr](int first, int last) {
-        recallContext();
-
         auto childRenderables = this->childRenderables();
         for (int i = first; i <= last; ++i) {
             auto &child = nodePtr->childNodes()[i];
@@ -38,8 +36,6 @@ NodeRenderable::NodeRenderable(const SP<Scene> &scene, const SP<Node> &node) : _
         setChildRenderables(childRenderables);
     });
     connect(nodePtr, &Node::childNodesAboutToBeRemoved, this, [this](int first, int last) {
-        recallContext();
-
         auto childRenderables = this->childRenderables();
         childRenderables.erase(childRenderables.begin() + first, childRenderables.begin() + last + 1);
         setChildRenderables(childRenderables);

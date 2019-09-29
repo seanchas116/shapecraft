@@ -1,5 +1,4 @@
 #pragma once
-#include "shapecraft/render/gl/ContextRecallable.hpp"
 #include "shapecraft/render/viewport/Renderable.hpp"
 #include "shapecraft/util/Box.hpp"
 #include "shapecraft/util/Location.hpp"
@@ -13,7 +12,7 @@ namespace gl {
 class VertexArray;
 }
 
-class NodeRenderable final : public viewport::Renderable, gl::ContextRecallable {
+class NodeRenderable final : public viewport::Renderable {
     Q_OBJECT
   public:
     NodeRenderable(const SP<Scene> &scene, const SP<Node> &node);

@@ -1,13 +1,12 @@
 #pragma once
 
-#include "shapecraft/render/gl/ContextRecallable.hpp"
 #include "shapecraft/render/viewport/Renderable.hpp"
 #include "shapecraft/util/Box.hpp"
 #include <QObject>
 
 namespace shapecraft {
 
-class ResizeBox : public viewport::Renderable, protected gl::ContextRecallable {
+class ResizeBox : public viewport::Renderable {
     Q_OBJECT
   public:
     ResizeBox();
