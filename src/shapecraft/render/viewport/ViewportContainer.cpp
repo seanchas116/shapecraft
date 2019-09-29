@@ -55,6 +55,9 @@ void ViewportContainer::paintGL() {
         connect(viewport, &Viewport::updateRequested, this, [this] { update(); });
     }
 
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
     for (auto viewport : viewports) {
         if (!viewport->_renderable) {
             continue;

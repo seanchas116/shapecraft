@@ -11,10 +11,6 @@ Background::Background(const SP<WindowState> &appState) : _appState(appState) {
 }
 
 void Background::draw(const DrawEvent &event) {
-    // TODO: manage depth test in better way
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
     event.drawMethods->clear(glm::vec4(0.8, 0.8, 0.8, 1), 1);
 }
 
