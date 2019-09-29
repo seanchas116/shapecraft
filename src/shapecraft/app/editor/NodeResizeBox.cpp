@@ -10,7 +10,9 @@ NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
 }
 
 void NodeResizeBox::onSelectedNodesChanged() {
-    disconnect(nullptr, &ShapeNode::boundingBoxChanged, this, &NodeResizeBox::updateBox);
+    for (auto &&node : _nodes) {
+        disconnect(node.get(), &ShapeNode::boundingBoxChanged, this, &NodeResizeBox::updateBox);
+    }
 
     auto nodes = _scene->selectedNodes();
     std::vector<SP<ShapeNode>> shapeNodes;
