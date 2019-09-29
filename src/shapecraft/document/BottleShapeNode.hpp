@@ -3,10 +3,10 @@
 
 namespace shapecraft {
 
-class BottoleShapeNode final : public ShapeNode {
+class BottleShapeNode final : public ShapeNode {
     Q_OBJECT
   public:
-    BottoleShapeNode(const SP<History> &history);
+    BottleShapeNode(const SP<History> &history);
 
     SP<Node> newInstance(const SP<History> &history) const override;
 };

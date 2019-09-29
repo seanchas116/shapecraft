@@ -1,7 +1,7 @@
 #include "WindowState.hpp"
 #include "DocumentActions.hpp"
 #include "File.hpp"
-#include "shapecraft/document/BottoleShapeNode.hpp"
+#include "shapecraft/document/BottleShapeNode.hpp"
 #include "shapecraft/document/BoxShapeNode.hpp"
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/Scene.hpp"
@@ -17,7 +17,7 @@ WindowState::WindowState()
     document()->appendChildNode(scene);
     document()->setCurrentScene(scene);
 
-    auto bottle = std::make_shared<BottoleShapeNode>(document()->history());
+    auto bottle = std::make_shared<BottleShapeNode>(document()->history());
     bottle->setName(tr("Bottle"));
     bottle->setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
     scene->appendChildNode(bottle);
