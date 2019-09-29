@@ -161,9 +161,6 @@ BottoleShapeNode::BottoleShapeNode(const SP<History> &history) : ShapeNode(histo
             setShape(makeBottle(boundingBox));
         }
     });
-    QTimer::singleShot(0, this, [this] {
-        setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
-    });
 }
 
 SP<Node> BottoleShapeNode::newInstance(const SP<History> &history) const {

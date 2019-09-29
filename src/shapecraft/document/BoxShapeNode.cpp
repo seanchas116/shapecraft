@@ -12,9 +12,6 @@ BoxShapeNode::BoxShapeNode(const SP<History> &history) : ShapeNode(history) {
             setShape(BRepPrimAPI_MakeBox(p0, p1).Shape());
         }
     });
-    QTimer::singleShot(0, this, [this] {
-        setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(1, 1, 1)));
-    });
 }
 
 SP<Node> BoxShapeNode::newInstance(const SP<History> &history) const {
