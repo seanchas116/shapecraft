@@ -1,15 +1,8 @@
-#ifndef SHAPECRAFT_DEMANGLE_HPP
-#define SHAPECRAFT_DEMANGLE_HPP
-
+#pragma once
+#include <string>
 
 namespace shapecraft {
 
-class Demangle
-{
-  public:
-    Demangle();
-};
+std::string demangle(const char *mangledName);
 
 } // namespace shapecraft
-
-#endif // SHAPECRAFT_DEMANGLE_HPP
