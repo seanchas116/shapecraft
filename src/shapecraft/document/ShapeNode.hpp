@@ -17,10 +17,16 @@ class ShapeNode : public Node {
     bool canInsertNode(const SP<Node> &node) const override;
     QString type() const override;
 
-    virtual TopoDS_Shape shape() const = 0;
+    TopoDS_Shape shape() const { return _shape; }
 
   signals:
     void shapeChanged(const TopoDS_Shape &shape);
+
+  protected:
+    void setShape(const TopoDS_Shape &shape);
+
+  private:
+    TopoDS_Shape _shape;
 };
 
 } // namespace shapecraft

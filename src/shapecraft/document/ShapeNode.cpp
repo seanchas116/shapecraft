@@ -18,4 +18,9 @@ QString ShapeNode::type() const {
     return "shape";
 }
 
+void ShapeNode::setShape(const TopoDS_Shape &shape) {
+    _shape = shape;
+    emit shapeChanged(shape);
+}
+
 } // namespace shapecraft

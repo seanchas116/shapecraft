@@ -158,8 +158,7 @@ TopoDS_Shape makeBottle(const Box<double> &box) {
 TestShapeNode::TestShapeNode(const SP<History> &history) : ShapeNode(history) {
     connect(this, &ShapeNode::boundingBoxChanged, this, [this](const Box<double> &boundingBox) {
         if (boundingBox.size().x > 0 && boundingBox.size().y > 0 && boundingBox.size().z > 0) {
-            _shape = makeBottle(boundingBox);
-            emit shapeChanged(_shape);
+            setShape(makeBottle(boundingBox));
         }
     });
     QTimer::singleShot(0, this, [this] {
@@ -169,10 +168,6 @@ TestShapeNode::TestShapeNode(const SP<History> &history) : ShapeNode(history) {
 
 SP<Node> TestShapeNode::newInstance(const SP<History> &history) const {
     return std::make_shared<TestShapeNode>(history);
-}
-
-TopoDS_Shape TestShapeNode::shape() const {
-    return _shape;
 }
 
 } // namespace shapecraft
