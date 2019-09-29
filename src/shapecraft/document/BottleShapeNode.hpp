@@ -8,6 +8,7 @@ class BottleShapeNode final : public ShapeNode {
   public:
     BottleShapeNode(const SP<History> &history);
 
+    const char *type() const override;
     SP<Node> newInstance(const SP<History> &history) const override;
 };
 

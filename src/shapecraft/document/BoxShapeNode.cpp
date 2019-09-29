@@ -14,6 +14,10 @@ BoxShapeNode::BoxShapeNode(const SP<History> &history) : ShapeNode(history) {
     });
 }
 
+const char *BoxShapeNode::type() const {
+    return "boxShape";
+}
+
 SP<Node> BoxShapeNode::newInstance(const SP<History> &history) const {
     return std::make_shared<BoxShapeNode>(history);
 }

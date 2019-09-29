@@ -163,6 +163,10 @@ BottleShapeNode::BottleShapeNode(const SP<History> &history) : ShapeNode(history
     });
 }
 
+const char *BottleShapeNode::type() const {
+    return "bottleShape";
+}
+
 SP<Node> BottleShapeNode::newInstance(const SP<History> &history) const {
     return std::make_shared<BottleShapeNode>(history);
 }

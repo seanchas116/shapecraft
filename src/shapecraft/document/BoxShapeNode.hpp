@@ -8,6 +8,7 @@ class BoxShapeNode final : public ShapeNode {
   public:
     BoxShapeNode(const SP<History> &history);
 
+    const char *type() const override;
     SP<Node> newInstance(const SP<History> &history) const override;
 };
 

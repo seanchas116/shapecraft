@@ -14,10 +14,6 @@ bool ShapeNode::canInsertNode(const SP<Node> &node) const {
     return !!std::dynamic_pointer_cast<ShapeNode>(node);
 }
 
-const char *ShapeNode::type() const {
-    return "shape";
-}
-
 void ShapeNode::setShape(const TopoDS_Shape &shape) {
     _shape = shape;
     emit shapeChanged(shape);
