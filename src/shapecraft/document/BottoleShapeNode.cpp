@@ -1,4 +1,4 @@
-#include "TestShapeNode.hpp"
+#include "BottoleShapeNode.hpp"
 #include <BRepAlgoAPI_Fuse.hxx>
 #include <BRepBndLib.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
@@ -155,7 +155,7 @@ TopoDS_Shape makeBottle(const Box<double> &box) {
 
 } // namespace
 
-TestShapeNode::TestShapeNode(const SP<History> &history) : ShapeNode(history) {
+BottoleShapeNode::BottoleShapeNode(const SP<History> &history) : ShapeNode(history) {
     connect(this, &ShapeNode::boundingBoxChanged, this, [this](const Box<double> &boundingBox) {
         if (boundingBox.size().x > 0 && boundingBox.size().y > 0 && boundingBox.size().z > 0) {
             setShape(makeBottle(boundingBox));
@@ -166,8 +166,8 @@ TestShapeNode::TestShapeNode(const SP<History> &history) : ShapeNode(history) {
     });
 }
 
-SP<Node> TestShapeNode::newInstance(const SP<History> &history) const {
-    return std::make_shared<TestShapeNode>(history);
+SP<Node> BottoleShapeNode::newInstance(const SP<History> &history) const {
+    return std::make_shared<BottoleShapeNode>(history);
 }
 
 } // namespace shapecraft

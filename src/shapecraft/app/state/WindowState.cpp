@@ -3,7 +3,7 @@
 #include "File.hpp"
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/Scene.hpp"
-#include "shapecraft/document/TestShapeNode.hpp"
+#include "shapecraft/document/BottoleShapeNode.hpp"
 #include <QtDebug>
 
 namespace shapecraft {
@@ -15,7 +15,7 @@ WindowState::WindowState()
     auto scene = std::make_shared<Scene>(document()->history());
     document()->appendChildNode(scene);
     document()->setCurrentScene(scene);
-    auto node = std::make_shared<TestShapeNode>(document()->history());
+    auto node = std::make_shared<BottoleShapeNode>(document()->history());
     node->setName(tr("Test"));
     scene->appendChildNode(node);
 }
