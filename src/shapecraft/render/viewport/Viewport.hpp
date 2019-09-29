@@ -35,13 +35,13 @@ class Viewport : public QWidget {
   private:
     friend class ViewportContainer;
 
-    const SP<HitAreaMap> &hitAreaMap();
+    const std::vector<SP<HitAreaMap>> &hitAreaMaps(size_t count);
 
     Opt<HitResult> hitTest(glm::dvec2 pos, const Camera &camera);
 
     Opt<HitResult> _draggedHitResult;
     Opt<HitResult> _hoveredHitResult;
-    Opt<SP<HitAreaMap>> _hitAreaMap;
+    std::vector<SP<HitAreaMap>> _hitAreaMaps;
     Camera _camera;
 };
 

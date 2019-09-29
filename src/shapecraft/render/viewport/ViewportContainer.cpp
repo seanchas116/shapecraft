@@ -96,8 +96,9 @@ void ViewportContainer::paintGL() {
         glDisable(GL_SCISSOR_TEST);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        for (auto &&layer : _layers) {
-            viewport->hitAreaMap()->draw(layer, drawEvent);
+        auto &hitAreaMaps = viewport->hitAreaMaps(_layers.size());
+        for (size_t i = 0; i < _layers.size(); ++i) {
+            hitAreaMaps[i]->draw(_layers[i], drawEvent);
         }
     }
 

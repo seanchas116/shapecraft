@@ -19,13 +19,6 @@ void Viewport::setCamera(const Camera &camera) {
     emit updateRequested();
 }
 
-const SP<HitAreaMap> &Viewport::hitAreaMap() {
-    if (!_hitAreaMap) {
-        _hitAreaMap = std::make_shared<HitAreaMap>();
-    }
-    return *_hitAreaMap;
-}
-
 void Viewport::mousePressEvent(QMouseEvent *event) {
     auto pos = mapQtToGL(this, event->pos());
 
@@ -112,6 +105,17 @@ void Viewport::resizeEvent(QResizeEvent *event) {
     emit updateRequested();
 }
 
+const std::vector<SP<HitAreaMap>> &Viewport::hitAreaMaps(size_t count) {
+    if (_hitAreaMaps.size() == count) {
+        return _hitAreaMaps;
+    }
+    _hitAreaMaps.clear();
+    for (size_t i = 0; i < count; ++i) {
+        _hitAreaMaps.push_back(std::make_shared<HitAreaMap>());
+    }
+    return _hitAreaMaps;
+}
+
 void Viewport::mouseReleaseEvent(QMouseEvent *event) {
     if (!_draggedHitResult) {
         return;
@@ -126,10 +130,13 @@ void Viewport::mouseReleaseEvent(QMouseEvent *event) {
 Opt<HitResult> Viewport::hitTest(glm::dvec2 pos, const Camera &camera) {
     Q_UNUSED(camera);
 
-    if (!_hitAreaMap) {
-        return {};
+    for (auto it = _hitAreaMaps.rbegin(); it != _hitAreaMaps.rend(); ++it) {
+        auto result = (*it)->pick(pos);
+        if (result) {
+            return result;
+        }
     }
-    return _hitAreaMap->get()->pick(pos);
+    return {};
 }
 
 } // namespace viewport
