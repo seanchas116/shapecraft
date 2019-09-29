@@ -14,13 +14,20 @@ class ResizeBox : public viewport::Renderable {
     void setBox(const Box<double> &box);
 
     void draw(const DrawEvent &event) override;
+    void drawHitArea(const DrawEvent &event) override;
+
+    void hoverEnterEvent(const MouseEvent &event) override;
+    void hoverLeaveEvent() override;
 
   private:
     void updateVAO();
 
     Box<double> _box;
+
     bool _isVAODirty = true;
     SP<gl::VertexArray> _vao;
+
+    bool _isHovered = false;
 };
 
 } // namespace shapecraft
