@@ -52,6 +52,7 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
         Viewport *viewport;
         Camera camera;
         glm::dvec3 viewportPos;
+        uint32_t hitCustomValue;
         QMouseEvent *originalMouseEvent;
         QContextMenuEvent *originalContextMenuEvent;
 

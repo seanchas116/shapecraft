@@ -9,6 +9,7 @@ class Renderable;
 
 struct HitResult {
     SP<Renderable> renderable;
+    uint32_t customValue;
     float depth;
 };
 

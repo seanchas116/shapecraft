@@ -30,13 +30,13 @@ Opt<HitResult> HitAreaMap::pick(vec2 physicalPos) {
     PixelData<vec4> pixels(glm::ivec2(1));
     _framebuffer->readPixels(physicalPos, pixels);
 
-    auto index = size_t(HitColor::fromColor(pixels.data()[0]).index);
-    if (index >= _lastRenderables.size()) {
+    auto hitColor = HitColor::fromColor(pixels.data()[0]);
+    if (hitColor.index >= _lastRenderables.size()) {
         return {};
     }
-    auto renderable = _lastRenderables[index];
+    auto renderable = _lastRenderables[hitColor.index];
     float depth = _framebuffer->readDepth(physicalPos);
-    return {{renderable, depth}};
+    return {{renderable, hitColor.customValue, depth}};
 }
 
 void HitAreaMap::draw(const SP<Renderable> &renderable, const Renderable::DrawEvent &drawEvent) {
