@@ -19,6 +19,9 @@ namespace viewport {
 
 class Viewport;
 
+glm::vec4 valueToColor(uint64_t value);
+uint64_t colorToValue(glm::vec4 color);
+
 class Renderable : public QObject, public std::enable_shared_from_this<Renderable> {
     Q_OBJECT
   public:

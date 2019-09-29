@@ -141,5 +141,24 @@ Opt<SP<Renderable>> Renderable::fromIDColor(glm::vec4 color) {
     return idColor.ptr->shared_from_this();
 }
 
+glm::vec4 valueToColor(uint64_t value) {
+    union {
+        uint64_t value;
+        glm::u16vec4 color;
+    } idColor;
+    idColor.value = value;
+
+    return glm::vec4(idColor.color) / float(0xFFFF);
+}
+
+uint64_t colorToValue(glm::vec4 color) {
+    union {
+        uint64_t value;
+        glm::u16vec4 color;
+    } idColor;
+    idColor.color = glm::u16vec4(glm::round(color * float(0xFFFF)));
+    return idColor.value;
+}
+
 } // namespace viewport
 } // namespace shapecraft
