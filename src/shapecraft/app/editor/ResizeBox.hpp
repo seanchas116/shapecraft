@@ -20,12 +20,12 @@ class ResizeBox : public viewport::Renderable {
     void hoverLeaveEvent() override;
 
   private:
-    void updateVAO();
+    void updateVAOs();
 
     Box<double> _box;
 
-    bool _isVAODirty = true;
-    SP<gl::VertexArray> _vao;
+    bool _isVAOsDirty = true;
+    SP<gl::VertexArray> _edgesVAO;
 
     bool _isHovered = false;
 };

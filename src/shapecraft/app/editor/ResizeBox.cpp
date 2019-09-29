@@ -16,17 +16,17 @@ void ResizeBox::setBox(const Box<double> &box) {
     }
 
     _box = box;
-    _isVAODirty = true;
+    _isVAOsDirty = true;
     emit updated();
 }
 
 void ResizeBox::draw(const DrawEvent &event) {
-    updateVAO();
-    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, _isHovered ? 2 : 1, glm::vec4(0, 0, 1, 1));
+    updateVAOs();
+    event.drawMethods->drawLine(_edgesVAO, glm::mat4(1), event.camera, _isHovered ? 2 : 1, glm::vec4(0, 0, 1, 1));
 }
 
 void ResizeBox::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
-    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, hitColor.toColor());
+    event.drawMethods->drawLine(_edgesVAO, glm::mat4(1), event.camera, 4, hitColor.toColor());
 }
 
 void ResizeBox::hoverEnterEvent(const MouseEvent &event) {
@@ -40,8 +40,8 @@ void ResizeBox::hoverLeaveEvent() {
     emit updated();
 }
 
-void ResizeBox::updateVAO() {
-    if (!_isVAODirty) {
+void ResizeBox::updateVAOs() {
+    if (!_isVAOsDirty) {
         return;
     }
 
@@ -82,9 +82,9 @@ void ResizeBox::updateVAO() {
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
     auto ibo = std::make_shared<gl::IndexBuffer>(lines);
-    _vao = std::make_shared<gl::VertexArray>(vbo, ibo);
+    _edgesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
 
-    _isVAODirty = false;
+    _isVAOsDirty = false;
 }
 
 } // namespace shapecraft
