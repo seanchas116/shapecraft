@@ -8,7 +8,6 @@
 namespace shapecraft {
 
 ResizeBox::ResizeBox() {
-    updateVertexArray();
 }
 
 void ResizeBox::setBox(const Box<double> &box) {
@@ -17,16 +16,21 @@ void ResizeBox::setBox(const Box<double> &box) {
     }
 
     _box = box;
-    updateVertexArray();
+    _isVAODirty = true;
+    emit updated();
 }
 
 void ResizeBox::draw(const DrawEvent &event) {
+    updateVAO();
+
     event.drawMethods->clearDepth(1);
-    event.drawMethods->drawLine(_vertexArray, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 1, 1));
+    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 1, glm::vec4(0, 0, 1, 1));
 }
 
-void ResizeBox::updateVertexArray() {
-    recallContext();
+void ResizeBox::updateVAO() {
+    if (!_isVAODirty) {
+        return;
+    }
 
     auto minPos = _box.minPosition();
     auto maxPos = _box.maxPosition();
@@ -65,9 +69,9 @@ void ResizeBox::updateVertexArray() {
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
     auto ibo = std::make_shared<gl::IndexBuffer>(lines);
-    _vertexArray = std::make_shared<gl::VertexArray>(vbo, ibo);
+    _vao = std::make_shared<gl::VertexArray>(vbo, ibo);
 
-    emit updated();
+    _isVAODirty = false;
 }
 
 } // namespace shapecraft

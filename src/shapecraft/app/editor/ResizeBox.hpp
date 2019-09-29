@@ -17,10 +17,11 @@ class ResizeBox : public viewport::Renderable, protected gl::ContextRecallable {
     void draw(const DrawEvent &event) override;
 
   private:
-    void updateVertexArray();
+    void updateVAO();
 
     Box<double> _box;
-    SP<gl::VertexArray> _vertexArray;
+    bool _isVAODirty = true;
+    SP<gl::VertexArray> _vao;
 };
 
 } // namespace shapecraft
