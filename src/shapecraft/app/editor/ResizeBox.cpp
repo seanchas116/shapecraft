@@ -46,8 +46,9 @@ void ResizeBox::updateVAOs() {
         return;
     }
 
-    auto minPos = _box.minPosition();
-    auto maxPos = _box.maxPosition();
+    glm::vec3 minPos = _box.minPosition();
+    glm::vec3 maxPos = _box.maxPosition();
+    glm::vec3 midPos = (minPos + maxPos) * 0.5f;
 
     std::vector<glm::vec3> positions = {
         glm::vec3(minPos.x, minPos.y, minPos.z),
@@ -58,6 +59,12 @@ void ResizeBox::updateVAOs() {
         glm::vec3(maxPos.x, minPos.y, maxPos.z),
         glm::vec3(minPos.x, maxPos.y, maxPos.z),
         glm::vec3(maxPos.x, maxPos.y, maxPos.z),
+        glm::vec3(minPos.x, midPos.yz),
+        glm::vec3(maxPos.x, midPos.yz),
+        glm::vec3(midPos.x, minPos.y, midPos.z),
+        glm::vec3(midPos.x, maxPos.y, midPos.z),
+        glm::vec3(midPos.xy, minPos.z),
+        glm::vec3(midPos.xy, maxPos.z),
     };
 
     std::vector<std::array<uint32_t, 2>> lines = {
