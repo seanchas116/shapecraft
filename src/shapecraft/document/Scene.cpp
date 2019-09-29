@@ -19,7 +19,7 @@ SP<Node> Scene::newInstance(const SP<History> &history) const {
     return std::make_shared<Scene>(history);
 }
 
-QString Scene::type() const {
+const char *Scene::type() const {
     return "scene";
 }
 

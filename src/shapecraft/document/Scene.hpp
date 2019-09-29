@@ -12,7 +12,7 @@ class Scene final : public Node {
     bool canHaveChildren() const override;
     bool canInsertNode(const SP<Node> &node) const override;
     SP<Node> newInstance(const SP<History> &history) const override;
-    QString type() const override;
+    const char *type() const override;
 
     auto &&selectedNodes() const { return _selectedNodes; }
     std::vector<SP<Node>> normalizedSelectedNodes() const;

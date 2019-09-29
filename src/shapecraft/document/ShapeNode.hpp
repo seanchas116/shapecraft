@@ -15,7 +15,7 @@ class ShapeNode : public Node {
 
     bool canHaveChildren() const override;
     bool canInsertNode(const SP<Node> &node) const override;
-    QString type() const override;
+    const char *type() const override;
 
     TopoDS_Shape shape() const { return _shape; }
 

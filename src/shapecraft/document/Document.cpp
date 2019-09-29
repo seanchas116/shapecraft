@@ -28,7 +28,7 @@ SP<Node> Document::newInstance(const SP<History> &history) const {
     throw std::runtime_error("Document cannot be cloned");
 }
 
-QString Document::type() const {
+const char *Document::type() const {
     return "document";
 }
 

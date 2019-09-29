@@ -14,7 +14,7 @@ bool ShapeNode::canInsertNode(const SP<Node> &node) const {
     return !!std::dynamic_pointer_cast<ShapeNode>(node);
 }
 
-QString ShapeNode::type() const {
+const char *ShapeNode::type() const {
     return "shape";
 }
 
