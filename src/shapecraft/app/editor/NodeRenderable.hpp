@@ -29,9 +29,13 @@ class NodeRenderable final : public viewport::Renderable, gl::ContextRecallable 
     void setShape(const TopoDS_Shape &shape);
 
   private:
+    void updateVAOs();
+
     SP<Scene> _scene;
     SP<Node> _node;
 
+    TopoDS_Shape _shape;
+    bool _isVAOsDirty = true;
     glm::dmat4 _shapeTransform;
     SP<gl::VertexArray> _facesVAO;
     SP<gl::VertexArray> _edgesVAO;

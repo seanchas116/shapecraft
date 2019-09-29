@@ -58,6 +58,9 @@ void NodeRenderable::draw(const DrawEvent &event) {
     if (!shapeNode) {
         return;
     }
+
+    updateVAOs();
+
     auto matrix = _shapeTransform;
 
     draw::Material material;
@@ -148,11 +151,19 @@ static glm::mat4 toGLM(const gp_Trsf &t) {
 }
 
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
-    recallContext();
+    _shape = shape;
+    _isVAOsDirty = true;
+    emit updated();
+}
 
-    _shapeTransform = toGLM(shape.Location().Transformation());
+void NodeRenderable::updateVAOs() {
+    if (!_isVAOsDirty) {
+        return;
+    }
 
-    BRepMesh_IncrementalMesh meshing(shape, 0.01, false, 0.5);
+    _shapeTransform = toGLM(_shape.Location().Transformation());
+
+    BRepMesh_IncrementalMesh meshing(_shape, 0.01, false, 0.5);
     meshing.Perform();
 
     QHash<Poly_Triangulation *, int> indexOffsets;
@@ -160,7 +171,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
     std::vector<draw::Vertex> vertices;
     std::vector<draw::PointLineVertex> edgeVertices;
     {
-        TopExp_Explorer explorer(shape, TopAbs_FACE);
+        TopExp_Explorer explorer(_shape, TopAbs_FACE);
 
         std::vector<std::array<uint32_t, 3>> triangleIndexes;
 
@@ -212,7 +223,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
     {
         std::vector<std::array<uint32_t, 2>> lines;
 
-        TopExp_Explorer edgeExplorer(shape, TopAbs_EDGE);
+        TopExp_Explorer edgeExplorer(_shape, TopAbs_EDGE);
         for (; edgeExplorer.More(); edgeExplorer.Next()) {
             auto edge = TopoDS::Edge(edgeExplorer.Current());
             Handle(Poly_PolygonOnTriangulation) polygon;
@@ -234,7 +245,7 @@ void NodeRenderable::setShape(const TopoDS_Shape &shape) {
         _edgesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
     }
 
-    emit updated();
+    _isVAOsDirty = false;
 }
 
 } // namespace shapecraft
