@@ -26,6 +26,7 @@ class ResizeBox : public viewport::Renderable {
 
     bool _isVAOsDirty = true;
     SP<gl::VertexArray> _edgesVAO;
+    SP<gl::VertexArray> _cornersVAO;
 
     bool _isHovered = false;
 };

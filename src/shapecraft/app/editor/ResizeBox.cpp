@@ -23,6 +23,7 @@ void ResizeBox::setBox(const Box<double> &box) {
 void ResizeBox::draw(const DrawEvent &event) {
     updateVAOs();
     event.drawMethods->drawLine(_edgesVAO, glm::mat4(1), event.camera, _isHovered ? 2 : 1, glm::vec4(0, 0, 1, 1));
+    event.drawMethods->drawCircle(_cornersVAO, glm::mat4(1), event.camera, 2, glm::vec4(0, 0, 1, 1));
 }
 
 void ResizeBox::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
@@ -83,6 +84,7 @@ void ResizeBox::updateVAOs() {
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
     auto ibo = std::make_shared<gl::IndexBuffer>(lines);
     _edgesVAO = std::make_shared<gl::VertexArray>(vbo, ibo);
+    _cornersVAO = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Point);
 
     _isVAOsDirty = false;
 }
