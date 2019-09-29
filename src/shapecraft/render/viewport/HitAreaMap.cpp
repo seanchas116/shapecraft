@@ -36,7 +36,7 @@ Opt<HitResult> HitAreaMap::pick(vec2 physicalPos) {
     }
     auto renderable = _lastRenderables[hitColor.index];
     float depth = _framebuffer->readDepth(physicalPos);
-    return {{renderable, hitColor.customValue, depth}};
+    return {{renderable, hitColor.innerID, depth}};
 }
 
 void HitAreaMap::draw(const SP<Renderable> &renderable, const Renderable::DrawEvent &drawEvent) {

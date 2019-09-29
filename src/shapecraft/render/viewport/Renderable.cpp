@@ -119,7 +119,7 @@ union HitColorData {
 glm::vec4 HitColor::toColor() const {
     HitColorData data;
     data.index = index;
-    data.customValue = customValue;
+    data.customValue = innerID;
     return glm::vec4(data.color) / float(0xFFFF);
 }
 

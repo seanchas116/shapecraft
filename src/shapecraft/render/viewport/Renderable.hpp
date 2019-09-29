@@ -20,17 +20,17 @@ namespace viewport {
 class Viewport;
 
 struct HitColor {
-    HitColor(uint32_t index = std::numeric_limits<uint32_t>::max(), uint32_t customValue = 0) : index(index), customValue(customValue) {}
+    HitColor(uint32_t index = std::numeric_limits<uint32_t>::max(), uint32_t innerID = 0) : index(index), innerID(innerID) {}
 
-    HitColor withCustomValue(uint32_t customValue) {
-        return HitColor(index, customValue);
+    HitColor withInnerID(uint32_t innerID) {
+        return HitColor(index, innerID);
     }
 
     glm::vec4 toColor() const;
     static HitColor fromColor(glm::vec4 color);
 
     uint32_t index;
-    uint32_t customValue;
+    uint32_t innerID;
 };
 
 class Renderable : public QObject, public std::enable_shared_from_this<Renderable> {
@@ -52,7 +52,7 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
         Viewport *viewport;
         Camera camera;
         glm::dvec3 viewportPos;
-        uint32_t hitCustomValue;
+        uint32_t innerID;
         QMouseEvent *originalMouseEvent;
         QContextMenuEvent *originalContextMenuEvent;
 
