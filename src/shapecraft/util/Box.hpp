@@ -1,5 +1,6 @@
 #pragma once
 #include "Debug.hpp"
+#include "JSON.hpp"
 #include "Ray.hpp"
 #include <boost/operators.hpp>
 #include <glm/glm.hpp>
@@ -73,6 +74,17 @@ QDebug operator<<(QDebug debug, const Box<T> &box) {
     debug.nospace();
     debug << "Box(" << box.minPosition() << ", " << box.size() << ")";
     return debug;
+}
+
+template <typename T>
+void to_json(nlohmann::json &json, const Box<T> &box) {
+    json[0] = box.minPosition();
+    json[1] = box.size();
+}
+
+template <typename T>
+void from_json(const nlohmann::json &json, Box<T> &box) {
+    box = Box<T>::fromSize(json.at(0), json.at(1));
 }
 
 } // namespace shapecraft
