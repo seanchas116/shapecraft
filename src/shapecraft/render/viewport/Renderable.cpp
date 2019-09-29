@@ -29,16 +29,6 @@ void Renderable::setChildRenderables(const std::vector<SP<Renderable>> &children
     emit updated();
 }
 
-void Renderable::preDrawRecursive(const DrawEvent &event) {
-    if (!_isVisible) {
-        return;
-    }
-    preDraw(event);
-    for (auto &c : childRenderables()) {
-        c->preDrawRecursive(event);
-    }
-}
-
 void Renderable::drawRecursive(const DrawEvent &event) {
     if (!_isVisible) {
         return;
@@ -71,10 +61,6 @@ void Renderable::draw2DRecursive(const Draw2DEvent &event) {
     for (auto &c : childRenderables()) {
         c->draw2DRecursive(event);
     }
-}
-
-void Renderable::preDraw(const DrawEvent &event) {
-    Q_UNUSED(event)
 }
 
 void Renderable::draw(const DrawEvent &event) {

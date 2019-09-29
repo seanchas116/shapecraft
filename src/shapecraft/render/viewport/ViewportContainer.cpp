@@ -73,10 +73,6 @@ void ViewportContainer::paintGL() {
     for (auto viewport : viewports) {
         Renderable::DrawEvent drawEvent{viewport, viewport->camera(), operations};
 
-        for (auto &&layer : _layers) {
-            layer->preDrawRecursive(drawEvent);
-        }
-
         glm::dvec2 minPos = mapQtToGL(this, viewport->mapTo(this, viewport->rect().bottomLeft() + QPoint(0, 1))); // right and bottom is 1px inset in integer QRect
         glm::dvec2 maxPos = mapQtToGL(this, viewport->mapTo(this, viewport->rect().topRight() + QPoint(1, 0)));
         glm::ivec2 minPosViewport = round(minPos * devicePixelRatioF());
