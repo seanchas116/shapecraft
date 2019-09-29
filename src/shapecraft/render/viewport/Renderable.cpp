@@ -49,13 +49,17 @@ void Renderable::drawRecursive(const DrawEvent &event) {
     }
 }
 
-void Renderable::drawHitAreaRecursive(const DrawEvent &event) {
+void Renderable::drawHitAreaRecursive(const DrawEvent &event, std::vector<SP<Renderable>> &drawnRenderables) {
     if (!_isVisible) {
         return;
     }
-    drawHitArea(event);
+
+    auto index = drawnRenderables.size();
+    drawnRenderables.push_back(shared_from_this());
+    drawHitArea(event, valueToColor(index));
+
     for (auto &c : childRenderables()) {
-        c->drawHitAreaRecursive(event);
+        c->drawHitAreaRecursive(event, drawnRenderables);
     }
 }
 
@@ -84,8 +88,9 @@ void Renderable::draw(const DrawEvent &event) {
     Q_UNUSED(event)
 }
 
-void Renderable::drawHitArea(const DrawEvent &event) {
+void Renderable::drawHitArea(const DrawEvent &event, glm::vec4 hitColor) {
     Q_UNUSED(event)
+    Q_UNUSED(hitColor)
 }
 
 void Renderable::draw2D(const Draw2DEvent &event) {
@@ -117,28 +122,6 @@ void Renderable::hoverEnterEvent(const MouseEvent &event) {
 }
 
 void Renderable::hoverLeaveEvent() {
-}
-
-glm::vec4 Renderable::toIDColor() const {
-    union {
-        const Renderable *ptr;
-        glm::u16vec4 color;
-    } idColor;
-    idColor.ptr = this;
-
-    return glm::vec4(idColor.color) / float(0xFFFF);
-}
-
-Opt<SP<Renderable>> Renderable::fromIDColor(glm::vec4 color) {
-    union {
-        Renderable *ptr;
-        glm::u16vec4 color;
-    } idColor;
-    idColor.color = glm::u16vec4(glm::round(color * float(0xFFFF)));
-    if (!idColor.ptr) {
-        return {};
-    }
-    return idColor.ptr->shared_from_this();
 }
 
 glm::vec4 valueToColor(uint64_t value) {

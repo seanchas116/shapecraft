@@ -14,9 +14,8 @@ void Background::draw(const DrawEvent &event) {
     event.drawMethods->clear(glm::vec4(0.8, 0.8, 0.8, 1), 1);
 }
 
-void Background::drawHitArea(const DrawEvent &event) {
-    auto color = toIDColor();
-    event.drawMethods->clear(color, 1);
+void Background::drawHitArea(const DrawEvent &event, glm::vec4 hitColor) {
+    event.drawMethods->clear(hitColor, 1);
 }
 
 void Background::mousePressEvent(const MouseEvent &event) {

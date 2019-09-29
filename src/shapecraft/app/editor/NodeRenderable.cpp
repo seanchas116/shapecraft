@@ -65,14 +65,14 @@ void NodeRenderable::draw(const DrawEvent &event) {
     event.drawMethods->drawLine(_edgesVAO, matrix, event.camera, 1, glm::vec4(0, 0, 0, 1));
 }
 
-void NodeRenderable::drawHitArea(const DrawEvent &event) {
+void NodeRenderable::drawHitArea(const DrawEvent &event, glm::vec4 hitColor) {
     auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(_node);
     if (!shapeNode) {
         return;
     }
     auto matrix = _shapeTransform;
 
-    event.drawMethods->drawUnicolor(_facesVAO, matrix, event.camera, toIDColor());
+    event.drawMethods->drawUnicolor(_facesVAO, matrix, event.camera, hitColor);
 }
 
 void NodeRenderable::mousePressEvent(const MouseEvent &event) {

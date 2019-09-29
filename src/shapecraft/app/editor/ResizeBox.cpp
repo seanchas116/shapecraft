@@ -25,8 +25,8 @@ void ResizeBox::draw(const DrawEvent &event) {
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, _isHovered ? 2 : 1, glm::vec4(0, 0, 1, 1));
 }
 
-void ResizeBox::drawHitArea(const DrawEvent &event) {
-    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, toIDColor());
+void ResizeBox::drawHitArea(const DrawEvent &event, glm::vec4 hitColor) {
+    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, hitColor);
 }
 
 void ResizeBox::hoverEnterEvent(const MouseEvent &event) {

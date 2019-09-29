@@ -58,14 +58,14 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
 
     void preDrawRecursive(const DrawEvent &event);
     void drawRecursive(const DrawEvent &event);
-    void drawHitAreaRecursive(const DrawEvent &event);
+    void drawHitAreaRecursive(const DrawEvent &event, std::vector<SP<Renderable>> &drawnRenderables);
     void draw2DRecursive(const Draw2DEvent &event);
 
     void getDescendants(std::vector<SP<Renderable>> &descendants);
 
     virtual void preDraw(const DrawEvent &event);
     virtual void draw(const DrawEvent &event);
-    virtual void drawHitArea(const DrawEvent &event);
+    virtual void drawHitArea(const DrawEvent &event, glm::vec4 hitColor);
     virtual void draw2D(const Draw2DEvent &event);
 
     virtual void mousePressEvent(const MouseEvent &event);
@@ -75,9 +75,6 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     virtual void contextMenuEvent(const MouseEvent &event);
     virtual void hoverEnterEvent(const MouseEvent &event);
     virtual void hoverLeaveEvent();
-
-    glm::vec4 toIDColor() const;
-    static Opt<SP<Renderable>> fromIDColor(glm::vec4 color);
 
   signals:
     void updated();

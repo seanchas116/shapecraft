@@ -18,7 +18,7 @@ class NodeRenderable final : public viewport::Renderable {
     NodeRenderable(const SP<Scene> &scene, const SP<Node> &node);
 
     void draw(const DrawEvent &event) override;
-    void drawHitArea(const DrawEvent &event) override;
+    void drawHitArea(const DrawEvent &event, glm::vec4 hitColor) override;
 
     void mousePressEvent(const MouseEvent &event) override;
     void mouseMoveEvent(const MouseEvent &event) override;

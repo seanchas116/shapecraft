@@ -30,25 +30,24 @@ Opt<HitResult> HitAreaMap::pick(vec2 physicalPos) {
     PixelData<vec4> pixels(glm::ivec2(1));
     _framebuffer->readPixels(physicalPos, pixels);
 
-    auto renderable = Renderable::fromIDColor(pixels.data()[0]);
-
-    if (!renderable) {
+    size_t index = colorToValue(pixels.data()[0]);
+    if (index >= _lastRenderables.size()) {
         return {};
     }
+    auto renderable = _lastRenderables[index];
     float depth = _framebuffer->readDepth(physicalPos);
-    return {{*renderable, depth}};
+    return {{renderable, depth}};
 }
 
 void HitAreaMap::draw(const SP<Renderable> &renderable, const Renderable::DrawEvent &drawEvent) {
     resize(drawEvent.camera.viewportSize());
 
     _framebuffer->bind();
-    drawEvent.drawMethods->clear(glm::vec4(0), 1);
-    renderable->drawHitAreaRecursive(drawEvent);
-    _framebuffer->unbind();
+    drawEvent.drawMethods->clear(valueToColor(std::numeric_limits<uint64_t>::max()), 1);
 
     _lastRenderables.clear();
-    renderable->getDescendants(_lastRenderables);
+    renderable->drawHitAreaRecursive(drawEvent, _lastRenderables);
+    _framebuffer->unbind();
 }
 
 } // namespace viewport
