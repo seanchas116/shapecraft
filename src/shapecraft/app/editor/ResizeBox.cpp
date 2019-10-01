@@ -10,12 +10,12 @@ namespace shapecraft {
 ResizeBoxEdge::ResizeBoxEdge(int axis, glm::ivec2 alignment) : _axis(axis), _alignment(alignment) {
 }
 
-void ResizeBoxEdge::draw(const viewport::Renderable::DrawEvent &event) {
+void ResizeBoxEdge::draw(const DrawEvent &event) {
     updateVAO();
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, isHovered() ? 1.5 : 1, glm::vec4(0, 0, 1, 1));
 }
 
-void ResizeBoxEdge::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
+void ResizeBoxEdge::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 6, hitColor.toColor());
 }
 
@@ -58,12 +58,12 @@ void ResizeBoxEdge::updateVAO() {
 ResizeBoxVertex::ResizeBoxVertex(glm::dvec3 alignment) : _alignment(alignment) {
 }
 
-void ResizeBoxVertex::draw(const viewport::Renderable::DrawEvent &event) {
+void ResizeBoxVertex::draw(const DrawEvent &event) {
     updateVAO();
     event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, isHovered() ? 6 : 4, glm::vec4(0, 0, 1, 1));
 }
 
-void ResizeBoxVertex::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
+void ResizeBoxVertex::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
     event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, 12, hitColor.toColor());
 }
 
