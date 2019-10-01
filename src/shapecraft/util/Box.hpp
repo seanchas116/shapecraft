@@ -15,6 +15,9 @@ class Box final : private boost::orable<Box<T>>, private boost::equality_compara
     static Box fromSize(const glm::tvec3<T> &pos, const glm::tvec3<T> &size) {
         return Box(pos, size);
     }
+    static Box fromPoints(const glm::tvec3<T> &pos0, const glm::tvec3<T> &pos1) {
+        return Box(glm::min(pos0, pos1), glm::max(pos0, pos1));
+    }
 
     glm::tvec3<T> minPosition() const { return _position; }
     glm::tvec3<T> maxPosition() const { return _position + _size; }

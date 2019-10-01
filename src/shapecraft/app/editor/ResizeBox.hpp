@@ -37,6 +37,10 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
     void draw(const DrawEvent &event) override;
     void drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) override;
 
+    void mousePressEvent(const MouseEvent &event) override;
+    void mouseMoveEvent(const MouseEvent &event) override;
+    void mouseReleaseEvent(const MouseEvent &event) override;
+
     void setBox(const Box<double> &box);
 
   signals:
@@ -49,6 +53,12 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
     glm::dvec3 _alignment;
     bool _isVAODirty = true;
     SP<gl::VertexArray> _vao;
+
+    bool _dragged = false;
+    Box<double> _dragInitBox;
+    glm::dvec3 _dragInitWorldPos;
+    glm::dvec2 _dragInitViewportPos;
+    bool _dragStarted = false;
 };
 
 class ResizeBox : public viewport::HoverableRenderable {

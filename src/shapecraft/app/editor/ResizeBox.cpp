@@ -3,6 +3,7 @@
 #include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
 #include "shapecraft/util/Debug.hpp"
+#include <QMouseEvent>
 #include <array>
 
 namespace shapecraft {
@@ -65,6 +66,35 @@ void ResizeBoxVertex::draw(const DrawEvent &event) {
 
 void ResizeBoxVertex::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
     event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, 12, hitColor.toColor());
+}
+
+void ResizeBoxVertex::mousePressEvent(const MouseEvent &event) {
+    glm::dvec3 worldPos = event.worldPos();
+
+    _dragged = true;
+    _dragInitBox = _box;
+    _dragInitWorldPos = worldPos;
+    _dragStarted = false;
+}
+
+void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
+    if (!_dragged) {
+        return;
+    }
+    auto worldPos = event.worldPos();
+
+    std::array<glm::dvec3, 2> positions = {_dragInitBox.minPosition(), _dragInitBox.maxPosition()};
+    positions[int(_alignment.x)].x = worldPos.x;
+    positions[int(_alignment.y)].y = worldPos.y;
+    positions[int(_alignment.y)].z = worldPos.z;
+
+    auto newBox = Box<double>::fromPoints(positions[0], positions[1]);
+    emit boxEdited(newBox);
+}
+
+void ResizeBoxVertex::mouseReleaseEvent(const MouseEvent &event) {
+    Q_UNUSED(event)
+    _dragged = false;
 }
 
 void ResizeBoxVertex::setBox(const Box<double> &box) {
