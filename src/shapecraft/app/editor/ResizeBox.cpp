@@ -7,6 +7,56 @@
 
 namespace shapecraft {
 
+ResizeBoxEdge::ResizeBoxEdge(int axis, glm::ivec2 alignment) : _axis(axis), _alignment(alignment) {
+}
+
+void ResizeBoxEdge::draw(const viewport::Renderable::DrawEvent &event) {
+    updateVAO();
+    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, isHovered() ? 1.5 : 1, glm::vec4(0, 0, 1, 1));
+}
+
+void ResizeBoxEdge::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
+    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, hitColor.toColor());
+}
+
+void ResizeBoxEdge::setBox(const Box<double> &box) {
+    if (_box == box) {
+        return;
+    }
+
+    _box = box;
+    _isVAODirty = true;
+    emit updated();
+}
+
+void ResizeBoxEdge::updateVAO() {
+    if (!_isVAODirty) {
+        return;
+    }
+    _isVAODirty = false;
+
+    glm::dvec3 beginPosRatio;
+    beginPosRatio[_axis] = 0;
+    beginPosRatio[(_axis + 1) % 3] = _alignment.x;
+    beginPosRatio[(_axis + 2) % 3] = _alignment.y;
+
+    auto endPosRatio = beginPosRatio;
+    endPosRatio[_axis] = 1;
+
+    auto beginPos = glm::mix(_box.minPosition(), _box.maxPosition(), beginPosRatio);
+    auto endPos = glm::mix(_box.minPosition(), _box.maxPosition(), endPosRatio);
+
+    qDebug() << beginPos << endPos;
+
+    std::vector<draw::PointLineVertex> vertices{
+        {beginPos, glm::vec4(0), 1},
+        {endPos, glm::vec4(0), 1},
+    };
+
+    auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
+    _vao = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Line);
+}
+
 ResizeBoxVertex::ResizeBoxVertex(glm::dvec3 alignment) : _alignment(alignment) {
 }
 
@@ -174,56 +224,6 @@ void ResizeBox::updateVAOs() {
     _cornersVAO = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Point);
 
     _isVAOsDirty = false;
-}
-
-ResizeBoxEdge::ResizeBoxEdge(int axis, glm::ivec2 alignment) : _axis(axis), _alignment(alignment) {
-}
-
-void ResizeBoxEdge::draw(const viewport::Renderable::DrawEvent &event) {
-    updateVAO();
-    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, isHovered() ? 1.5 : 1, glm::vec4(0, 0, 1, 1));
-}
-
-void ResizeBoxEdge::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
-    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, hitColor.toColor());
-}
-
-void ResizeBoxEdge::setBox(const Box<double> &box) {
-    if (_box == box) {
-        return;
-    }
-
-    _box = box;
-    _isVAODirty = true;
-    emit updated();
-}
-
-void ResizeBoxEdge::updateVAO() {
-    if (!_isVAODirty) {
-        return;
-    }
-    _isVAODirty = false;
-
-    glm::dvec3 beginPosRatio;
-    beginPosRatio[_axis] = 0;
-    beginPosRatio[(_axis + 1) % 3] = _alignment.x;
-    beginPosRatio[(_axis + 2) % 3] = _alignment.y;
-
-    auto endPosRatio = beginPosRatio;
-    endPosRatio[_axis] = 1;
-
-    auto beginPos = glm::mix(_box.minPosition(), _box.maxPosition(), beginPosRatio);
-    auto endPos = glm::mix(_box.minPosition(), _box.maxPosition(), endPosRatio);
-
-    qDebug() << beginPos << endPos;
-
-    std::vector<draw::PointLineVertex> vertices{
-        {beginPos, glm::vec4(0), 1},
-        {endPos, glm::vec4(0), 1},
-    };
-
-    auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
-    _vao = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Line);
 }
 
 } // namespace shapecraft
