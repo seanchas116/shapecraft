@@ -16,6 +16,9 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
 
     void setBox(const Box<double> &box);
 
+  signals:
+    void boxEdited(const Box<double> &box);
+
   private:
     void updateVAO();
 
@@ -36,6 +39,9 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
 
     void setBox(const Box<double> &box);
 
+  signals:
+    void boxEdited(const Box<double> &box);
+
   private:
     void updateVAO();
 
@@ -51,6 +57,9 @@ class ResizeBox : public viewport::HoverableRenderable {
     ResizeBox();
 
     void setBox(const Box<double> &box);
+
+  signals:
+    void boxEdited(const Box<double> &box);
 
   private:
     Box<double> _box;

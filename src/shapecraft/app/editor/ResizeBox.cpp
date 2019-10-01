@@ -127,12 +127,14 @@ ResizeBox::ResizeBox() {
 
     for (auto &&a : alignments) {
         auto vertex = std::make_shared<ResizeBoxVertex>(a);
+        connect(vertex.get(), &ResizeBoxVertex::boxEdited, this, &ResizeBox::boxEdited);
         _vertices.push_back(vertex);
         children.push_back(vertex);
     }
 
     for (auto &&[axis, alignment] : edgeAlignments) {
         auto edge = std::make_shared<ResizeBoxEdge>(axis, alignment);
+        connect(edge.get(), &ResizeBoxEdge::boxEdited, this, &ResizeBox::boxEdited);
         _edges.push_back(edge);
         children.push_back(edge);
     }
