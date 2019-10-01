@@ -52,19 +52,10 @@ class ResizeBox : public viewport::HoverableRenderable {
 
     void setBox(const Box<double> &box);
 
-    void draw(const DrawEvent &event) override;
-    void drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) override;
-
   private:
-    void updateVAOs();
-
     Box<double> _box;
     std::vector<SP<ResizeBoxVertex>> _vertices;
     std::vector<SP<ResizeBoxEdge>> _edges;
-
-    bool _isVAOsDirty = true;
-    SP<gl::VertexArray> _edgesVAO;
-    SP<gl::VertexArray> _cornersVAO;
 };
 
 } // namespace shapecraft
