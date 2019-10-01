@@ -16,6 +16,7 @@ namespace shapecraft {
 EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, QWidget *parent)
     : viewport::ViewportContainer(parent),
       _state(state) {
+    setFocusPolicy(Qt::ClickFocus);
 
     auto viewport = new EditorViewport(state);
 
