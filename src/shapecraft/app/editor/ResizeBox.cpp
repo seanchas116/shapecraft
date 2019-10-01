@@ -16,7 +16,7 @@ void ResizeBoxVertex::draw(const viewport::Renderable::DrawEvent &event) {
 }
 
 void ResizeBoxVertex::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
-    event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, _isHovered ? 6 : 4, hitColor.toColor());
+    event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, 8, hitColor.toColor());
 }
 
 void ResizeBoxVertex::hoverEnterEvent(const viewport::Renderable::MouseEvent &event) {
