@@ -175,6 +175,9 @@ void NodeRenderable::updateVAOs() {
             TopoDS_Face face = TopoDS::Face(explorer.Current());
             TopLoc_Location location;
             auto triangulation = BRep_Tool::Triangulation(face, location);
+            if (!triangulation) {
+                continue;
+            }
 
             const TColgp_Array1OfPnt &nodes = triangulation->Nodes();
 
