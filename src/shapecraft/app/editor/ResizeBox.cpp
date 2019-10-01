@@ -63,6 +63,12 @@ ResizeBox::ResizeBox() {
         glm::dvec3(1, 0, 1),
         glm::dvec3(1, 1, 0),
         glm::dvec3(1, 1, 1),
+        glm::dvec3(0, 0.5, 0.5),
+        glm::dvec3(1, 0.5, 0.5),
+        glm::dvec3(0.5, 0, 0.5),
+        glm::dvec3(0.5, 1, 0.5),
+        glm::dvec3(0.5, 0.5, 0),
+        glm::dvec3(0.5, 0.5, 1),
     };
 
     std::vector<SP<Renderable>> children;
