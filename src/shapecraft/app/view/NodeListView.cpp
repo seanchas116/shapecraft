@@ -13,6 +13,7 @@ NodeListView::NodeListView(const SP<WindowState> &state, QWidget *parent)
     : QWidget(parent),
       _state(state) {
     _treeView = new QTreeView();
+    _treeView->setFocusPolicy(Qt::NoFocus);
     _treeView->setHeaderHidden(true);
     _treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     _treeView->setDragDropMode(QAbstractItemView::DragDrop);
