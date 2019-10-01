@@ -7,12 +7,81 @@
 
 namespace shapecraft {
 
+ResizeBoxVertex::ResizeBoxVertex(glm::dvec3 alignment) : _alignment(alignment) {
+}
+
+void ResizeBoxVertex::draw(const viewport::Renderable::DrawEvent &event) {
+    updateVAO();
+    event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, _isHovered ? 6 : 4, glm::vec4(0, 0, 1, 1));
+}
+
+void ResizeBoxVertex::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
+    event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, _isHovered ? 6 : 4, hitColor.toColor());
+}
+
+void ResizeBoxVertex::hoverEnterEvent(const viewport::Renderable::MouseEvent &event) {
+    Q_UNUSED(event)
+    _isHovered = true;
+    emit updated();
+}
+
+void ResizeBoxVertex::hoverLeaveEvent() {
+    _isHovered = false;
+    emit updated();
+}
+
+void ResizeBoxVertex::setBox(const Box<double> &box) {
+    if (_box == box) {
+        return;
+    }
+
+    _box = box;
+    _isVAODirty = true;
+    emit updated();
+}
+
+void ResizeBoxVertex::updateVAO() {
+    if (!_isVAODirty) {
+        return;
+    }
+    _isVAODirty = false;
+
+    auto position = glm::mix(_box.minPosition(), _box.maxPosition(), _alignment);
+    std::vector<draw::PointLineVertex> vertices{{position, glm::vec4(0), 1}};
+
+    auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
+    _vao = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Point);
+}
+
 ResizeBox::ResizeBox() {
+    std::vector<glm::dvec3> alignments = {
+        glm::dvec3(0, 0, 0),
+        glm::dvec3(0, 0, 1),
+        glm::dvec3(0, 1, 0),
+        glm::dvec3(0, 1, 1),
+        glm::dvec3(1, 0, 0),
+        glm::dvec3(1, 0, 1),
+        glm::dvec3(1, 1, 0),
+        glm::dvec3(1, 1, 1),
+    };
+
+    std::vector<SP<Renderable>> children;
+
+    for (auto &&a : alignments) {
+        auto vertex = std::make_shared<ResizeBoxVertex>(a);
+        _vertices.push_back(vertex);
+        children.push_back(vertex);
+    }
+    setChildRenderables(children);
 }
 
 void ResizeBox::setBox(const Box<double> &box) {
     if (_box == box) {
         return;
+    }
+
+    for (auto &&vertex : _vertices) {
+        vertex->setBox(box);
     }
 
     _box = box;
@@ -23,7 +92,6 @@ void ResizeBox::setBox(const Box<double> &box) {
 void ResizeBox::draw(const DrawEvent &event) {
     updateVAOs();
     event.drawMethods->drawLine(_edgesVAO, glm::mat4(1), event.camera, _isHovered ? 1.5 : 1, glm::vec4(0, 0, 1, 1));
-    event.drawMethods->drawCircle(_cornersVAO, glm::mat4(1), event.camera, _isHovered ? 6 : 4, glm::vec4(0, 0, 1, 1));
 }
 
 void ResizeBox::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
