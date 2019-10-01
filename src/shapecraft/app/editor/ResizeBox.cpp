@@ -16,7 +16,7 @@ void ResizeBoxEdge::draw(const viewport::Renderable::DrawEvent &event) {
 }
 
 void ResizeBoxEdge::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
-    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 4, hitColor.toColor());
+    event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 6, hitColor.toColor());
 }
 
 void ResizeBoxEdge::setBox(const Box<double> &box) {
@@ -64,7 +64,7 @@ void ResizeBoxVertex::draw(const viewport::Renderable::DrawEvent &event) {
 }
 
 void ResizeBoxVertex::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
-    event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, 8, hitColor.toColor());
+    event.drawMethods->drawCircle(_vao, glm::mat4(1), event.camera, 12, hitColor.toColor());
 }
 
 void ResizeBoxVertex::setBox(const Box<double> &box) {
