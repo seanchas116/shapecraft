@@ -46,8 +46,6 @@ void ResizeBoxEdge::updateVAO() {
     auto beginPos = glm::mix(_box.minPosition(), _box.maxPosition(), beginPosRatio);
     auto endPos = glm::mix(_box.minPosition(), _box.maxPosition(), endPosRatio);
 
-    qDebug() << beginPos << endPos;
-
     std::vector<draw::PointLineVertex> vertices{
         {beginPos, glm::vec4(0), 1},
         {endPos, glm::vec4(0), 1},
