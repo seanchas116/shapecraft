@@ -6,6 +6,7 @@ namespace shapecraft {
 
 NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
     connect(_scene.get(), &Scene::selectedNodesChanged, this, &NodeResizeBox::onSelectedNodesChanged);
+    connect(this, &ResizeBox::boxEdited, this, &NodeResizeBox::handleBoxEdited);
     onSelectedNodesChanged();
 }
 
@@ -41,6 +42,10 @@ void NodeResizeBox::updateBox() {
         box |= _nodes[i]->boundingBox();
     }
     setBox(box);
+}
+
+void NodeResizeBox::handleBoxEdited(const Box<double> &box) {
+    Q_UNUSED(box)
 }
 
 } // namespace shapecraft

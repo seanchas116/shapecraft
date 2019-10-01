@@ -14,6 +14,7 @@ class NodeResizeBox : public ResizeBox {
   private:
     void onSelectedNodesChanged();
     void updateBox();
+    void handleBoxEdited(const Box<double> &box);
 
     SP<Scene> _scene;
     std::vector<SP<ShapeNode>> _nodes;
