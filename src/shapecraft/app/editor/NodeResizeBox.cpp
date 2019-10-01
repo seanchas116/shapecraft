@@ -45,7 +45,10 @@ void NodeResizeBox::updateBox() {
 }
 
 void NodeResizeBox::handleBoxEdited(const Box<double> &box) {
-    Q_UNUSED(box)
+    for (auto &&node : _nodes) {
+        // TODO: implement correctly
+        node->setBoundingBox(box);
+    }
 }
 
 } // namespace shapecraft
