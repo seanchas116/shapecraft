@@ -22,8 +22,8 @@ void ResizeBox::setBox(const Box<double> &box) {
 
 void ResizeBox::draw(const DrawEvent &event) {
     updateVAOs();
-    event.drawMethods->drawLine(_edgesVAO, glm::mat4(1), event.camera, _isHovered ? 2 : 1, glm::vec4(0, 0, 1, 1));
-    event.drawMethods->drawCircle(_cornersVAO, glm::mat4(1), event.camera, 4, glm::vec4(0, 0, 1, 1));
+    event.drawMethods->drawLine(_edgesVAO, glm::mat4(1), event.camera, _isHovered ? 1.5 : 1, glm::vec4(0, 0, 1, 1));
+    event.drawMethods->drawCircle(_cornersVAO, glm::mat4(1), event.camera, _isHovered ? 6 : 4, glm::vec4(0, 0, 1, 1));
 }
 
 void ResizeBox::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
