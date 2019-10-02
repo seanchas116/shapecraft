@@ -40,6 +40,7 @@ bool File::openFilePath(const QString &path) {
     try {
         auto json = nlohmann::json::parse(jsonString);
         _document->loadJSONRecursive(json);
+        _document->setCurrentScene(_document->scenes().at(0));
         setFilePath(path);
         setModified(false);
     } catch (const std::exception &ex) {
