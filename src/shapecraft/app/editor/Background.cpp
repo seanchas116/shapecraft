@@ -11,7 +11,7 @@ Background::Background(const SP<WindowState> &appState) : _appState(appState) {
 }
 
 void Background::draw(const DrawEvent &event) {
-    event.drawMethods->clear(glm::vec4(0.8, 0.8, 0.8, 1), 1);
+    event.drawMethods->clear(glm::vec4(0.2, 0.2, 0.2, 1), 1);
 }
 
 void Background::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
