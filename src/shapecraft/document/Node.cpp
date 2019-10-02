@@ -200,6 +200,11 @@ SP<Node> Node::fromJSONRecursive(const nlohmann::json &json, const SP<History> &
 void Node::loadJSONRecursive(const nlohmann::json &json) {
     loadJSON(json);
 
+    auto children = childNodes();
+    for (auto &&c : children) {
+        removeChildNode(c);
+    }
+
     std::vector<nlohmann::json> childJSONs = json.at("children");
     for (auto &&childJSON : childJSONs) {
         appendChildNode(Node::fromJSONRecursive(childJSON, history()));
