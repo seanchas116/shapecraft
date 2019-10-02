@@ -75,6 +75,8 @@ void ResizeBoxVertex::mousePressEvent(const MouseEvent &event) {
     _dragInitPositions = _positions;
     _dragInitWorldPos = worldPos;
     _dragStarted = false;
+
+    emit editStarted();
 }
 
 void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
@@ -159,6 +161,7 @@ ResizeBox::ResizeBox() {
 
     for (auto &&a : alignments) {
         auto vertex = std::make_shared<ResizeBoxVertex>(a);
+        connect(vertex.get(), &ResizeBoxVertex::editStarted, this, &ResizeBox::editStarted);
         connect(vertex.get(), &ResizeBoxVertex::positionsEdited, this, &ResizeBox::positionsEdited);
         _vertices.push_back(vertex);
         children.push_back(vertex);
@@ -166,6 +169,7 @@ ResizeBox::ResizeBox() {
 
     for (auto &&[axis, alignment] : edgeAlignments) {
         auto edge = std::make_shared<ResizeBoxEdge>(axis, alignment);
+        connect(edge.get(), &ResizeBoxEdge::editStarted, this, &ResizeBox::editStarted);
         connect(edge.get(), &ResizeBoxEdge::positionsEdited, this, &ResizeBox::positionsEdited);
         _edges.push_back(edge);
         children.push_back(edge);

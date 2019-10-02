@@ -17,6 +17,7 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
     void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
+    void editStarted();
     void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
@@ -44,6 +45,7 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
     void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
+    void editStarted();
     void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
@@ -69,6 +71,7 @@ class ResizeBox : public viewport::HoverableRenderable {
     void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
+    void editStarted();
     void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
