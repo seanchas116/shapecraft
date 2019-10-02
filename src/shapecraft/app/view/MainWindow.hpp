@@ -11,6 +11,9 @@ class MainWindow : public QMainWindow {
   public:
     explicit MainWindow(const SP<WindowState> &state, QWidget *parent = nullptr);
 
+  protected:
+    void closeEvent(QCloseEvent *event) override;
+
   private:
     void actualSize();
     void zoomIn();
@@ -24,6 +27,7 @@ class MainWindow : public QMainWindow {
     void updateWindowFilePath(const QString &filePath);
 
     SP<WindowState> _state;
+    bool _discardConfirmed = false;
 };
 
 } // namespace shapecraft

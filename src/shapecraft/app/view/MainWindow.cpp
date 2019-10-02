@@ -7,8 +7,10 @@
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/history/History.hpp"
 #include "shapecraft/util/Debug.hpp"
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
 #include <QUndoStack>
@@ -92,6 +94,46 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
 
     QSettings settings;
     restoreState(settings.value("windowState").toByteArray());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    if (!_discardConfirmed && _state->file()->isModified()) {
+        event->ignore();
+
+        auto messageBox = new QMessageBox(QMessageBox::Warning,
+                                          "",
+                                          tr("Do you want to save the changes made to \"%1\"?").arg(_state->file()->fileName()),
+                                          QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
+                                          this, Qt::Sheet);
+        messageBox->setDefaultButton(QMessageBox::Save);
+        messageBox->open();
+        connect(messageBox, &QDialog::finished, this, [this, messageBox](int result) {
+            messageBox->deleteLater();
+            switch (result) {
+            default:
+                return;
+            case QMessageBox::Save:
+                save();
+                connect(_state->file().get(), &File::modifiedChanged, this, [this](bool newModified) {
+                    if (!newModified) {
+                        close();
+                    }
+                });
+                return;
+            case QMessageBox::Discard:
+                _discardConfirmed = true;
+                close();
+                return;
+            }
+        });
+
+        return;
+    }
+
+    QSettings settings;
+    settings.setValue("windowState", saveState());
+
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::actualSize() {
