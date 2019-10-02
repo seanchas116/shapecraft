@@ -7,6 +7,25 @@ namespace shapecraft {
 Document::Document() : Node(std::make_shared<History>()) {
 }
 
+void Document::setCurrentScene(const SP<Scene> &scene) {
+    if (_currentScene == scene) {
+        return;
+    }
+
+    disconnect(_currentScene.get(), &Scene::selectedNodesChanged, this, &Document::selectedNodesChanged);
+
+    _currentScene = scene;
+
+    connect(scene.get(), &Scene::selectedNodesChanged, this, &Document::selectedNodesChanged);
+    emit selectedNodesChanged(selectedNodes());
+
+    emit currentSceneChanged(scene);
+}
+
+const std::unordered_set<SP<Node>> &Document::selectedNodes() const {
+    return _currentScene->selectedNodes();
+}
+
 std::vector<SP<Scene>> Document::scenes() const {
     std::vector<SP<Scene>> scenes;
     for (auto &&child : childNodes()) {
