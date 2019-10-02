@@ -9,6 +9,7 @@
 namespace shapecraft {
 
 DocumentActions::DocumentActions(const SP<Document> &document) : _document(document) {
+    connect(document.get(), &Document::selectedNodesChanged, this, &DocumentActions::updateIsNodeSelected);
 }
 
 void DocumentActions::copyNodes() {
@@ -57,6 +58,15 @@ void DocumentActions::selectAllNodes() {
         allNodes.insert(node);
     });
     _document->currentScene()->setSelectedNodes(std::move(allNodes));
+}
+
+void DocumentActions::updateIsNodeSelected() {
+    bool isNodeSelected = !_document->currentScene()->selectedNodes().empty();
+    if (_isNodeSelected == isNodeSelected) {
+        return;
+    }
+    _isNodeSelected = isNodeSelected;
+    emit isNodeSelectedChanged(isNodeSelected);
 }
 
 } // namespace shapecraft

@@ -12,16 +12,22 @@ class DocumentActions : public QObject {
   public:
     DocumentActions(const SP<Document> &document);
 
+    bool isNodeSelected() const { return _isNodeSelected; }
+
     void copyNodes();
     void cutNodes();
     void deleteNodes();
     void pasteNodes();
     void selectAllNodes();
 
-    // TODO
+  signals:
+    void isNodeSelectedChanged(bool selected);
 
   private:
+    void updateIsNodeSelected();
+
     SP<Document> _document;
+    bool _isNodeSelected = false;
 };
 
 } // namespace shapecraft
