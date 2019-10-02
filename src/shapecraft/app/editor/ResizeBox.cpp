@@ -86,7 +86,7 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
     positions[int(_alignment.x)].x = worldPos.x;
     positions[int(_alignment.y)].y = worldPos.y;
-    positions[int(_alignment.y)].z = worldPos.z;
+    positions[int(_alignment.z)].z = worldPos.z;
 
     emit positionsEdited(positions);
 }
