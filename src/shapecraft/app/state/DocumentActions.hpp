@@ -6,12 +6,17 @@
 namespace shapecraft {
 
 class Document;
-class Layer;
 
 class DocumentActions : public QObject {
     Q_OBJECT
   public:
     DocumentActions(const SP<Document> &document);
+
+    void copyNodes();
+    void cutNodes();
+    void deleteNodes();
+    void pasteNodes();
+    void selectAllNodes();
 
     // TODO
 
