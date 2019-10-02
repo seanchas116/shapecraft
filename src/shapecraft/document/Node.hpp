@@ -67,6 +67,8 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
     nlohmann::json toJSONRecursive() const;
     static SP<Node> fromJSONRecursive(const nlohmann::json &json, const SP<History> &history);
 
+    void loadJSONRecursive(const nlohmann::json &json);
+
     virtual const char *type() const = 0;
     static void addPrototype(const SP<Node> &prototype);
     auto &&prototypes() const { return _prototypes; }

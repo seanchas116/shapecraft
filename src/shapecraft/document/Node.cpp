@@ -193,13 +193,17 @@ SP<Node> Node::fromJSONRecursive(const nlohmann::json &json, const SP<History> &
     auto prototype = _prototypes.at(type);
 
     auto node = prototype->clone(history);
-    node->loadJSON(json);
+    node->loadJSONRecursive(json);
+    return node;
+}
+
+void Node::loadJSONRecursive(const nlohmann::json &json) {
+    loadJSON(json);
 
     std::vector<nlohmann::json> childJSONs = json.at("children");
     for (auto &&childJSON : childJSONs) {
-        node->appendChildNode(Node::fromJSONRecursive(childJSON, history));
+        appendChildNode(Node::fromJSONRecursive(childJSON, history()));
     }
-    return node;
 }
 
 void Node::addPrototype(const SP<Node> &prototype) {
