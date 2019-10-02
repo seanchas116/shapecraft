@@ -73,6 +73,10 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
 
     auto &&history() const { return _history; }
 
+    static QString nodesMimeType();
+    static QMimeData *toNodesMimeData(const std::vector<SP<Node>> &nodes);
+    static std::vector<SP<Node>> fromNodesMimeData(const QMimeData *mimeData, const SP<History> &history);
+
   signals:
     void childNodesAboutToBeInserted(int first, int last, const std::vector<SP<Node>> &nodes);
     void childNodesInserted(int first, int last);

@@ -208,6 +208,36 @@ void Node::addPrototype(const SP<Node> &prototype) {
 
 std::unordered_map<QString, SP<Node>> Node::_prototypes;
 
+QString Node::nodesMimeType() {
+    return "application/x-shapecraft-nodes";
+}
+
+QMimeData *Node::toNodesMimeData(const std::vector<SP<Node>> &nodes) {
+    auto mimeData = new QMimeData();
+    nlohmann::json layersData;
+    for (auto &&layer : nodes) {
+        layersData.push_back(layer->toJSONRecursive());
+    }
+
+    mimeData->setData(nodesMimeType(), QByteArray::fromStdString(layersData.dump()));
+    return mimeData;
+}
+
+std::vector<SP<Node>> Node::fromNodesMimeData(const QMimeData *mimeData, const SP<History> &history) {
+    if (!mimeData->hasFormat(Node::nodesMimeType())) {
+        return {};
+    }
+
+    auto nodesDataString = mimeData->data(nodesMimeType()).toStdString();
+    std::vector<nlohmann::json> nodesData = nlohmann::json::parse(nodesDataString);
+    std::vector<SP<Node>> nodes;
+    for (auto &&nodeData : nodesData) {
+        auto node = Node::fromJSONRecursive(nodeData, history);
+        nodes.push_back(node);
+    }
+    return nodes;
+}
+
 void Node::addChange(const SP<Change> &change) {
     _history->addChange(change);
 }
