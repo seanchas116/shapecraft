@@ -143,7 +143,7 @@ TopoDS_Shape makeBottle(const Standard_Real myWidth, const Standard_Real myHeigh
 }
 
 TopoDS_Shape makeBottle(const Box<double> &box) {
-    auto shape = makeBottle(box.size().x, box.size().x, box.size().y);
+    auto shape = makeBottle(box.size().x, box.size().z, box.size().y);
 
     gp_Trsf transform;
     transform.SetTranslation(gp_Vec(box.minPosition().x + box.size().x / 2,
