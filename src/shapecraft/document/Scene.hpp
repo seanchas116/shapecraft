@@ -20,6 +20,9 @@ class Scene final : public Node {
 
     void selectNode(const SP<Node> &node, bool append);
 
+    void insertNodeToCurrentPosition(const SP<Node> &node);
+    void deleteSelectedNodes();
+
   signals:
     void selectedNodesChanged(const std::unordered_set<SP<Node>> &nodes);
 

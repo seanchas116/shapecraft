@@ -59,4 +59,22 @@ void Scene::selectNode(const SP<Node> &node, bool append) {
     setSelectedNodes(nodes);
 }
 
+void Scene::insertNodeToCurrentPosition(const SP<Node> &node) {
+    // TODO: better insertion positon
+    appendChildNode(node);
+}
+
+void Scene::deleteSelectedNodes() {
+    auto nodes = _selectedNodes;
+    for (auto &node : nodes) {
+        auto maybeParent = node->parentNode();
+        if (!maybeParent) {
+            continue;
+        }
+        auto &&parent = *maybeParent;
+        parent->removeChildNode(node);
+    }
+    setSelectedNodes({});
+}
+
 } // namespace shapecraft
