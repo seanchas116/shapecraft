@@ -128,7 +128,7 @@ void NodeRenderable::mouseMoveEvent(const MouseEvent &event) {
         if (glm::distance(_dragInitViewportPos, glm::dvec2(event.viewportPos.xy)) < moveThreshold) {
             return;
         }
-        _node->history()->beginChange(tr("Move Object"));
+        _node->history()->beginChange(tr("Move Shape"));
         _dragStarted = true;
     }
     shapeNode->setBoundingBox(newBoundingBox);

@@ -18,14 +18,14 @@ void DocumentActions::copyNodes() {
 }
 
 void DocumentActions::cutNodes() {
-    _document->history()->beginChange(tr("Cut Nodes"));
+    _document->history()->beginChange(tr("Cut Shapes"));
     auto clipboard = QApplication::clipboard();
     clipboard->setMimeData(Node::toNodesMimeData(_document->currentScene()->normalizedSelectedNodes()));
     _document->currentScene()->deleteSelectedNodes();
 }
 
 void DocumentActions::deleteNodes() {
-    _document->history()->beginChange(tr("Delete Nodes"));
+    _document->history()->beginChange(tr("Delete Shapes"));
     _document->currentScene()->deleteSelectedNodes();
 }
 
@@ -38,7 +38,7 @@ void DocumentActions::pasteNodes() {
         if (nodes.empty()) {
             return;
         }
-        _document->history()->beginChange(tr("Paste Nodes"));
+        _document->history()->beginChange(tr("Paste Shapes"));
         for (auto &&node : nodes) {
             _document->currentScene()->insertNodeToCurrentPosition(node);
         }
