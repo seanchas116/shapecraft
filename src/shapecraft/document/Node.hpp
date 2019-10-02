@@ -61,8 +61,8 @@ class Node : public QObject, public std::enable_shared_from_this<Node> {
     virtual SP<Node> newInstance(const SP<History> &history) const = 0;
     SP<Node> clone(const SP<History> &history) const;
 
-    virtual void toJSON(nlohmann::json &json) const;
-    virtual void fromJSON(const nlohmann::json &json);
+    virtual void saveJSON(nlohmann::json &json) const;
+    virtual void loadJSON(const nlohmann::json &json);
 
     nlohmann::json toJSONRecursive() const;
     static SP<Node> fromJSONRecursive(const nlohmann::json &json, const SP<History> &history);

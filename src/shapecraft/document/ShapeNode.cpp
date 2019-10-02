@@ -19,13 +19,13 @@ void ShapeNode::setShape(const TopoDS_Shape &shape) {
     emit shapeChanged(shape);
 }
 
-void ShapeNode::toJSON(nlohmann::json &json) const {
-    super::toJSON(json);
+void ShapeNode::saveJSON(nlohmann::json &json) const {
+    super::saveJSON(json);
     json["boundingBox"] = boundingBox();
 }
 
-void ShapeNode::fromJSON(const nlohmann::json &json) {
-    super::fromJSON(json);
+void ShapeNode::loadJSON(const nlohmann::json &json) {
+    super::loadJSON(json);
     setBoundingBox(json.at("boundingBox"));
 }
 

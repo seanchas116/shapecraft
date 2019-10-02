@@ -161,23 +161,23 @@ void Node::forEachDescendant(const std::function<void(const SP<Node> &)> &callba
 SP<Node> Node::clone(const SP<History> &history) const {
     auto other = newInstance(history);
     nlohmann::json json;
-    toJSON(json);
-    other->fromJSON(json);
+    saveJSON(json);
+    other->loadJSON(json);
     return other;
 }
 
-void Node::toJSON(nlohmann::json &json) const {
+void Node::saveJSON(nlohmann::json &json) const {
     json["type"] = type();
     json["name"] = _name;
 }
 
-void Node::fromJSON(const nlohmann::json &json) {
+void Node::loadJSON(const nlohmann::json &json) {
     setName(json.at("name"));
 }
 
 nlohmann::json Node::toJSONRecursive() const {
     nlohmann::json json;
-    toJSON(json);
+    saveJSON(json);
 
     std::vector<nlohmann::json> childJSONs;
     for (auto &&child : _childNodes) {
@@ -193,7 +193,7 @@ SP<Node> Node::fromJSONRecursive(const nlohmann::json &json, const SP<History> &
     auto prototype = _prototypes.at(type);
 
     auto node = prototype->clone(history);
-    node->fromJSON(json);
+    node->loadJSON(json);
 
     std::vector<nlohmann::json> childJSONs = json.at("children");
     for (auto &&childJSON : childJSONs) {

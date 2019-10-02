@@ -39,7 +39,7 @@ bool File::openFilePath(const QString &path) {
     auto jsonString = file.readAll().toStdString();
     try {
         auto json = nlohmann::json::parse(jsonString);
-        _document->fromJSON(json);
+        _document->loadJSON(json);
         setFilePath(path);
         setModified(false);
     } catch (const std::exception &ex) {

@@ -18,8 +18,8 @@ class ShapeNode : public Node {
     bool canHaveChildren() const override;
     bool canInsertNode(const SP<Node> &node) const override;
 
-    void toJSON(nlohmann::json &json) const override;
-    void fromJSON(const nlohmann::json &json) override;
+    void saveJSON(nlohmann::json &json) const override;
+    void loadJSON(const nlohmann::json &json) override;
 
     TopoDS_Shape shape() const { return _shape; }
 
