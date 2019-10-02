@@ -1,11 +1,13 @@
 #include "NodeResizeBox.hpp"
 #include "shapecraft/document/Scene.hpp"
 #include "shapecraft/document/ShapeNode.hpp"
+#include "shapecraft/document/history/History.hpp"
 
 namespace shapecraft {
 
 NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
     connect(_scene.get(), &Scene::selectedNodesChanged, this, &NodeResizeBox::onSelectedNodesChanged);
+    connect(this, &ResizeBox::editStarted, this, &NodeResizeBox::handleEditStarted);
     connect(this, &ResizeBox::positionsEdited, this, &NodeResizeBox::handleBoxEdited);
     onSelectedNodesChanged();
 }
@@ -42,6 +44,10 @@ void NodeResizeBox::updateBox() {
         box |= _nodes[i]->boundingBox();
     }
     setPositions({box.minPosition(), box.maxPosition()});
+}
+
+void NodeResizeBox::handleEditStarted() {
+    _scene->history()->beginChange(tr("Resize Shape"));
 }
 
 void NodeResizeBox::handleBoxEdited(const std::array<glm::dvec3, 2> &positions) {

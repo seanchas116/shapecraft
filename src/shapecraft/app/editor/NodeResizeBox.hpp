@@ -14,6 +14,7 @@ class NodeResizeBox : public ResizeBox {
   private:
     void onSelectedNodesChanged();
     void updateBox();
+    void handleEditStarted();
     void handleBoxEdited(const std::array<glm::dvec3, 2> &positions);
 
     SP<Scene> _scene;
