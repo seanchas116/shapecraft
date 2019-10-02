@@ -214,12 +214,12 @@ QString Node::nodesMimeType() {
 
 QMimeData *Node::toNodesMimeData(const std::vector<SP<Node>> &nodes) {
     auto mimeData = new QMimeData();
-    nlohmann::json layersData;
-    for (auto &&layer : nodes) {
-        layersData.push_back(layer->toJSONRecursive());
+    nlohmann::json nodesData;
+    for (auto &&node : nodes) {
+        nodesData.push_back(node->toJSONRecursive());
     }
 
-    mimeData->setData(nodesMimeType(), QByteArray::fromStdString(layersData.dump()));
+    mimeData->setData(nodesMimeType(), QByteArray::fromStdString(nodesData.dump()));
     return mimeData;
 }
 
