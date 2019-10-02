@@ -31,9 +31,6 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
         auto gridFloor = std::make_shared<GridFloor>();
 
         auto scene = _state->document()->scenes()[0];
-        auto node = scene->childNodes()[0];
-        auto shapeNode = std::dynamic_pointer_cast<ShapeNode>(node);
-
         auto rootRenderable = std::make_shared<NodeRenderable>(scene, scene);
 
         auto resizeBox = std::make_shared<NodeResizeBox>(scene);
