@@ -14,15 +14,15 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
     void draw(const DrawEvent &event) override;
     void drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) override;
 
-    void setBox(const Box<double> &box);
+    void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
-    void boxEdited(const Box<double> &box);
+    void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
     void updateVAO();
 
-    Box<double> _box;
+    std::array<glm::dvec3, 2> _positions;
     int _axis;
     glm::ivec2 _alignment;
     bool _isVAODirty = true;
@@ -41,21 +41,21 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
     void mouseMoveEvent(const MouseEvent &event) override;
     void mouseReleaseEvent(const MouseEvent &event) override;
 
-    void setBox(const Box<double> &box);
+    void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
-    void boxEdited(const Box<double> &box);
+    void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
     void updateVAO();
 
-    Box<double> _box;
+    std::array<glm::dvec3, 2> _positions;
     glm::dvec3 _alignment;
     bool _isVAODirty = true;
     SP<gl::VertexArray> _vao;
 
     bool _dragged = false;
-    Box<double> _dragInitBox;
+    std::array<glm::dvec3, 2> _dragInitPositions;
     glm::dvec3 _dragInitWorldPos;
     glm::dvec2 _dragInitViewportPos;
     bool _dragStarted = false;
@@ -66,13 +66,13 @@ class ResizeBox : public viewport::HoverableRenderable {
   public:
     ResizeBox();
 
-    void setBox(const Box<double> &box);
+    void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
-    void boxEdited(const Box<double> &box);
+    void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
-    Box<double> _box;
+    std::array<glm::dvec3, 2> _positions;
     std::vector<SP<ResizeBoxVertex>> _vertices;
     std::vector<SP<ResizeBoxEdge>> _edges;
 };

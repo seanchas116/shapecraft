@@ -6,7 +6,7 @@ namespace shapecraft {
 
 NodeResizeBox::NodeResizeBox(const SP<Scene> &scene) : _scene(scene) {
     connect(_scene.get(), &Scene::selectedNodesChanged, this, &NodeResizeBox::onSelectedNodesChanged);
-    connect(this, &ResizeBox::boxEdited, this, &NodeResizeBox::handleBoxEdited);
+    connect(this, &ResizeBox::positionsEdited, this, &NodeResizeBox::handleBoxEdited);
     onSelectedNodesChanged();
 }
 
@@ -41,10 +41,11 @@ void NodeResizeBox::updateBox() {
     for (size_t i = 1; i < _nodes.size(); ++i) {
         box |= _nodes[i]->boundingBox();
     }
-    setBox(box);
+    setPositions({box.minPosition(), box.maxPosition()});
 }
 
-void NodeResizeBox::handleBoxEdited(const Box<double> &box) {
+void NodeResizeBox::handleBoxEdited(const std::array<glm::dvec3, 2> &positions) {
+    auto box = Box<double>::fromPoints(positions[0], positions[1]);
     for (auto &&node : _nodes) {
         // TODO: implement correctly
         node->setBoundingBox(box);

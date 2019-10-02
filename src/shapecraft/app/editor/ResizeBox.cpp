@@ -20,12 +20,12 @@ void ResizeBoxEdge::drawHitArea(const DrawEvent &event, const viewport::HitColor
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 6, hitColor.toColor());
 }
 
-void ResizeBoxEdge::setBox(const Box<double> &box) {
-    if (_box == box) {
+void ResizeBoxEdge::setPositions(const std::array<glm::dvec3, 2> &positions) {
+    if (_positions == positions) {
         return;
     }
 
-    _box = box;
+    _positions = positions;
     _isVAODirty = true;
     emit updated();
 }
@@ -44,8 +44,8 @@ void ResizeBoxEdge::updateVAO() {
     auto endPosRatio = beginPosRatio;
     endPosRatio[_axis] = 1;
 
-    auto beginPos = glm::mix(_box.minPosition(), _box.maxPosition(), beginPosRatio);
-    auto endPos = glm::mix(_box.minPosition(), _box.maxPosition(), endPosRatio);
+    auto beginPos = glm::mix(_positions[0], _positions[1], beginPosRatio);
+    auto endPos = glm::mix(_positions[0], _positions[1], endPosRatio);
 
     std::vector<draw::PointLineVertex> vertices{
         {beginPos, glm::vec4(0), 1},
@@ -72,7 +72,7 @@ void ResizeBoxVertex::mousePressEvent(const MouseEvent &event) {
     glm::dvec3 worldPos = event.worldPos();
 
     _dragged = true;
-    _dragInitBox = _box;
+    _dragInitPositions = _positions;
     _dragInitWorldPos = worldPos;
     _dragStarted = false;
 }
@@ -83,13 +83,12 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
     }
     auto worldPos = event.worldPos();
 
-    std::array<glm::dvec3, 2> positions = {_dragInitBox.minPosition(), _dragInitBox.maxPosition()};
+    std::array<glm::dvec3, 2> positions = _dragInitPositions;
     positions[int(_alignment.x)].x = worldPos.x;
     positions[int(_alignment.y)].y = worldPos.y;
     positions[int(_alignment.y)].z = worldPos.z;
 
-    auto newBox = Box<double>::fromPoints(positions[0], positions[1]);
-    emit boxEdited(newBox);
+    emit positionsEdited(positions);
 }
 
 void ResizeBoxVertex::mouseReleaseEvent(const MouseEvent &event) {
@@ -97,12 +96,12 @@ void ResizeBoxVertex::mouseReleaseEvent(const MouseEvent &event) {
     _dragged = false;
 }
 
-void ResizeBoxVertex::setBox(const Box<double> &box) {
-    if (_box == box) {
+void ResizeBoxVertex::setPositions(const std::array<glm::dvec3, 2> &positions) {
+    if (_positions == positions) {
         return;
     }
 
-    _box = box;
+    _positions = positions;
     _isVAODirty = true;
     emit updated();
 }
@@ -113,7 +112,7 @@ void ResizeBoxVertex::updateVAO() {
     }
     _isVAODirty = false;
 
-    auto position = glm::mix(_box.minPosition(), _box.maxPosition(), _alignment);
+    auto position = glm::mix(_positions[0], _positions[1], _alignment);
     std::vector<draw::PointLineVertex> vertices{{position, glm::vec4(0), 1}};
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
@@ -157,14 +156,14 @@ ResizeBox::ResizeBox() {
 
     for (auto &&a : alignments) {
         auto vertex = std::make_shared<ResizeBoxVertex>(a);
-        connect(vertex.get(), &ResizeBoxVertex::boxEdited, this, &ResizeBox::boxEdited);
+        connect(vertex.get(), &ResizeBoxVertex::positionsEdited, this, &ResizeBox::positionsEdited);
         _vertices.push_back(vertex);
         children.push_back(vertex);
     }
 
     for (auto &&[axis, alignment] : edgeAlignments) {
         auto edge = std::make_shared<ResizeBoxEdge>(axis, alignment);
-        connect(edge.get(), &ResizeBoxEdge::boxEdited, this, &ResizeBox::boxEdited);
+        connect(edge.get(), &ResizeBoxEdge::positionsEdited, this, &ResizeBox::positionsEdited);
         _edges.push_back(edge);
         children.push_back(edge);
     }
@@ -172,17 +171,17 @@ ResizeBox::ResizeBox() {
     setChildRenderables(children);
 }
 
-void ResizeBox::setBox(const Box<double> &box) {
-    if (_box == box) {
+void ResizeBox::setPositions(const std::array<glm::dvec3, 2> &positions) {
+    if (_positions == positions) {
         return;
     }
-    _box = box;
+    _positions = positions;
 
     for (auto &&vertex : _vertices) {
-        vertex->setBox(box);
+        vertex->setPositions(positions);
     }
     for (auto &&edge : _edges) {
-        edge->setBox(box);
+        edge->setPositions(positions);
     }
 }
 
