@@ -1,5 +1,6 @@
 #include "File.hpp"
 #include "shapecraft/document/Document.hpp"
+#include "shapecraft/document/Scene.hpp"
 #include "shapecraft/document/history/History.hpp"
 #include <QFile>
 #include <QFileInfo>
@@ -9,6 +10,11 @@
 namespace shapecraft {
 
 File::File() : _document(std::make_shared<Document>()) {
+    auto scene = std::make_shared<Scene>(_document->history());
+    _document->appendChildNode(scene);
+    _document->setCurrentScene(scene);
+    _document->history()->clear();
+
     connect(_document->history()->undoStack(), &QUndoStack::indexChanged, this, [this] {
         setModified(true);
         _isNew = false;
@@ -41,6 +47,7 @@ bool File::openFilePath(const QString &path) {
         auto json = nlohmann::json::parse(jsonString);
         _document->loadJSONRecursive(json);
         _document->setCurrentScene(_document->scenes().at(0));
+        _document->history()->clear();
         setFilePath(path);
         setModified(false);
     } catch (const std::exception &ex) {
