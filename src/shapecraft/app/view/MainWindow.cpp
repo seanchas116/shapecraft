@@ -96,6 +96,17 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
     restoreState(settings.value("windowState").toByteArray());
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    switch (event->key()) {
+    case Qt::Key_Backspace:
+    case Qt::Key_Delete:
+        _state->documentActions()->deleteNodes();
+        break;
+    default:
+        break;
+    }
+}
+
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (!_discardConfirmed && _state->file()->isModified()) {
         event->ignore();

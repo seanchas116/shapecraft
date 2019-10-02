@@ -12,6 +12,7 @@ class MainWindow : public QMainWindow {
     explicit MainWindow(const SP<WindowState> &state, QWidget *parent = nullptr);
 
   protected:
+    void keyPressEvent(QKeyEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
 
   private:
