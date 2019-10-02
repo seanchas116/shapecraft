@@ -1,3 +1,4 @@
+#include "shapecraft/app/state/WindowState.hpp"
 #include "shapecraft/app/view/MainWindow.hpp"
 #include <QApplication>
 #include <QSurfaceFormat>
@@ -26,7 +27,7 @@ int main(int argc, char *argv[]) {
 
     QSurfaceFormat::setDefaultFormat(glFormat);
 
-    auto window = new MainWindow();
+    auto window = new MainWindow(std::make_shared<WindowState>());
     window->show();
     return app.exec();
 }
