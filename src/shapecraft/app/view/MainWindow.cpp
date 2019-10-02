@@ -13,6 +13,8 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
+#include <QToolBar>
+#include <QToolButton>
 #include <QUndoStack>
 
 namespace shapecraft {
@@ -33,6 +35,25 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
         splitter->setStretchFactor(1, 1);
 
         setCentralWidget(splitter);
+    }
+
+    {
+        auto toolBar = new QToolBar();
+
+        auto addMenu = new QMenu();
+        addMenu->addAction(tr("Box"));
+        addMenu->addAction(tr("Cylinder"));
+        addMenu->addAction(tr("Sphere"));
+        addMenu->addSeparator();
+        addMenu->addAction(tr("Bottle"));
+
+        auto addMenuToolButton = new QToolButton();
+        addMenuToolButton->setText(tr("Add"));
+        addMenuToolButton->setMenu(addMenu);
+        addMenuToolButton->setPopupMode(QToolButton::InstantPopup);
+        toolBar->addWidget(addMenuToolButton);
+
+        addToolBar(Qt::TopToolBarArea, toolBar);
     }
 
     {
