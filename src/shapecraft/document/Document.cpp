@@ -12,7 +12,9 @@ void Document::setCurrentScene(const SP<Scene> &scene) {
         return;
     }
 
-    disconnect(_currentScene.get(), &Scene::selectedNodesChanged, this, &Document::selectedNodesChanged);
+    if (_currentScene) {
+        disconnect(_currentScene.get(), &Scene::selectedNodesChanged, this, &Document::selectedNodesChanged);
+    }
 
     _currentScene = scene;
 
