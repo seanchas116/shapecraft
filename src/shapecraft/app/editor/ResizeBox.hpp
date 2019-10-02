@@ -14,6 +14,10 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
     void draw(const DrawEvent &event) override;
     void drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) override;
 
+    void mousePressEvent(const MouseEvent &event) override;
+    void mouseMoveEvent(const MouseEvent &event) override;
+    void mouseReleaseEvent(const MouseEvent &event) override;
+
     void setPositions(const std::array<glm::dvec3, 2> &positions);
 
   signals:
@@ -28,6 +32,12 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
     glm::ivec2 _alignment;
     bool _isVAODirty = true;
     SP<gl::VertexArray> _vao;
+
+    bool _dragged = false;
+    std::array<glm::dvec3, 2> _dragInitPositions;
+    glm::dvec3 _dragInitWorldPos;
+    glm::dvec2 _dragInitViewportPos;
+    bool _dragStarted = false;
 };
 
 class ResizeBoxVertex : public viewport::HoverableRenderable {

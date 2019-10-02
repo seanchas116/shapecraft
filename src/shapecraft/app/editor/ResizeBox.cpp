@@ -20,6 +20,39 @@ void ResizeBoxEdge::drawHitArea(const DrawEvent &event, const viewport::HitColor
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 6, hitColor.toColor());
 }
 
+void ResizeBoxEdge::mousePressEvent(const viewport::Renderable::MouseEvent &event) {
+    glm::dvec3 worldPos = event.worldPos();
+
+    _dragged = true;
+    _dragInitPositions = _positions;
+    _dragInitWorldPos = worldPos;
+    _dragStarted = false;
+
+    emit editStarted();
+}
+
+void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event) {
+    if (!_dragged) {
+        return;
+    }
+    qDebug() << "drag";
+    auto worldPos = event.worldPos();
+
+    std::array<glm::dvec3, 2> positions = _dragInitPositions;
+
+    for (int i = 0; i < 2; ++i) {
+        int axis = (_axis + i + 1) % 3;
+        positions[_alignment[i]][axis] = worldPos[axis];
+    }
+
+    emit positionsEdited(positions);
+}
+
+void ResizeBoxEdge::mouseReleaseEvent(const viewport::Renderable::MouseEvent &event) {
+    Q_UNUSED(event)
+    _dragged = false;
+}
+
 void ResizeBoxEdge::setPositions(const std::array<glm::dvec3, 2> &positions) {
     if (_positions == positions) {
         return;
