@@ -41,11 +41,11 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
         auto toolBar = new QToolBar();
 
         auto addMenu = new QMenu();
-        addMenu->addAction(tr("Box"));
-        addMenu->addAction(tr("Cylinder"));
-        addMenu->addAction(tr("Sphere"));
+        addMenu->addAction(tr("Box"), _state->documentActions().get(), &DocumentActions::addBox);
+        addMenu->addAction(tr("Cylinder"), _state->documentActions().get(), &DocumentActions::addCylinder);
+        addMenu->addAction(tr("Sphere"), _state->documentActions().get(), &DocumentActions::addSphere);
         addMenu->addSeparator();
-        addMenu->addAction(tr("Bottle"));
+        addMenu->addAction(tr("Bottle"), _state->documentActions().get(), &DocumentActions::addBottle);
 
         auto addMenuToolButton = new QToolButton();
         addMenuToolButton->setText(tr("Add"));

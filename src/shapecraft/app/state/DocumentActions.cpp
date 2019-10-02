@@ -1,4 +1,6 @@
 #include "DocumentActions.hpp"
+#include "shapecraft/document/BottleShapeNode.hpp"
+#include "shapecraft/document/BoxShapeNode.hpp"
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/Scene.hpp"
 #include "shapecraft/document/history/History.hpp"
@@ -58,6 +60,28 @@ void DocumentActions::selectAllNodes() {
         allNodes.insert(node);
     });
     _document->currentScene()->setSelectedNodes(std::move(allNodes));
+}
+
+void DocumentActions::addBox() {
+    auto box = std::make_shared<BoxShapeNode>(_document->history());
+    box->setName(tr("Box"));
+    box->setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(1, 1, 1)));
+    _document->currentScene()->insertNodeToCurrentPosition(box);
+}
+
+void DocumentActions::addCylinder() {
+    qWarning() << "TODO";
+}
+
+void DocumentActions::addSphere() {
+    qWarning() << "TODO";
+}
+
+void DocumentActions::addBottle() {
+    auto bottle = std::make_shared<BottleShapeNode>(_document->history());
+    bottle->setName(tr("Bottle"));
+    bottle->setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
+    _document->currentScene()->insertNodeToCurrentPosition(bottle);
 }
 
 void DocumentActions::updateIsNodeSelected() {

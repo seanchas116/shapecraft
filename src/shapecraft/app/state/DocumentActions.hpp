@@ -20,6 +20,11 @@ class DocumentActions : public QObject {
     void pasteNodes();
     void selectAllNodes();
 
+    void addBox();
+    void addCylinder();
+    void addSphere();
+    void addBottle();
+
   signals:
     void isNodeSelectedChanged(bool selected);
 
