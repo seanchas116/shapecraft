@@ -16,16 +16,6 @@ WindowState::WindowState()
     auto scene = std::make_shared<Scene>(document()->history());
     document()->appendChildNode(scene);
     document()->setCurrentScene(scene);
-
-    auto bottle = std::make_shared<BottleShapeNode>(document()->history());
-    bottle->setName(tr("Bottle"));
-    bottle->setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(10, 1, 10)));
-    scene->appendChildNode(bottle);
-
-    auto box = std::make_shared<BoxShapeNode>(document()->history());
-    box->setName(tr("Box"));
-    box->setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(1, 1, 1)));
-    scene->appendChildNode(box);
 }
 
 const SP<Document> &WindowState::document() const {
