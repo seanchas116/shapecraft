@@ -35,7 +35,6 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
     if (!_dragged) {
         return;
     }
-    qDebug() << "drag";
     auto worldPos = event.worldPos();
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
