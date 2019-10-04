@@ -6,6 +6,7 @@
 #include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
 #include "shapecraft/util/Debug.hpp"
+#include "shapecraft/util/OCCConversion.hpp"
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <BRep_Tool.hxx>
 #include <GeomLProp_SLProps.hxx>
@@ -137,13 +138,6 @@ void NodeRenderable::mouseMoveEvent(const MouseEvent &event) {
 void NodeRenderable::mouseReleaseEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     _dragged = false;
-}
-
-static glm::mat4 toGLM(const gp_Trsf &t) {
-    return glm::mat4(t.Value(1, 1), t.Value(2, 1), t.Value(3, 1), 0,
-                     t.Value(1, 2), t.Value(2, 2), t.Value(3, 2), 0,
-                     t.Value(1, 3), t.Value(2, 3), t.Value(3, 3), 0,
-                     t.Value(1, 4), t.Value(2, 4), t.Value(3, 4), 1);
 }
 
 void NodeRenderable::setShape(const TopoDS_Shape &shape) {
