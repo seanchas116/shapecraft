@@ -1,4 +1,5 @@
 #include "BottleShapeNode.hpp"
+#include "shapecraft/util/OCCConversion.hpp"
 #include <BRepAlgoAPI_Fuse.hxx>
 #include <BRepBndLib.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
@@ -23,6 +24,7 @@
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Wire.hxx>
+#include <glm/gtx/transform.hpp>
 #include <gp_Ax1.hxx>
 
 namespace shapecraft {
@@ -145,12 +147,10 @@ TopoDS_Shape makeBottle(const Standard_Real myWidth, const Standard_Real myHeigh
 TopoDS_Shape makeBottle(const Box<double> &box) {
     auto shape = makeBottle(box.size().x, box.size().z, box.size().y);
 
-    gp_Trsf transform;
-    transform.SetTranslation(gp_Vec(box.minPosition().x + box.size().x / 2,
-                                    box.minPosition().y + box.size().y / 2,
-                                    box.minPosition().z));
-
-    return BRepBuilderAPI_Transform(shape, transform).Shape();
+    auto transform = glm::translate(glm::vec3(box.minPosition().x + box.size().x / 2,
+                                              box.minPosition().y + box.size().y / 2,
+                                              box.minPosition().z));
+    return BRepBuilderAPI_Transform(shape, toOCC(transform)).Shape();
 }
 
 } // namespace
