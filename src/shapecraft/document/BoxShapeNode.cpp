@@ -8,8 +8,8 @@ namespace shapecraft {
 BoxShapeNode::BoxShapeNode(const SP<History> &history) : ShapeNode(history) {
     connect(this, &ShapeNode::boundingBoxChanged, this, [this](const Box<double> &boundingBox) {
         if (boundingBox.size().x > 0 && boundingBox.size().y > 0 && boundingBox.size().z > 0) {
-            auto shape = BRepPrimAPI_MakeBox(toOCC(boundingBox.minPosition()),
-                                             toOCC(boundingBox.maxPosition()))
+            auto shape = BRepPrimAPI_MakeBox(toPnt(boundingBox.minPosition()),
+                                             toPnt(boundingBox.maxPosition()))
                              .Shape();
             setShape(shape);
         }

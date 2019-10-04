@@ -151,7 +151,7 @@ void NodeRenderable::updateVAOs() {
         return;
     }
 
-    _shapeTransform = toGLM(_shape.Location().Transformation());
+    _shapeTransform = toMat4(_shape.Location().Transformation());
 
     BRepMesh_IncrementalMesh meshing(_shape, 0.01, false, 0.5);
     meshing.Perform();

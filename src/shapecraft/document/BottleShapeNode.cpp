@@ -150,7 +150,7 @@ TopoDS_Shape makeBottle(const Box<double> &box) {
     auto transform = glm::translate(glm::vec3(box.minPosition().x + box.size().x / 2,
                                               box.minPosition().y + box.size().y / 2,
                                               box.minPosition().z));
-    return BRepBuilderAPI_Transform(shape, toOCC(transform)).Shape();
+    return BRepBuilderAPI_Transform(shape, toTrsf(transform)).Shape();
 }
 
 } // namespace
