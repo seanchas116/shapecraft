@@ -1,6 +1,7 @@
 #include "DocumentActions.hpp"
 #include "shapecraft/document/BottleShapeNode.hpp"
 #include "shapecraft/document/BoxShapeNode.hpp"
+#include "shapecraft/document/CylinderShapeNode.hpp"
 #include "shapecraft/document/Document.hpp"
 #include "shapecraft/document/Scene.hpp"
 #include "shapecraft/document/history/History.hpp"
@@ -70,7 +71,10 @@ void DocumentActions::addBox() {
 }
 
 void DocumentActions::addCylinder() {
-    qWarning() << "TODO";
+    auto cylinder = std::make_shared<CylinderShapeNode>(_document->history());
+    cylinder->setName(tr("Cylinder"));
+    cylinder->setBoundingBox(Box<double>::fromSize(glm::dvec3(0), glm::dvec3(1, 1, 1)));
+    _document->currentScene()->insertNodeToCurrentPosition(cylinder);
 }
 
 void DocumentActions::addSphere() {
