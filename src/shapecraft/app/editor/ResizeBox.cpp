@@ -3,6 +3,7 @@
 #include "shapecraft/render/gl/VertexArray.hpp"
 #include "shapecraft/render/gl/VertexBuffer.hpp"
 #include "shapecraft/util/Debug.hpp"
+#include "shapecraft/util/Distance.hpp"
 #include <QMouseEvent>
 #include <array>
 
@@ -118,6 +119,13 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
     auto worldPos = event.worldPos();
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
+
+    // X axis
+    if (_alignment.y == 0.5 && _alignment.z == 0.5) {
+        Ray<double> axisRay(glm::dvec3(0), glm::dvec3(1, 0, 0));
+        RayRayDistanceSolver<double> solver(axisRay, event.camera.worldMouseRay(event.viewportPos));
+        positions[_alignment.x].x = solver.t0;
+    }
 
     for (int i = 0; i < 3; ++i) {
         if (_alignment[i] != 0.5) {
