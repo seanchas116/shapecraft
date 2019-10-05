@@ -39,6 +39,7 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
 
     {
         auto toolBar = new QToolBar();
+        toolBar->setObjectName("toolBar");
 
         auto addMenu = new QMenu();
         addMenu->addAction(tr("Box"), _state->documentActions().get(), &DocumentActions::addBox);
