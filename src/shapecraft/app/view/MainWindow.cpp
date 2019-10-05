@@ -116,6 +116,7 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
 
     QSettings settings;
     restoreState(settings.value("windowState").toByteArray());
+    _splitter->restoreState(settings.value("splitterState").toByteArray());
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -165,6 +166,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
     QSettings settings;
     settings.setValue("windowState", saveState());
+    settings.setValue("splitterState", _splitter->saveState());
 
     QMainWindow::closeEvent(event);
 }
