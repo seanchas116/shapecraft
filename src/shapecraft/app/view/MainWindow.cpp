@@ -112,11 +112,14 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
     connect(_state->file().get(), &File::modifiedChanged, this, &QMainWindow::setWindowModified);
     setWindowModified(_state->file()->isModified());
 
-    resize(800, 600);
-
     QSettings settings;
     restoreState(settings.value("windowState").toByteArray());
     _splitter->restoreState(settings.value("splitterState").toByteArray());
+    if (settings.contains("windowGeometry")) {
+        setGeometry(settings.value("windowGeometry").toRect());
+    } else {
+        resize(800, 600);
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -167,6 +170,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     QSettings settings;
     settings.setValue("windowState", saveState());
     settings.setValue("splitterState", _splitter->saveState());
+    settings.setValue("windowGeometry", geometry());
 
     QMainWindow::closeEvent(event);
 }
