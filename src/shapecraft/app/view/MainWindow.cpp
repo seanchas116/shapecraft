@@ -23,18 +23,18 @@ MainWindow::MainWindow(const SP<WindowState> &state, QWidget *parent) : QMainWin
     setAttribute(Qt::WA_DeleteOnClose);
 
     {
-        auto splitter = new QSplitter();
+        _splitter = new QSplitter();
 
         auto nodeListView = new NodeListView(_state);
-        splitter->addWidget(nodeListView);
+        _splitter->addWidget(nodeListView);
 
         auto viewportContainer = new EditorViewportContainer(_state);
-        splitter->addWidget(viewportContainer);
+        _splitter->addWidget(viewportContainer);
 
-        splitter->setStretchFactor(0, 0);
-        splitter->setStretchFactor(1, 1);
+        _splitter->setStretchFactor(0, 0);
+        _splitter->setStretchFactor(1, 1);
 
-        setCentralWidget(splitter);
+        setCentralWidget(_splitter);
     }
 
     {

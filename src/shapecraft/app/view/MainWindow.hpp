@@ -2,6 +2,8 @@
 #include "shapecraft/Common.hpp"
 #include <QMainWindow>
 
+class QSplitter;
+
 namespace shapecraft {
 
 class WindowState;
@@ -27,6 +29,7 @@ class MainWindow : public QMainWindow {
 
     void updateWindowFilePath(const QString &filePath);
 
+    QSplitter *_splitter = nullptr;
     SP<WindowState> _state;
     bool _discardConfirmed = false;
 };
