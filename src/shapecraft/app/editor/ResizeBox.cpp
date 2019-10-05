@@ -120,18 +120,27 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
 
-    // X axis
-    if (_alignment.y == 0.5 && _alignment.z == 0.5) {
-        Ray<double> axisRay(glm::dvec3(0), glm::dvec3(1, 0, 0));
-        RayRayDistanceSolver<double> solver(axisRay, event.camera.worldMouseRay(event.viewportPos));
-        positions[_alignment.x].x = solver.t0;
-    }
-
-    for (int i = 0; i < 3; ++i) {
-        if (_alignment[i] != 0.5) {
-            positions[int(_alignment[i])][i] = worldPos[i];
+    [&] {
+        // face-center handles
+        for (int i = 0; i < 3; ++i) {
+            if (_alignment[(i + 1) % 3] == 0.5 && _alignment[(i + 2) % 3] == 0.5) {
+                auto handlePos = glm::mix(_dragInitPositions[0], _dragInitPositions[1], _alignment);
+                glm::dvec3 axisVec(0);
+                axisVec[i] = 1;
+                Ray<double> axisRay(handlePos, axisVec);
+                RayRayDistanceSolver<double> solver(axisRay, event.camera.worldMouseRay(event.viewportPos));
+                positions[_alignment[i]][i] += solver.t0;
+                return;
+            }
         }
-    }
+
+        // corner handles
+        for (int i = 0; i < 3; ++i) {
+            if (_alignment[i] != 0.5) {
+                positions[int(_alignment[i])][i] = worldPos[i];
+            }
+        }
+    }();
 
     emit positionsEdited(positions);
 }
