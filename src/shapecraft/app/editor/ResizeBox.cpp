@@ -27,7 +27,6 @@ void ResizeBoxEdge::mousePressEvent(const viewport::Renderable::MouseEvent &even
     _dragged = true;
     _dragInitPositions = _positions;
     _dragInitWorldPos = worldPos;
-    _dragStarted = false;
 
     emit editStarted();
 }
@@ -107,7 +106,6 @@ void ResizeBoxVertex::mousePressEvent(const MouseEvent &event) {
     _dragged = true;
     _dragInitPositions = _positions;
     _dragInitWorldPos = worldPos;
-    _dragStarted = false;
 
     emit editStarted();
 }

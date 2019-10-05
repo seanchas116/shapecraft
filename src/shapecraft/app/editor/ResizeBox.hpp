@@ -36,8 +36,6 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
     bool _dragged = false;
     std::array<glm::dvec3, 2> _dragInitPositions;
     glm::dvec3 _dragInitWorldPos;
-    glm::dvec2 _dragInitViewportPos;
-    bool _dragStarted = false;
 };
 
 class ResizeBoxVertex : public viewport::HoverableRenderable {
@@ -69,8 +67,6 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
     bool _dragged = false;
     std::array<glm::dvec3, 2> _dragInitPositions;
     glm::dvec3 _dragInitWorldPos;
-    glm::dvec2 _dragInitViewportPos;
-    bool _dragStarted = false;
 };
 
 class ResizeBox : public viewport::HoverableRenderable {
