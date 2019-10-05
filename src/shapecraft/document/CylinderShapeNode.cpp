@@ -1,6 +1,6 @@
 #include "CylinderShapeNode.hpp"
 #include "shapecraft/util/OCCConversion.hpp"
-#include <BRepBuilderAPI_Transform.hxx>
+#include <BRepBuilderAPI_GTransform.hxx>
 #include <BRepPrimAPI_MakeCylinder.hxx>
 #include <QTimer>
 #include <glm/gtx/transform.hpp>
@@ -13,7 +13,7 @@ CylinderShapeNode::CylinderShapeNode(const SP<History> &history) : ShapeNode(his
         if (boundingBox.size().x > 0 && boundingBox.size().y > 0 && boundingBox.size().z > 0) {
             auto shape = BRepPrimAPI_MakeCylinder(0.5, 1).Shape();
             auto transform = glm::scale(boundingBox.size()) * glm::translate(glm::dvec3(0.5, 0.5, 0) + boundingBox.minPosition());
-            setShape(BRepBuilderAPI_Transform(shape, toTrsf(transform)).Shape());
+            setShape(BRepBuilderAPI_GTransform(shape, toGTrsf(transform)).Shape());
         }
     });
 }
