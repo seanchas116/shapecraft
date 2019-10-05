@@ -12,7 +12,9 @@ CylinderShapeNode::CylinderShapeNode(const SP<History> &history) : ShapeNode(his
         // TODO: create cylinder
         if (boundingBox.size().x > 0 && boundingBox.size().y > 0 && boundingBox.size().z > 0) {
             auto shape = BRepPrimAPI_MakeCylinder(0.5, 1).Shape();
-            auto transform = glm::scale(boundingBox.size()) * glm::translate(glm::dvec3(0.5, 0.5, 0) + boundingBox.minPosition());
+            auto transform = glm::translate(boundingBox.minPosition()) *
+                             glm::scale(boundingBox.size()) *
+                             glm::translate(glm::dvec3(0.5, 0.5, 0));
             setShape(BRepBuilderAPI_GTransform(shape, toGTrsf(transform)).Shape());
         }
     });
