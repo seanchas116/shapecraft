@@ -128,8 +128,8 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
                 glm::dvec3 axisVec(0);
                 axisVec[i] = 1;
                 Ray<double> axisRay(handlePos, axisVec);
-                RayRayDistanceSolver<double> solver(axisRay, event.camera.worldMouseRay(event.viewportPos));
-                positions[_alignment[i]][i] += solver.t0;
+
+                positions[_alignment[i]][i] += event.camera.mapCameraToAxis(axisRay, event.viewportPos);
                 return;
             }
         }

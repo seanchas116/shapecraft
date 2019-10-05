@@ -44,6 +44,8 @@ class Camera {
     Ray<double> worldMouseRay(glm::dvec2 viewportPos) const;
     Ray<double> modelMouseRay(const glm::dmat4 &modelMatrix, glm::dvec2 viewportPos) const;
 
+    double mapCameraToAxis(const Ray<double> &axis, glm::dvec2 viewportPos) const;
+
   private:
     Camera() {}
 

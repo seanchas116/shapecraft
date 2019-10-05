@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Distance.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace glm;
@@ -53,6 +54,11 @@ Ray<double> Camera::modelMouseRay(const dmat4 &modelMatrix, dvec2 viewportPos) c
     dvec3 front = mapViewportToModel(modelMatrix, dvec3(viewportPos, -1));
     dvec3 back = mapViewportToModel(modelMatrix, dvec3(viewportPos, 1));
     return {front, back - front};
+}
+
+double Camera::mapCameraToAxis(const Ray<double> &axis, dvec2 viewportPos) const {
+    RayRayDistanceSolver<double> solver(axis, worldMouseRay(viewportPos));
+    return solver.t0;
 }
 
 Camera Camera::perspective(glm::dmat4 cameraToWorldMatrix, glm::dvec2 viewportSize, double fieldOfView, double zNear, double zFar) {
