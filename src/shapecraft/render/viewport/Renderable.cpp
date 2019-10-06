@@ -29,6 +29,12 @@ void Renderable::setChildRenderables(const std::vector<SP<Renderable>> &children
     emit updated();
 }
 
+void Renderable::appendChildRenderable(const SP<Renderable> &renderable) {
+    _childRenderables.push_back(renderable);
+    connect(renderable.get(), &Renderable::updated, this, &Renderable::updated);
+    emit updated();
+}
+
 void Renderable::drawRecursive(const DrawEvent &event) {
     if (!_isVisible) {
         return;

@@ -68,6 +68,8 @@ class Renderable : public QObject, public std::enable_shared_from_this<Renderabl
     auto &childRenderables() const { return _childRenderables; }
     void setChildRenderables(const std::vector<SP<Renderable>> &children);
 
+    void appendChildRenderable(const SP<Renderable> &renderable);
+
     void drawRecursive(const DrawEvent &event);
     void drawHitAreaRecursive(const DrawEvent &event, std::vector<SP<Renderable>> &drawnRenderables);
     void draw2DRecursive(const Draw2DEvent &event);
