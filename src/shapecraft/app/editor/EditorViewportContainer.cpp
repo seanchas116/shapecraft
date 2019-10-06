@@ -34,8 +34,20 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
         root->appendChildRenderable(std::make_shared<NodeRenderable>(scene, scene));
 
         _resizeBox = std::make_shared<NodeResizeBox>(scene);
+        auto resizeBoxFacesLayer = std::make_shared<viewport::Renderable>();
+        for (auto &&face : _resizeBox->faces()) {
+            resizeBoxFacesLayer->appendChildRenderable(face);
+        }
+        auto resizeBoxEdgesLayer = std::make_shared<viewport::Renderable>();
+        for (auto &&edge : _resizeBox->edges()) {
+            resizeBoxEdgesLayer->appendChildRenderable(edge);
+        }
+        auto resizeBoxVerticesLayer = std::make_shared<viewport::Renderable>();
+        for (auto &&vertex : _resizeBox->vertices()) {
+            resizeBoxVerticesLayer->appendChildRenderable(vertex);
+        }
 
-        setLayers({root, _resizeBox});
+        setLayers({root, resizeBoxFacesLayer, resizeBoxEdgesLayer, resizeBoxVerticesLayer});
     });
 }
 

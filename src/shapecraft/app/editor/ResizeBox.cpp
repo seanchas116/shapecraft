@@ -271,8 +271,6 @@ void ResizeBoxVertex::updateVAO() {
 }
 
 ResizeBox::ResizeBox() {
-    std::vector<SP<Renderable>> children;
-
     std::vector<glm::dvec3> alignments = {
         glm::dvec3(0, 0, 0),
         glm::dvec3(0, 0, 1),
@@ -319,7 +317,6 @@ ResizeBox::ResizeBox() {
         connect(vertex.get(), &ResizeBoxVertex::editStarted, this, &ResizeBox::editStarted);
         connect(vertex.get(), &ResizeBoxVertex::positionsEdited, this, &ResizeBox::positionsEdited);
         _vertices.push_back(vertex);
-        children.push_back(vertex);
     }
 
     for (auto &&[axis, alignment] : edgeAlignments) {
@@ -327,7 +324,6 @@ ResizeBox::ResizeBox() {
         connect(edge.get(), &ResizeBoxEdge::editStarted, this, &ResizeBox::editStarted);
         connect(edge.get(), &ResizeBoxEdge::positionsEdited, this, &ResizeBox::positionsEdited);
         _edges.push_back(edge);
-        children.push_back(edge);
     }
 
     for (auto &&[axis, alignment] : faceAlignments) {
@@ -335,10 +331,7 @@ ResizeBox::ResizeBox() {
         connect(face.get(), &ResizeBoxFace::editStarted, this, &ResizeBox::editStarted);
         connect(face.get(), &ResizeBoxFace::positionsEdited, this, &ResizeBox::positionsEdited);
         _faces.push_back(face);
-        children.push_back(face);
     }
-
-    setChildRenderables(children);
 }
 
 void ResizeBox::setPositions(const std::array<glm::dvec3, 2> &positions) {
@@ -355,6 +348,19 @@ void ResizeBox::setPositions(const std::array<glm::dvec3, 2> &positions) {
     }
     for (auto &&face : _faces) {
         face->setPositions(positions);
+    }
+}
+
+void ResizeBox::setVisible(bool visible) {
+    qDebug() << visible;
+    for (auto &&vertex : _vertices) {
+        vertex->setVisible(visible);
+    }
+    for (auto &&edge : _edges) {
+        edge->setVisible(visible);
+    }
+    for (auto &&face : _faces) {
+        face->setVisible(visible);
     }
 }
 

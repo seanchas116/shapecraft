@@ -102,12 +102,17 @@ class ResizeBoxVertex : public viewport::HoverableRenderable {
     glm::dvec3 _dragInitWorldPos;
 };
 
-class ResizeBox : public viewport::HoverableRenderable {
+class ResizeBox : public QObject {
     Q_OBJECT
   public:
     ResizeBox();
 
+    auto &&vertices() const { return _vertices; }
+    auto &&edges() const { return _edges; }
+    auto &&faces() const { return _faces; }
+
     void setPositions(const std::array<glm::dvec3, 2> &positions);
+    void setVisible(bool visible);
 
   signals:
     void editStarted();
