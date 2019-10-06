@@ -40,10 +40,26 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
 
+    for (auto &&planeNormal : event.camera.mostFacingPlaneNormals()) {
+        if (planeNormal == _axis) {
+            continue;
+        }
+        int axis0 = (_axis + 1) % 3;
+        int axis1 = (_axis + 2) % 3;
+        if (axis0 == planeNormal) {
+            positions[_alignment[1]][axis1] = worldPos[axis1];
+        } else {
+            positions[_alignment[0]][axis0] = worldPos[axis0];
+        }
+        break;
+    }
+
+    /*
     for (int i = 0; i < 2; ++i) {
         int axis = (_axis + i + 1) % 3;
         positions[_alignment[i]][axis] = worldPos[axis];
     }
+    */
 
     emit positionsEdited(positions);
 }
