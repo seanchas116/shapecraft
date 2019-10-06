@@ -133,10 +133,12 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
             }
         }
 
-        // drag in xy coordinates
+        // drag in facing plane
+        auto facingPlaneNormal = event.camera.facingPlaneNormals()[0];
+
         auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
         auto dragSpaceRay = glm::translate(-handlePos) * worldMouseRay;
-        auto newPos = dragSpaceRay.whereZIsZero() + handlePos;
+        auto newPos = dragSpaceRay.planeIntercept(facingPlaneNormal) + handlePos;
 
         for (int i = 0; i < 3; ++i) {
             positions[int(_alignment[i])][i] = newPos[i];
