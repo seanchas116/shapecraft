@@ -61,6 +61,14 @@ class Ray final {
         return {0, yz};
     }
 
+    glm::tvec3<T> whereZIsZero() const { // TODO: find better name
+        glm::tvec3<T> p0 = origin;
+        glm::tvec3<T> p1 = direction + origin;
+
+        glm::tvec2<T> xy = (p1.z * p0.xy - p0.z * p1.xy) / (p1.z - p0.z);
+        return {xy, 0};
+    }
+
     glm::tvec3<T> origin{0};
     glm::tvec3<T> direction{0};
 };
