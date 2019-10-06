@@ -61,7 +61,7 @@ double Camera::mapCameraToAxis(const Ray<double> &axis, dvec2 viewportPos) const
     return solver.t0;
 }
 
-std::array<int, 3> Camera::facingPlaneNormals() const {
+std::array<int, 3> Camera::mostFacingPlaneNormals() const {
     auto worldToCamera = inverse(_cameraToWorldMatrix);
 
     dvec3 x_cameraSpace = worldToCamera[0].xyz;
@@ -76,9 +76,9 @@ std::array<int, 3> Camera::facingPlaneNormals() const {
     std::array<double, 3> areas = {yzArea, zxArea, xyArea};
     std::array<int, 3> planeNormals = {0, 1, 2};
 
-    // sort normals by plane area ratio in orthogonal space
+    // sort normals descendingly by plane area ratio in orthogonal space
     std::sort(planeNormals.begin(), planeNormals.end(), [&](int i, int j) {
-        return areas[i] < areas[j];
+        return areas[i] > areas[j];
     });
     return planeNormals;
 }

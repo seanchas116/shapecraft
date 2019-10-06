@@ -46,7 +46,7 @@ class Camera {
 
     double mapCameraToAxis(const Ray<double> &axis, glm::dvec2 viewportPos) const;
 
-    std::array<int, 3> facingPlaneNormals() const;
+    std::array<int, 3> mostFacingPlaneNormals() const;
 
   private:
     Camera() {}
