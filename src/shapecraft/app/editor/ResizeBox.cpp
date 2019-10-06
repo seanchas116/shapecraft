@@ -13,7 +13,7 @@ namespace shapecraft {
 ResizeBoxFace::ResizeBoxFace(int axis, int alignment) : _axis(axis), _alignment(alignment) {
 }
 
-void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
+void ResizeBoxFace::draw(const DrawEvent &event) {
     Q_UNUSED(event)
     updateVAO();
     glm::vec4 color(0, 0, 0, 1);
@@ -21,20 +21,20 @@ void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
     event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
 }
 
-void ResizeBoxFace::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
+void ResizeBoxFace::drawHitArea(const DrawEvent &event, const viewport::HitColor &hitColor) {
     event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, hitColor.toColor());
 }
 
-void ResizeBoxFace::mousePressEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBoxFace::mousePressEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     qDebug() << "face click";
 }
 
-void ResizeBoxFace::mouseMoveEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBoxFace::mouseMoveEvent(const MouseEvent &event) {
     Q_UNUSED(event)
 }
 
-void ResizeBoxFace::mouseReleaseEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBoxFace::mouseReleaseEvent(const MouseEvent &event) {
     Q_UNUSED(event)
 }
 
