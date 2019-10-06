@@ -6,6 +6,7 @@ namespace shapecraft {
 
 class WindowState;
 class KeyObserver;
+class NodeResizeBox;
 
 class EditorViewportContainer : public viewport::ViewportContainer {
     Q_OBJECT
@@ -14,6 +15,7 @@ class EditorViewportContainer : public viewport::ViewportContainer {
 
   private:
     SP<WindowState> _state;
+    SP<NodeResizeBox> _resizeBox; // keep reference
 };
 
 } // namespace shapecraft

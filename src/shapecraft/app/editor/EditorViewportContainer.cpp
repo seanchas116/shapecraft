@@ -33,9 +33,9 @@ EditorViewportContainer::EditorViewportContainer(const SP<WindowState> &state, Q
         auto scene = _state->document()->scenes()[0];
         root->appendChildRenderable(std::make_shared<NodeRenderable>(scene, scene));
 
-        auto resizeBox = std::make_shared<NodeResizeBox>(scene);
+        _resizeBox = std::make_shared<NodeResizeBox>(scene);
 
-        setLayers({root, resizeBox});
+        setLayers({root, _resizeBox});
     });
 }
 
