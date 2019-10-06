@@ -15,6 +15,9 @@ ResizeBoxFace::ResizeBoxFace(int axis, int alignment) : _axis(axis), _alignment(
 
 void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
     Q_UNUSED(event)
+    glm::vec4 color(0, 0, 0, 1);
+    color[_axis] = 1;
+    event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
 }
 
 void ResizeBoxFace::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
@@ -49,6 +52,27 @@ void ResizeBoxFace::updateVAO() {
         return;
     }
     _isVAODirty = false;
+
+    std::vector<draw::Vertex> vertices;
+    for (int j = 0; j < 2; ++j) {
+        for (int i = 0; i < 2; ++i) {
+            glm::vec3 alignments;
+            alignments[_axis] = _alignment;
+            alignments[(_axis + 1) % 3] = i;
+            alignments[(_axis + 2) % 3] = j;
+
+            auto p = glm::mix(_positions[0], _positions[1], alignments);
+            vertices.push_back({p});
+        }
+    }
+
+    std::vector<gl::IndexBuffer::Triangle> triangles;
+    triangles.push_back({0, 1, 2});
+    triangles.push_back({1, 3, 2});
+
+    auto vbo = std::make_shared<gl::VertexBuffer<draw::Vertex>>(vertices);
+    auto ibo = std::make_shared<gl::IndexBuffer>(triangles);
+    _vao = std::make_shared<gl::VertexArray>(vbo, ibo);
 }
 
 ResizeBoxEdge::ResizeBoxEdge(int axis, glm::ivec2 alignment) : _axis(axis), _alignment(alignment) {
