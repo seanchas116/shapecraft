@@ -18,7 +18,7 @@ void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
     updateVAO();
     glm::vec4 color(0, 0, 0, 1);
     color[_axis] = 1;
-    event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
+    //event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
 }
 
 void ResizeBoxFace::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
