@@ -69,6 +69,26 @@ class Ray final {
         return {xy, 0};
     }
 
+    // planeIntercept(0) -> find point in Ray where x == 0
+    // planeIntercept(1) -> find point in Ray where y == 0
+    // planeIntercept(2) -> find point in Ray where z == 0
+    glm::tvec3<T> planeIntercept(int normalAxis) const {
+        glm::tvec3<T> p0 = origin;
+        glm::tvec3<T> p1 = direction + origin;
+        int i = normalAxis;
+        int j = (i + 1) % 3;
+        int k = (i + 2) % 3;
+
+        glm::tvec2<T> st = (p1[i] * glm::tvec2<T>(p0[j], p0[k]) - p0[i] * glm::tvec2<T>(p1[j], p1[k])) /
+                           (p1[i] - p0[i]);
+
+        glm::tvec3<T> ret;
+        ret[i] = 0;
+        ret[j] = st.x;
+        ret[k] = st.y;
+        return ret;
+    }
+
     glm::tvec3<T> origin{0};
     glm::tvec3<T> direction{0};
 };
