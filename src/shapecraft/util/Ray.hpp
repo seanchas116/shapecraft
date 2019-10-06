@@ -53,22 +53,6 @@ class Ray final {
         return origin + direction * t;
     }
 
-    glm::tvec3<T> whereXIsZero() const { // TODO: find better name
-        glm::tvec3<T> p0 = origin;
-        glm::tvec3<T> p1 = direction + origin;
-
-        glm::tvec2<T> yz = (p1.x * p0.yz - p0.x * p1.yz) / (p1.x - p0.x);
-        return {0, yz};
-    }
-
-    glm::tvec3<T> whereZIsZero() const { // TODO: find better name
-        glm::tvec3<T> p0 = origin;
-        glm::tvec3<T> p1 = direction + origin;
-
-        glm::tvec2<T> xy = (p1.z * p0.xy - p0.z * p1.xy) / (p1.z - p0.z);
-        return {xy, 0};
-    }
-
     // planeIntercept(0) -> find point in Ray where x == 0
     // planeIntercept(1) -> find point in Ray where y == 0
     // planeIntercept(2) -> find point in Ray where z == 0
