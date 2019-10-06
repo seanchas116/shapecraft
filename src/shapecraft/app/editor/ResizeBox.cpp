@@ -45,6 +45,8 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
 
+    // TODO: Make code more self descriptive
+
     for (auto &&planeNormal : event.camera.mostFacingPlaneNormals()) {
         if (planeNormal == _axis) {
             continue;
