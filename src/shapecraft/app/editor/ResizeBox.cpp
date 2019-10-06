@@ -95,11 +95,8 @@ void ResizeBoxEdge::drawHitArea(const DrawEvent &event, const viewport::HitColor
 }
 
 void ResizeBoxEdge::mousePressEvent(const viewport::Renderable::MouseEvent &event) {
-    glm::dvec3 worldPos = event.worldPos();
-
     _dragged = true;
     _dragInitPositions = _positions;
-    _dragInitWorldPos = worldPos;
 
     emit editStarted();
 }
@@ -203,11 +200,8 @@ void ResizeBoxVertex::drawHitArea(const DrawEvent &event, const viewport::HitCol
 }
 
 void ResizeBoxVertex::mousePressEvent(const MouseEvent &event) {
-    glm::dvec3 worldPos = event.worldPos();
-
     _dragged = true;
     _dragInitPositions = _positions;
-    _dragInitWorldPos = worldPos;
 
     emit editStarted();
 }
