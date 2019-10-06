@@ -352,7 +352,6 @@ void ResizeBox::setPositions(const std::array<glm::dvec3, 2> &positions) {
 }
 
 void ResizeBox::setVisible(bool visible) {
-    qDebug() << visible;
     for (auto &&vertex : _vertices) {
         vertex->setVisible(visible);
     }
