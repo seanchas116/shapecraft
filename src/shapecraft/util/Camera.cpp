@@ -62,16 +62,18 @@ double Camera::mapCameraToAxis(const Ray<double> &axis, dvec2 viewportPos) const
 }
 
 std::array<int, 3> Camera::facingPlaneNormals() const {
-    dvec3 x_cameraSpace = _cameraToWorldMatrix[0].xyz;
-    dvec3 y_cameraSpace = _cameraToWorldMatrix[1].xyz;
-    dvec3 z_cameraSpace = _cameraToWorldMatrix[2].xyz;
+    auto worldToCamera = inverse(_cameraToWorldMatrix);
+
+    dvec3 x_cameraSpace = worldToCamera[0].xyz;
+    dvec3 y_cameraSpace = worldToCamera[1].xyz;
+    dvec3 z_cameraSpace = worldToCamera[2].xyz;
 
     // find area each 2 axes made in xy plane
     double zxArea = abs(determinant(dmat2(z_cameraSpace.xy, x_cameraSpace.xy)));
     double xyArea = abs(determinant(dmat2(x_cameraSpace.xy, y_cameraSpace.xy)));
     double yzArea = abs(determinant(dmat2(y_cameraSpace.xy, z_cameraSpace.xy)));
 
-    std::array<double, 3> areas = {zxArea, xyArea, yzArea};
+    std::array<double, 3> areas = {yzArea, zxArea, xyArea};
     std::array<int, 3> planeNormals = {0, 1, 2};
 
     // sort normals by plane area ratio in orthogonal space
