@@ -49,16 +49,16 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
         if (planeNormal == _axis) {
             continue;
         }
+
+        auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
+        auto dragSpaceRay = glm::translate(-beginPos) * worldMouseRay;
+
         int axis0 = (_axis + 1) % 3;
         int axis1 = (_axis + 2) % 3;
         if (axis0 == planeNormal) {
-            auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
-            auto dragSpaceRay = glm::translate(-beginPos) * worldMouseRay;
             auto newPos = dragSpaceRay.planeIntercept(axis0) + beginPos;
             positions[_alignment[1]][axis1] = newPos[axis1];
         } else {
-            auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
-            auto dragSpaceRay = glm::translate(-beginPos) * worldMouseRay;
             auto newPos = dragSpaceRay.planeIntercept(axis1) + beginPos;
             positions[_alignment[0]][axis0] = newPos[axis0];
         }
