@@ -204,7 +204,11 @@ void NodeRenderable::updateVAOs() {
                 auto t1 = uint32_t(t.Value(1) + indexOffset);
                 auto t2 = uint32_t(t.Value(2) + indexOffset);
                 auto t3 = uint32_t(t.Value(3) + indexOffset);
-                triangleIndexes.push_back({{t1, t2, t3}});
+                if (face.Orientation() == TopAbs_REVERSED) {
+                    triangleIndexes.push_back({{t3, t2, t1}});
+                } else {
+                    triangleIndexes.push_back({{t1, t2, t3}});
+                }
             }
         }
 
