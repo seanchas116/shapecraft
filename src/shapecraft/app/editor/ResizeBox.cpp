@@ -18,7 +18,7 @@ void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
     updateVAO();
     glm::vec4 color(0, 0, 0, 1);
     color[_axis] = 1;
-    //event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
+    event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
 }
 
 void ResizeBoxFace::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
@@ -68,8 +68,14 @@ void ResizeBoxFace::updateVAO() {
     }
 
     std::vector<gl::IndexBuffer::Triangle> triangles;
-    triangles.push_back({0, 1, 2});
-    triangles.push_back({1, 3, 2});
+    if (_alignment == 0) {
+        triangles.push_back({2, 1, 0});
+        triangles.push_back({1, 2, 3});
+
+    } else {
+        triangles.push_back({0, 1, 2});
+        triangles.push_back({3, 2, 1});
+    }
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::Vertex>>(vertices);
     auto ibo = std::make_shared<gl::IndexBuffer>(triangles);
