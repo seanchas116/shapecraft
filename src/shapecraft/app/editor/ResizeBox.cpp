@@ -6,6 +6,7 @@
 #include "shapecraft/util/Distance.hpp"
 #include <QMouseEvent>
 #include <array>
+#include <glm/gtx/transform.hpp>
 
 namespace shapecraft {
 
@@ -115,6 +116,7 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
         return;
     }
     auto worldPos = event.worldPos();
+    auto handlePos = glm::mix(_dragInitPositions[0], _dragInitPositions[1], _alignment);
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
 
@@ -122,7 +124,6 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
         // face-center handles
         for (int i = 0; i < 3; ++i) {
             if (_alignment[(i + 1) % 3] == 0.5 && _alignment[(i + 2) % 3] == 0.5) {
-                auto handlePos = glm::mix(_dragInitPositions[0], _dragInitPositions[1], _alignment);
                 glm::dvec3 axisVec(0);
                 axisVec[i] = 1;
                 Ray<double> axisRay(handlePos, axisVec);
@@ -132,11 +133,13 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
             }
         }
 
-        // corner handles
+        // drag in xy coordinates
+        auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
+        auto dragSpaceRay = glm::translate(-handlePos) * worldMouseRay;
+        auto newPos = dragSpaceRay.whereZIsZero() + handlePos;
+
         for (int i = 0; i < 3; ++i) {
-            if (_alignment[i] != 0.5) {
-                positions[int(_alignment[i])][i] = worldPos[i];
-            }
+            positions[int(_alignment[i])][i] = newPos[i];
         }
     }();
 
