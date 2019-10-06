@@ -43,9 +43,6 @@ void ViewportContainer::initializeGL() {
         qDebug() << "OpenGL debug enabled";
     }
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
     _drawMethods = std::make_shared<draw::DrawMethods>();
     emit initialized();
 }
@@ -66,6 +63,9 @@ void ViewportContainer::paintGL() {
     for (auto viewport : viewports) {
         connect(viewport, &Viewport::updateRequested, this, [this] { update(); });
     }
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
