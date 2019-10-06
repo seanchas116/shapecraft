@@ -64,8 +64,8 @@ void ViewportContainer::paintGL() {
         connect(viewport, &Viewport::updateRequested, this, [this] { update(); });
     }
 
-    //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
