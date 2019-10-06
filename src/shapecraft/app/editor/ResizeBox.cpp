@@ -10,6 +10,47 @@
 
 namespace shapecraft {
 
+ResizeBoxFace::ResizeBoxFace(int axis, int alignment) : _axis(axis), _alignment(alignment) {
+}
+
+void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
+    Q_UNUSED(event)
+}
+
+void ResizeBoxFace::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
+    Q_UNUSED(event)
+    Q_UNUSED(hitColor)
+}
+
+void ResizeBoxFace::mousePressEvent(const viewport::Renderable::MouseEvent &event) {
+    Q_UNUSED(event)
+}
+
+void ResizeBoxFace::mouseMoveEvent(const viewport::Renderable::MouseEvent &event) {
+    Q_UNUSED(event)
+}
+
+void ResizeBoxFace::mouseReleaseEvent(const viewport::Renderable::MouseEvent &event) {
+    Q_UNUSED(event)
+}
+
+void ResizeBoxFace::setPositions(const std::array<glm::dvec3, 2> &positions) {
+    if (_positions == positions) {
+        return;
+    }
+
+    _positions = positions;
+    _isVAODirty = true;
+    emit updated();
+}
+
+void ResizeBoxFace::updateVAO() {
+    if (!_isVAODirty) {
+        return;
+    }
+    _isVAODirty = false;
+}
+
 ResizeBoxEdge::ResizeBoxEdge(int axis, glm::ivec2 alignment) : _axis(axis), _alignment(alignment) {
 }
 
