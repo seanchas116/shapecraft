@@ -22,12 +22,12 @@ void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
 }
 
 void ResizeBoxFace::drawHitArea(const viewport::Renderable::DrawEvent &event, const viewport::HitColor &hitColor) {
-    Q_UNUSED(event)
-    Q_UNUSED(hitColor)
+    event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, hitColor.toColor());
 }
 
 void ResizeBoxFace::mousePressEvent(const viewport::Renderable::MouseEvent &event) {
     Q_UNUSED(event)
+    qDebug() << "face click";
 }
 
 void ResizeBoxFace::mouseMoveEvent(const viewport::Renderable::MouseEvent &event) {
