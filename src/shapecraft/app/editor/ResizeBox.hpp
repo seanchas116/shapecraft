@@ -117,6 +117,7 @@ class ResizeBox : public viewport::HoverableRenderable {
     std::array<glm::dvec3, 2> _positions;
     std::vector<SP<ResizeBoxVertex>> _vertices;
     std::vector<SP<ResizeBoxEdge>> _edges;
+    std::vector<SP<ResizeBoxFace>> _faces;
 };
 
 } // namespace shapecraft

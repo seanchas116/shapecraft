@@ -15,6 +15,7 @@ ResizeBoxFace::ResizeBoxFace(int axis, int alignment) : _axis(axis), _alignment(
 
 void ResizeBoxFace::draw(const viewport::Renderable::DrawEvent &event) {
     Q_UNUSED(event)
+    updateVAO();
     glm::vec4 color(0, 0, 0, 1);
     color[_axis] = 1;
     event.drawMethods->drawUnicolor(_vao, glm::mat4(1), event.camera, color);
@@ -304,6 +305,15 @@ ResizeBox::ResizeBox() {
         {2, {1, 1}},
     };
 
+    std::vector<std::pair<int, int>> faceAlignments = {
+        {0, 0},
+        {0, 1},
+        {1, 0},
+        {1, 1},
+        {2, 0},
+        {2, 1},
+    };
+
     for (auto &&a : alignments) {
         auto vertex = std::make_shared<ResizeBoxVertex>(a);
         connect(vertex.get(), &ResizeBoxVertex::editStarted, this, &ResizeBox::editStarted);
@@ -320,6 +330,14 @@ ResizeBox::ResizeBox() {
         children.push_back(edge);
     }
 
+    for (auto &&[axis, alignment] : faceAlignments) {
+        auto face = std::make_shared<ResizeBoxFace>(axis, alignment);
+        connect(face.get(), &ResizeBoxFace::editStarted, this, &ResizeBox::editStarted);
+        connect(face.get(), &ResizeBoxFace::positionsEdited, this, &ResizeBox::positionsEdited);
+        _faces.push_back(face);
+        children.push_back(face);
+    }
+
     setChildRenderables(children);
 }
 
@@ -334,6 +352,9 @@ void ResizeBox::setPositions(const std::array<glm::dvec3, 2> &positions) {
     }
     for (auto &&edge : _edges) {
         edge->setPositions(positions);
+    }
+    for (auto &&face : _faces) {
+        face->setPositions(positions);
     }
 }
 
