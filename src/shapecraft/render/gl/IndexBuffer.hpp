@@ -5,15 +5,15 @@
 namespace shapecraft {
 namespace gl {
 
-enum class Primitive {
-    Point,
-    Line,
-    Triangle,
-    TriangleFan,
-};
-
 class IndexBuffer : public OpenGLEntity {
   public:
+    enum class Primitive {
+        Point,
+        Line,
+        Triangle,
+        TriangleFan,
+    };
+
     using Triangle = std::array<uint32_t, 3>;
     using LineStrip = std::vector<uint32_t>;
     using Line = std::array<uint32_t, 2>;

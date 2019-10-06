@@ -25,7 +25,7 @@ SP<gl::VertexArray> createCopyVAO() {
     };
 
     auto vbo = std::make_shared<gl::VertexBuffer<CopyVAOAttribute>>(attributes);
-    return std::make_shared<gl::VertexArray>(vbo, gl::Primitive::TriangleFan);
+    return std::make_shared<gl::VertexArray>(vbo, gl::IndexBuffer::Primitive::TriangleFan);
 }
 
 const std::string shaderDir = "src/shapecraft/render/draw/";

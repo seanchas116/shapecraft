@@ -11,18 +11,18 @@
 namespace shapecraft {
 namespace gl {
 
-enum class BufferType {
-    PerVertex,
-    PerInstance,
-};
-
 class VertexArray final : public OpenGLEntity {
   public:
+    enum class BufferType {
+        PerVertex,
+        PerInstance,
+    };
+
     VertexArray();
     VertexArray(const SP<AnyVertexBuffer> &buffer, const SP<IndexBuffer> &indexBuffer);
-    VertexArray(const SP<AnyVertexBuffer> &buffer, Primitive primitive);
+    VertexArray(const SP<AnyVertexBuffer> &buffer, IndexBuffer::Primitive primitive);
     VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const SP<IndexBuffer> &indexBuffer);
-    VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, Primitive primitive);
+    VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, IndexBuffer::Primitive primitive);
     ~VertexArray();
 
     auto &buffers() const { return _buffers; }
@@ -30,11 +30,11 @@ class VertexArray final : public OpenGLEntity {
     void draw();
 
   private:
-    VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, Primitive primitive);
+    VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, IndexBuffer::Primitive primitive);
 
     std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> _buffers;
     Opt<SP<IndexBuffer>> _indexBuffer;
-    Primitive _primitive;
+    IndexBuffer::Primitive _primitive;
     GLuint _vertexArray = 0;
 };
 

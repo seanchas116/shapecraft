@@ -7,9 +7,9 @@
 namespace shapecraft {
 namespace gl {
 
-VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, Primitive primitive) : _buffers(buffers),
-                                                                                                                                                                 _indexBuffer(indexBuffer),
-                                                                                                                                                                 _primitive(primitive) {
+VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const Opt<SP<IndexBuffer>> &indexBuffer, IndexBuffer::Primitive primitive) : _buffers(buffers),
+                                                                                                                                                                              _indexBuffer(indexBuffer),
+                                                                                                                                                                              _primitive(primitive) {
     glGenVertexArrays(1, &_vertexArray);
     glBindVertexArray(_vertexArray);
 
@@ -52,19 +52,19 @@ VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, Buffer
 
 struct EmptyVertex {};
 
-VertexArray::VertexArray() : VertexArray(std::make_shared<VertexBuffer<EmptyVertex>>(), Primitive::Triangle) {
+VertexArray::VertexArray() : VertexArray(std::make_shared<VertexBuffer<EmptyVertex>>(), IndexBuffer::Primitive::Triangle) {
 }
 
 VertexArray::VertexArray(const SP<AnyVertexBuffer> &buffer, const SP<IndexBuffer> &indexBuffer) : VertexArray({{buffer, BufferType::PerVertex}}, indexBuffer) {
 }
 
-VertexArray::VertexArray(const SP<AnyVertexBuffer> &buffer, Primitive primitive) : VertexArray({{buffer, BufferType::PerVertex}}, primitive) {
+VertexArray::VertexArray(const SP<AnyVertexBuffer> &buffer, IndexBuffer::Primitive primitive) : VertexArray({{buffer, BufferType::PerVertex}}, primitive) {
 }
 
-VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const SP<IndexBuffer> &indexBuffer) : VertexArray(buffers, indexBuffer, Primitive::Triangle) {
+VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, const SP<IndexBuffer> &indexBuffer) : VertexArray(buffers, indexBuffer, IndexBuffer::Primitive::Triangle) {
 }
 
-VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, Primitive primitive) : VertexArray(buffers, std::nullopt, primitive) {
+VertexArray::VertexArray(const std::vector<std::pair<SP<AnyVertexBuffer>, BufferType>> &buffers, IndexBuffer::Primitive primitive) : VertexArray(buffers, std::nullopt, primitive) {
 }
 
 VertexArray::~VertexArray() {
@@ -78,16 +78,16 @@ void VertexArray::draw() {
         auto indexCount = GLsizei(_indexBuffer->get()->size());
 
         switch (_indexBuffer->get()->primitive()) {
-        case Primitive::Point:
+        case IndexBuffer::Primitive::Point:
             glDrawElements(GL_POINTS, indexCount, GL_UNSIGNED_INT, nullptr);
             break;
-        case Primitive::Line:
+        case IndexBuffer::Primitive::Line:
             glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_INT, nullptr);
             break;
-        case Primitive::Triangle:
+        case IndexBuffer::Primitive::Triangle:
             glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
             break;
-        case Primitive::TriangleFan:
+        case IndexBuffer::Primitive::TriangleFan:
             glDrawElements(GL_TRIANGLE_FAN, indexCount, GL_UNSIGNED_INT, nullptr);
             break;
         }
@@ -95,16 +95,16 @@ void VertexArray::draw() {
         auto bufferSize = GLsizei(_buffers[0].first->size());
 
         switch (_primitive) {
-        case Primitive::Point:
+        case IndexBuffer::Primitive::Point:
             glDrawArrays(GL_POINTS, 0, bufferSize);
             break;
-        case Primitive::Line:
+        case IndexBuffer::Primitive::Line:
             glDrawArrays(GL_LINES, 0, bufferSize);
             break;
-        case Primitive::Triangle:
+        case IndexBuffer::Primitive::Triangle:
             glDrawArrays(GL_TRIANGLES, 0, bufferSize);
             break;
-        case Primitive::TriangleFan:
+        case IndexBuffer::Primitive::TriangleFan:
             glDrawArrays(GL_TRIANGLE_FAN, 0, bufferSize);
             break;
         }

@@ -181,7 +181,7 @@ void ResizeBoxEdge::updateVAO() {
     };
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
-    _vao = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Line);
+    _vao = std::make_shared<gl::VertexArray>(vbo, gl::IndexBuffer::Primitive::Line);
 }
 
 ResizeBoxVertex::ResizeBoxVertex(glm::dvec3 alignment) : _alignment(alignment) {
@@ -267,7 +267,7 @@ void ResizeBoxVertex::updateVAO() {
     std::vector<draw::PointLineVertex> vertices{{position, glm::vec4(0), 1}};
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);
-    _vao = std::make_shared<gl::VertexArray>(vbo, gl::Primitive::Point);
+    _vao = std::make_shared<gl::VertexArray>(vbo, gl::IndexBuffer::Primitive::Point);
 }
 
 ResizeBox::ResizeBox() {
