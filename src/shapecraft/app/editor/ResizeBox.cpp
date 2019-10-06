@@ -115,7 +115,6 @@ void ResizeBoxVertex::mouseMoveEvent(const MouseEvent &event) {
     if (!_dragged) {
         return;
     }
-    auto worldPos = event.worldPos();
     auto handlePos = glm::mix(_dragInitPositions[0], _dragInitPositions[1], _alignment);
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
