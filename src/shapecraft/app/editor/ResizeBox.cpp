@@ -37,12 +37,7 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
         return;
     }
 
-    glm::dvec3 beginPosRatio;
-    beginPosRatio[_axis] = 0;
-    beginPosRatio[(_axis + 1) % 3] = _alignment.x;
-    beginPosRatio[(_axis + 2) % 3] = _alignment.y;
-    auto beginPos = glm::mix(_positions[0], _positions[1], beginPosRatio);
-
+    auto edgeBeginPos = edgePositions()[0];
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
 
     // TODO: Make code more self descriptive
@@ -53,15 +48,15 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
         }
 
         auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
-        auto dragSpaceRay = glm::translate(-beginPos) * worldMouseRay;
+        auto dragSpaceRay = glm::translate(-edgeBeginPos) * worldMouseRay;
 
         int axis0 = (_axis + 1) % 3;
         int axis1 = (_axis + 2) % 3;
         if (axis0 == planeNormal) {
-            auto newPos = dragSpaceRay.planeIntercept(axis0) + beginPos;
+            auto newPos = dragSpaceRay.planeIntercept(axis0) + edgeBeginPos;
             positions[_alignment[1]][axis1] = newPos[axis1];
         } else {
-            auto newPos = dragSpaceRay.planeIntercept(axis1) + beginPos;
+            auto newPos = dragSpaceRay.planeIntercept(axis1) + edgeBeginPos;
             positions[_alignment[0]][axis0] = newPos[axis0];
         }
         break;
@@ -92,12 +87,7 @@ void ResizeBoxEdge::setPositions(const std::array<glm::dvec3, 2> &positions) {
     emit updated();
 }
 
-void ResizeBoxEdge::updateVAO() {
-    if (!_isVAODirty) {
-        return;
-    }
-    _isVAODirty = false;
-
+std::array<glm::dvec3, 2> ResizeBoxEdge::edgePositions() const {
     glm::dvec3 beginPosRatio;
     beginPosRatio[_axis] = 0;
     beginPosRatio[(_axis + 1) % 3] = _alignment.x;
@@ -109,9 +99,19 @@ void ResizeBoxEdge::updateVAO() {
     auto beginPos = glm::mix(_positions[0], _positions[1], beginPosRatio);
     auto endPos = glm::mix(_positions[0], _positions[1], endPosRatio);
 
+    return {beginPos, endPos};
+}
+
+void ResizeBoxEdge::updateVAO() {
+    if (!_isVAODirty) {
+        return;
+    }
+    _isVAODirty = false;
+
+    auto segment = edgePositions();
     std::vector<draw::PointLineVertex> vertices{
-        {beginPos, glm::vec4(0), 1},
-        {endPos, glm::vec4(0), 1},
+        {segment[0], glm::vec4(0), 1},
+        {segment[1], glm::vec4(0), 1},
     };
 
     auto vbo = std::make_shared<gl::VertexBuffer<draw::PointLineVertex>>(vertices);

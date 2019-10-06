@@ -25,6 +25,7 @@ class ResizeBoxEdge : public viewport::HoverableRenderable {
     void positionsEdited(const std::array<glm::dvec3, 2> &box);
 
   private:
+    std::array<glm::dvec3, 2> edgePositions() const;
     void updateVAO();
 
     std::array<glm::dvec3, 2> _positions;
