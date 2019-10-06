@@ -36,7 +36,12 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
     if (!_dragged) {
         return;
     }
-    auto worldPos = event.worldPos();
+
+    glm::dvec3 beginPosRatio;
+    beginPosRatio[_axis] = 0;
+    beginPosRatio[(_axis + 1) % 3] = _alignment.x;
+    beginPosRatio[(_axis + 2) % 3] = _alignment.y;
+    auto beginPos = glm::mix(_positions[0], _positions[1], beginPosRatio);
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
 
@@ -47,9 +52,15 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
         int axis0 = (_axis + 1) % 3;
         int axis1 = (_axis + 2) % 3;
         if (axis0 == planeNormal) {
-            positions[_alignment[1]][axis1] = worldPos[axis1];
+            auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
+            auto dragSpaceRay = glm::translate(-beginPos) * worldMouseRay;
+            auto newPos = dragSpaceRay.planeIntercept(axis0) + beginPos;
+            positions[_alignment[1]][axis1] = newPos[axis1];
         } else {
-            positions[_alignment[0]][axis0] = worldPos[axis0];
+            auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
+            auto dragSpaceRay = glm::translate(-beginPos) * worldMouseRay;
+            auto newPos = dragSpaceRay.planeIntercept(axis1) + beginPos;
+            positions[_alignment[0]][axis0] = newPos[axis0];
         }
         break;
     }
