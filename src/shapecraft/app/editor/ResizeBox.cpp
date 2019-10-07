@@ -94,14 +94,15 @@ void ResizeBoxEdge::drawHitArea(const DrawEvent &event, const viewport::HitColor
     event.drawMethods->drawLine(_vao, glm::mat4(1), event.camera, 6, hitColor.toColor());
 }
 
-void ResizeBoxEdge::mousePressEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBoxEdge::mousePressEvent(const MouseEvent &event) {
+    Q_UNUSED(event)
     _dragged = true;
     _dragInitPositions = _positions;
 
     emit editStarted();
 }
 
-void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBoxEdge::mouseMoveEvent(const MouseEvent &event) {
     if (!_dragged) {
         return;
     }
@@ -141,7 +142,7 @@ void ResizeBoxEdge::mouseMoveEvent(const viewport::Renderable::MouseEvent &event
     emit positionsEdited(positions);
 }
 
-void ResizeBoxEdge::mouseReleaseEvent(const viewport::Renderable::MouseEvent &event) {
+void ResizeBoxEdge::mouseReleaseEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     _dragged = false;
 }
@@ -200,6 +201,7 @@ void ResizeBoxVertex::drawHitArea(const DrawEvent &event, const viewport::HitCol
 }
 
 void ResizeBoxVertex::mousePressEvent(const MouseEvent &event) {
+    Q_UNUSED(event)
     _dragged = true;
     _dragInitPositions = _positions;
 
