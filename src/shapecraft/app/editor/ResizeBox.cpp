@@ -27,15 +27,38 @@ void ResizeBoxFace::drawHitArea(const DrawEvent &event, const viewport::HitColor
 
 void ResizeBoxFace::mousePressEvent(const MouseEvent &event) {
     Q_UNUSED(event)
-    qDebug() << "face click";
+    _dragged = true;
+    _dragInitPositions = _positions;
+
+    emit editStarted();
 }
 
 void ResizeBoxFace::mouseMoveEvent(const MouseEvent &event) {
     Q_UNUSED(event)
+    if (!_dragged) {
+        return;
+    }
+
+    glm::dvec3 alignments(0);
+    alignments[_axis] = _alignment;
+    glm::dvec3 offset(0);
+    offset[_axis] = glm::mix(_positions[0], _positions[1], alignments)[_axis];
+
+    auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
+    auto dragSpaceRay = glm::translate(-offset) * worldMouseRay;
+
+    auto intercept = dragSpaceRay.planeIntercept(_axis);
+    qDebug() << intercept;
+
+    std::array<glm::dvec3, 2> positions = _dragInitPositions;
+    positions[0] += intercept;
+    positions[1] += intercept;
+    emit positionsEdited(positions);
 }
 
 void ResizeBoxFace::mouseReleaseEvent(const MouseEvent &event) {
     Q_UNUSED(event)
+    _dragged = false;
 }
 
 void ResizeBoxFace::setPositions(const std::array<glm::dvec3, 2> &positions) {
