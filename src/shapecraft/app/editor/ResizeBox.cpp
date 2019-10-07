@@ -29,6 +29,7 @@ void ResizeBoxFace::mousePressEvent(const MouseEvent &event) {
     Q_UNUSED(event)
     _dragged = true;
     _dragInitPositions = _positions;
+    _dragInitDragSpacePosition = dragSpacePosition(event);
 
     emit editStarted();
 }
@@ -39,20 +40,12 @@ void ResizeBoxFace::mouseMoveEvent(const MouseEvent &event) {
         return;
     }
 
-    glm::dvec3 alignments(0);
-    alignments[_axis] = _alignment;
-    glm::dvec3 offset(0);
-    offset[_axis] = glm::mix(_positions[0], _positions[1], alignments)[_axis];
-
-    auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
-    auto dragSpaceRay = glm::translate(-offset) * worldMouseRay;
-
-    auto intercept = dragSpaceRay.planeIntercept(_axis);
-    qDebug() << intercept;
+    auto pos = dragSpacePosition(event);
+    auto offset = pos - _dragInitDragSpacePosition;
 
     std::array<glm::dvec3, 2> positions = _dragInitPositions;
-    positions[0] += intercept;
-    positions[1] += intercept;
+    positions[0] += offset;
+    positions[1] += offset;
     emit positionsEdited(positions);
 }
 
@@ -103,6 +96,18 @@ void ResizeBoxFace::updateVAO() {
     auto vbo = std::make_shared<gl::VertexBuffer<draw::Vertex>>(vertices);
     auto ibo = std::make_shared<gl::IndexBuffer>(triangles);
     _vao = std::make_shared<gl::VertexArray>(vbo, ibo);
+}
+
+glm::dvec3 ResizeBoxFace::dragSpacePosition(const viewport::Renderable::MouseEvent &event) const {
+    glm::dvec3 alignments(0);
+    alignments[_axis] = _alignment;
+    glm::dvec3 offset(0);
+    offset[_axis] = glm::mix(_positions[0], _positions[1], alignments)[_axis];
+
+    auto worldMouseRay = event.camera.worldMouseRay(event.viewportPos);
+    auto dragSpaceRay = glm::translate(-offset) * worldMouseRay;
+
+    return dragSpaceRay.planeIntercept(_axis);
 }
 
 ResizeBoxEdge::ResizeBoxEdge(int axis, glm::ivec2 alignment) : _axis(axis), _alignment(alignment) {

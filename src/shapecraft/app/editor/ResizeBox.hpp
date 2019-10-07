@@ -26,6 +26,7 @@ class ResizeBoxFace : public viewport::HoverableRenderable {
 
   private:
     void updateVAO();
+    glm::dvec3 dragSpacePosition(const MouseEvent &event) const;
 
     std::array<glm::dvec3, 2> _positions;
     int _axis;
@@ -35,7 +36,7 @@ class ResizeBoxFace : public viewport::HoverableRenderable {
 
     bool _dragged = false;
     std::array<glm::dvec3, 2> _dragInitPositions;
-    glm::dvec3 _dragInitWorldPos;
+    glm::dvec3 _dragInitDragSpacePosition;
 };
 
 class ResizeBoxEdge : public viewport::HoverableRenderable {
