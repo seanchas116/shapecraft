@@ -2,6 +2,7 @@
 #include "shapecraft/app/view/MainWindow.hpp"
 #include "shapecraft/document/BottleShapeNode.hpp"
 #include "shapecraft/document/BoxShapeNode.hpp"
+#include "shapecraft/document/CylinderShapeNode.hpp"
 #include "shapecraft/document/Scene.hpp"
 #include "shapecraft/document/history/History.hpp"
 #include <QApplication>
@@ -13,6 +14,7 @@ int main(int argc, char *argv[]) {
     auto history = std::make_shared<History>();
     Node::addPrototype(std::make_shared<Scene>(history));
     Node::addPrototype(std::make_shared<BoxShapeNode>(history));
+    Node::addPrototype(std::make_shared<CylinderShapeNode>(history));
     Node::addPrototype(std::make_shared<BottleShapeNode>(history));
 
     QApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
